@@ -1,0 +1,19 @@
+.footer {
+    background: #111; color: #fff; padding: 50px 0; font-size: 14px;
+
+    .footer_up {
+        display: flex; border-bottom: 1px solid #eee; padding: 15px 0;
+        li {
+            + li {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .flex {
+        display: flex; justify-content: space-between; padding: 25px 0;
+        word-break: keep-all;
+    
+    }
+
+}

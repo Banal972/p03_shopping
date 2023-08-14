@@ -1,0 +1,14 @@
+._k_wrap {
+    width: 95%; margin: 0 auto; position: relative;
+    &[data-max="1600"]{
+        max-width: 1660px;
+    }
+    &[data-max="1480"]{
+        max-width: 1480px;
+    }
+}
+
+html,
+body {
+    font-family: "Pretendard";
+}

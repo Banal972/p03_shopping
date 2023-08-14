@@ -1,0 +1,494 @@
+@import "../../asset/scss/lib.scss";
+
+._main {
+
+    .visual {
+        max-width: 1920px; margin: 0 auto;
+        .swiper {
+
+            position: relative;
+
+            .swiper-slide {
+                overflow: hidden; position: relative; height: 550px;
+
+                .bg {
+                    background-repeat: no-repeat; background-position: center; background-size: 1920px auto;
+                    position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+                }
+
+                &::before {
+                    position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba($color: #000, $alpha: 0.3);
+                    content: ''; z-index: 2;
+                }
+
+            }
+
+            .nav {
+                position: absolute; left: 50%; transform: translateX(-50%); z-index: 4; width: 80%; bottom: 50px;
+                display: flex; margin: 0; max-width: 450px;
+
+                li {
+                    height: 2px; background: rgba($color: #fff, $alpha: 0.5); flex: 1; margin: 0 15px; opacity: 1;
+                    position: relative;
+
+                    .bar {
+                        width: 100%; left: 0; top: 0; height: 100%; background: #fff;
+                        content: ''; position: absolute;
+                    }
+
+                }
+
+            }
+
+        }
+
+        // @include max(1280) {
+            
+        //     .swiper {
+
+        //         .swiper-slide {
+        //             height: 350px;
+        //         }
+
+        //         .nav {
+        //             width: 60%;
+        //             li {
+        //                 margin: 0 10px;
+        //             }
+        //         }
+
+        //     }
+
+        // }
+
+        @include max(820) {
+
+            .swiper {
+
+                .swiper-slide {
+                    height: 300px;
+
+                    .bg {
+                        background-size: 820px auto;
+                    }
+
+                }
+
+                .nav {
+                    width: 80%;
+                }
+
+            }
+            
+        }
+        
+
+    }
+
+    .c-t {
+        white-space: nowrap; line-height: 1.5; font-size: 30px; font-weight: bold;
+
+        @include max(1024){
+            font-size: 24px;
+        }
+
+        @include max(820){
+            font-size: 30px; 
+        }
+        @include max(480){
+            font-size: 24px;
+        }
+
+    }
+
+
+     .s1 {
+        margin: 100px 0 0 0;
+
+        ._k_wrap { 
+            display: flex; position: relative; align-items: flex-start;
+        }
+
+        .c-t {
+            flex: 1; margin-right: 50px; position: sticky; top: 50px;
+        }
+
+        .cardLayout {
+            grid-template-columns: repeat(5,1fr); gap: 50px 20px;
+        }
+
+        @include max(1280) {
+
+            .cardLayout {
+                grid-template-columns: repeat(4,1fr);
+            }
+    
+        }
+    
+        @include max(1024){    
+    
+            .cardLayout {
+                grid-template-columns: repeat(3,1fr);
+            }
+    
+        }
+
+        @include max(820){
+
+            margin: 80px 0 0;
+
+            ._k_wrap { 
+                display: block;
+            }
+
+            .c-t {
+                position: static;
+            }
+
+            .cardLayout {
+                margin-top: 40px; grid-template-columns: repeat(3,1fr);
+            }
+
+        }
+
+        @include max(480) {
+            
+            .cardLayout {
+                margin-top: 40px; grid-template-columns: repeat(2,1fr); gap: 40px 20px;
+            }
+
+        }
+
+    }
+
+    .banner01 {
+        background: #000 url(../../asset/img/main/banner01.jpg) no-repeat; background-position: center bottom; 
+        margin: 100px 0 0; color: #fff; position: relative; height: 450px; background-attachment: fixed;
+        
+        h2 {
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-weight: bold; text-transform: uppercase;
+            font-size: 32px; z-index: 3; width: 100%; text-align: center;
+        }
+
+        &::before {
+            position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: rgba($color: #000, $alpha: 0.5); z-index: 2;
+            content: '';
+        }
+
+        @include max(1480){
+            height: 400px;
+        }
+
+        @include max(1280){
+            height: 350px;
+
+            h2 {
+                font-size: 28px;
+            }
+
+        }
+
+        @include max(820) {
+            margin: 80px 0 0; height: 200px; background-position: 50% 70%;
+            h2 {
+                font-size: 24px;
+            }
+        }
+
+        @include max(480){
+            
+            height: 150px; background-position: 50% 50%; background-size: cover;
+            h2 {
+                font-size: 18px;
+            }
+        }
+
+        
+    }
+
+    .s2 {
+        margin: 100px 0 0 0;
+
+        .flex {
+            display: flex;
+
+            > .tbx {
+                flex: 1; display: flex; flex-direction: column; justify-content: space-between;
+    
+                dl {
+                    dt {
+                        font-size: 18px; font-weight: normal; color: #999;
+                    }
+                    dd {
+                        font-size: 44px; font-weight: bold; margin-top: 0.5em;
+                    }
+                }
+
+                .slideBtn {
+
+                    display: flex; align-items: center;
+
+                    button {
+                        background: none; border: 0; font-size: 48px; cursor: pointer; display: flex; align-items: center;
+                        justify-content: center; padding: 0;
+                        + button {
+                            margin-left: 15px;
+                        }
+                    }
+
+                }
+
+
+    
+            }
+    
+            .slide {
+    
+                flex: 3.5; margin-left: 50px;
+
+                .swiper-slide {
+                    cursor: pointer;
+                }
+    
+                .img {
+                    position: relative; overflow: hidden; border: 1px solid #ddd; box-sizing: border-box;
+                    .bg {
+                        position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: no-repeat center/cover;
+                        transition: transform .4s;
+                    }
+                    &::after {
+                        content: ''; display: block; padding-bottom: 100%;
+                    }
+                    &:hover {
+                        .bg {
+                            transform: scale(1.1);
+                        }
+                    }
+                }
+        
+                .tbx {
+        
+                    font-size: 18px; padding: 1em 0 0 0;
+        
+                    .tit {
+                        font-weight: bold;
+                    }
+                    
+                    .price {
+                        font-size: 18px; margin-top: 0.5em;
+                        .sales {
+                            text-decoration: line-through; font-size: 14px; color: #555;
+                        }
+                    }
+        
+                }
+    
+            }
+
+        }
+
+        .slidePage {
+            width: 100%; height: 3px; background: #ccc; position: relative; margin-top: 50px;
+            .bar {
+                position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #000;
+                transform-origin: left;
+            }
+        }
+
+        @include max(1280){
+
+            .flex {
+
+                > .tbx {
+    
+                    dl {
+                        dt {
+                            font-size: 16px;
+                        }
+                        dd {
+                            font-size: 30px;
+                        }
+                    }
+    
+                    .slideBtn {
+    
+                        button {
+                            font-size: 34px;
+                            + button {
+                                margin-left: 15px;
+                            }
+                        }
+    
+                    }
+        
+                }
+
+                .slide {
+                    margin-left: 25px;
+                }
+
+            }
+
+        }
+
+        @include max(820){
+
+            margin: 80px 0 0;
+
+            .flex {
+                display: block;
+
+                > .tbx {
+                    .slideBtn {
+                        margin-top: 25px;
+                    }
+                }
+
+                .slide {
+                    margin-left: 0; margin-top: 25px;
+                }
+
+            }
+
+        }
+
+        @include max(480){
+
+            .slidePage {
+                margin-top: 25px;
+            }
+
+        }
+
+
+    }
+
+    .s3 {
+
+        margin: 100px 0;
+
+        .flex {
+            display: flex; align-items: flex-start;
+
+            .banner {
+                flex: 0.8; max-width: 450px; position: relative; background: #000 url(/asset/img/main/banner02.jpg) no-repeat center/cover; position: sticky; top: 30px;
+
+                &::before {
+                    position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: rgba($color: #000, $alpha: 0.5); content: '';
+                }
+
+                .box {
+                    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #fff;
+
+                    dl {
+                        text-align: center;
+
+                        dt {
+                            font-size: 34px; font-weight: bold;
+                        }
+
+                        dd {
+                            font-size: 18px; margin-top: 15px;
+                        }
+
+                    }
+
+                    .btn {
+                        width: 155/16+em; height: 45/16+em; font-size: 16px; display: flex; align-items: center;
+                        justify-content: center; border: 1px solid #fff; box-sizing: border-box; margin-top: 25px;
+                        cursor: pointer; transition: .4s; transition-property: background,color;
+                        svg {
+                            margin-left: 5px; font-size: 18px;
+                        }
+                        &:hover {
+                            background: #fff; color: #000;
+                        }
+                    }
+
+                }
+
+                &::after {
+                    content: ''; display: block; padding-bottom: 750/550 * 100%;
+                }
+
+            }
+
+            .cardLayout {
+                flex: 1.5; grid-template-columns: repeat(5,1fr); margin-left: 40px; gap: 20px 15px;
+            }
+
+        }
+
+        @include max(1280){
+
+            .flex {
+                .cardLayout {
+                    grid-template-columns: repeat(4,1fr);
+                }
+            }
+
+        }
+
+        @include max(820){
+            margin: 80px 0 ;
+
+            .flex {
+
+                .banner{
+                    min-width: 200px;
+                    .box {
+                        dl {
+                            dt {
+                                font-size: 24px;
+                            }
+                            dd {
+                                font-size: 16px;
+                            }
+                        }
+                        .btn {
+                            font-size: 14px; margin-top: 25px;
+                        }
+                    }
+                }
+
+                .cardLayout {
+                    grid-template-columns: repeat(2,1fr);
+                }
+            }
+
+        }
+
+        @include max(480){
+
+            .flex {
+                display: block;
+                .banner{
+                    width: 75%; min-width: 0;
+
+                    .box {
+                        dl {
+                            dt {
+                                font-size: 24px;
+                            }
+                            dd {
+                                font-size: 16px;
+                            }
+                        }
+                        .btn {
+                            font-size: 14px; margin-top: 25px;
+                        }
+                    }
+                }
+
+                .cardLayout {
+                    grid-template-columns: repeat(2,1fr); margin-left: 0; margin-top: 50px;
+                }
+            }
+
+        }
+
+    }
+
+
+
+}

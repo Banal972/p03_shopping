@@ -3,14 +3,22 @@ import { useNavigate } from 'react-router'
 import "./Card.scss";
 import { AiOutlineHeart } from "react-icons/ai";
 
-function Card({max, data} : {max:number,data:any[]}){
+interface CardType {
+  max : number,
+  data? : any[]
+}
+
+
+function Card(props : CardType){
+
+  const {max,data} = props;
 
   const navigate = useNavigate();
 
   return (
     <div className="cardLayout">
       {
-        data.map((elm,i)=>{
+         data && data.map((elm,i)=>{
             return(
 
               max > i ?

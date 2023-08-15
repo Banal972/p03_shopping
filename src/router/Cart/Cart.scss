@@ -1,0 +1,150 @@
+@import "../../asset/scss/lib.scss";
+
+._cart {
+
+    padding: 250px 0;
+
+    .ctx {
+        overflow-x: auto;
+    }
+
+    .ct {
+        width: 100%; border-top: 2px solid #000; border-bottom: 1px solid #ddd; table-layout: auto;
+        min-width: 900px;
+
+        colgroup {
+            col {
+                &:nth-of-type(1) {
+                    width: 25px;
+                }
+                &:nth-of-type(3) {
+                    width: 10%;
+                }
+                &:nth-of-type(4) {
+                    width: 10%;
+                }
+                &:nth-of-type(5) {
+                    width: 10%;
+                }
+                &:nth-of-type(6) {
+                    width: 10%;
+                }
+            }
+        }
+
+        th,
+        td {
+            padding: 15px; vertical-align: middle; text-align: center;
+        }
+
+        tr{
+            border-top: 1px solid #ddd;
+        }
+
+        td {
+            .fl {
+                display: flex; align-items: center;
+
+                .img {
+                    background: no-repeat center/cover; width: 150px;
+                    &::after {
+                        content: ''; display: block; padding-bottom: 100%;
+                    }
+                }
+
+                .tbx {
+                    margin-left: 20px; text-align: left;
+
+                    dl {
+                        dt {
+                            font-size: 16px; font-weight: bold;
+                        }
+                        dd {
+                            font-size: 12px; color: #555; margin-top: 5px;
+                        }
+                    }
+
+                    button {
+                        margin-top: 5px; background: #000; border: 0; color: #fff; padding: 0.5em 1em;
+                        cursor: pointer;
+                    }
+
+                }
+
+            }
+
+            p.sale {
+                font-size: 14px; text-decoration: line-through; color: #555; white-space: nowrap;
+            }
+            p.price {
+                margin-top: 5px; font-weight: bold; white-space: nowrap;
+            }
+
+            .amount {
+                display: flex; justify-content: center;
+                button {
+                    width: 25px; height: 25px; background: #fff; border: 1px solid #000; cursor: pointer;
+                    &:nth-of-type(1) {
+                        border-right: 0;
+                    }
+                    &:nth-of-type(2){
+                        border-left: 0;
+                    }
+                }
+                input {
+                    min-width: 0; border: 1px solid #000; border-left: 0; border-right: 0; 
+                    width: 50px; text-align: center;
+                }
+            }
+
+            .delete {
+                background: #000; color: #fff; border: 0; padding: 0.5em 1em; cursor: pointer;
+                white-space: nowrap;
+            }
+
+        }
+
+    }
+
+    .allPrice {
+        display: flex; align-items: center; justify-content: flex-end; align-items: center; margin-top: 25px;
+        font-size: 16px;
+        h2 {
+            margin-left: 15px;
+            span {
+                font-size: 24px; font-weight: bold;
+            }
+        }
+    }
+
+    .btnList {
+        display: flex; justify-content: flex-end; margin-top: 25px;
+        button {
+            border: 1px solid #000; width: 150/16+em; height: 50/16+em; font-weight: bold;
+            cursor: pointer; font-size: 16px;
+            + button {
+                margin-left: 20px;
+            }
+            &.color0 {
+                background: #fff; color: #000;
+            }
+            &.color1 {
+                background: #000; color: #fff;
+            }
+
+        }
+    }
+
+    @include max(820) {
+        padding: 50vw 0;
+    }
+
+    @include max(480) {
+        .btnList {
+            button {
+                font-size: 14px;
+            }
+        }
+    }
+
+}

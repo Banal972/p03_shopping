@@ -38,6 +38,28 @@ const initialStateProduct : ProductState[] = [
         size : [230,235,240,245,250,255,260,265,270,275],
         price : 25000,
         sale : 25,
+    },
+    {
+        id : 3,
+        cate : "카테고리3",
+        only : true,
+        src : "shoes03.jpg",
+        name : "상품3",
+        description : "상품내용1 상품내용1 상품내용1 상품내용1 상품내용1",
+        size : [230,235,240,245,250,255,260,265,270,275],
+        price : 25000,
+        sale : 25,
+    },
+    {
+        id : 2,
+        cate : "카테고리4",
+        only : true,
+        src : "shoes04.jpg",
+        name : "상품4",
+        description : "상품내용1 상품내용1 상품내용1 상품내용1 상품내용1",
+        size : [230,235,240,245,250,255,260,265,270,275],
+        price : 25000,
+        sale : 25,
     }
 ]
 

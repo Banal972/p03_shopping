@@ -64,6 +64,10 @@ function Main() {
   // 세일데이터
   const saleData = useSelector((state : RootState)=>state.product).filter(el=>el.sale !== undefined);
 
+  // 단독상품데이터
+  const onlyData = useSelector((state : RootState)=>state.product).filter(el=>el.only);
+
+
   return (
     
     <div className="_main">
@@ -149,8 +153,8 @@ function Main() {
                   }
                 }}
             >
-              {/* {
-                only.map((elm,i)=>(
+              {
+                onlyData.map((elm,i)=>(
                   <SwiperSlide key={i} onClick={()=>{
                     navigate(`/detail/${elm.id}`);
                   }}>
@@ -162,16 +166,18 @@ function Main() {
                         {elm.name}
                       </h2>
                       <p className="price">
-                        {
+                        {/* {
                           elm.sale ?
                           <Sale sale={elm.sale} price={elm.price} />
                           : elm.price
-                        }원
+                        } */}
+                        
+                        원
                       </p>
                     </div>
                   </SwiperSlide>
                 ))
-              } */}
+              }
             </Swiper>
 
           </div>

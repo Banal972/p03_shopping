@@ -1,12 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import "./Header.scss";
 import { Link } from 'react-router-dom';
-import { BsCart2,BsPerson,BsTriangle } from "react-icons/bs"
+import { BsCart2,BsPerson } from "react-icons/bs"
 import arr from "../../asset/img/snb_dep2Arr.png"
 import $ from "jquery"
 import gsap from "gsap"
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
+import { logoutAction } from '../../store/user';
 
 function Header() {
+
+  const loginUser = useSelector((state:RootState)=>state.user);
+  const dispath = useDispatch();
+
+  const logoutHandler = (e:React.MouseEvent<HTMLAnchorElement>)=>{
+    e.preventDefault();
+    alert('로그아웃 되었습니다');
+    dispath(logoutAction());
+  }
 
   useEffect(()=>{
 
@@ -54,8 +66,6 @@ function Header() {
       menuTl.reverse();
       setMenuClick(true);
     }
-    
-
   }
 
   return (
@@ -66,10 +76,10 @@ function Header() {
         </div>
 
         <nav className="gnb">
-          <Link to={"/list"}>게시판1</Link>
-          <Link to={"/list"}>게시판2</Link>
-          <Link to={"/list"}>게시판3</Link>
-          <Link to={"/list"}>게시판4</Link>
+          <Link to={"/list/001"}>게시판1</Link>
+          <Link to={"/list/002"}>게시판2</Link>
+          <Link to={"/list/003"}>게시판3</Link>
+          <Link to={"/list/456"}>게시판4</Link>
         </nav>
 
         <div className="sbx">
@@ -79,20 +89,29 @@ function Header() {
               <p className='num'>1</p>
               <Link to={"/cart"}><BsCart2/></Link>
             </div>
-            <div className="icon">
+            <div className="icon per">
               <BsPerson/>
               <div className="dep2">
                 <div className="up">
                   <img src={arr} alt="" />
                 </div>
                 <ul>
-                  <li><Link to={"/login"}>로그인</Link></li>
-                  <li><Link to={"/"}>회원가입</Link></li>
 
-                  <li><Link to={"/"}>관심상품</Link></li>
-                  <li><Link to={"/"}>주문내역</Link></li>
-                  <li><Link to={"/"}>배송조회</Link></li>
-                  <li><Link to={"/"}>로그아웃</Link></li>
+                  {
+                    !loginUser.token ?
+                    <>
+                      <li><Link to={"/login"}>로그인</Link></li>
+                      <li><Link to={"/"}>회원가입</Link></li>
+                    </>
+                    :
+                    <>
+                      <li><Link to={"/"}>관심상품</Link></li>
+                      <li><Link to={"/"}>주문내역</Link></li>
+                      <li><Link to={"/"}>배송조회</Link></li>
+                      <li><Link to={"/"} onClick={logoutHandler}>로그아웃</Link></li>
+                    </>
+                  }
+                  
                   
                 </ul>
               </div>

@@ -1,0 +1,68 @@
+._list {
+    box-sizing: border-box;
+
+    .visual {
+        height: 500px; text-align: center; background-repeat: no-repeat; background-position: center; background-size: cover;
+        background-attachment: fixed;
+    }
+
+    ._k_wrap {
+        padding: 100px 0; 
+    }
+
+    .h1 {
+        font-size: 48px; font-weight: bold; margin-bottom: 25/48*1em;
+    }
+
+    .tag {
+        display: flex; margin: -5px -5px 0;
+        li {
+            font-size: 16px; font-weight: 500; border: 1px solid #000; border-radius: 1000px; padding: 0.25em 0.5em; margin: 5px 5px 0; cursor: pointer;
+        }
+    }
+
+
+    .cardLayout {
+        grid-template-columns: repeat(5,1fr); gap : 70px 30px; margin-top: 50px;
+    }
+
+
+    @media screen and (max-width:1024px) {
+        
+        .visual {
+            height: 400px;
+        }
+
+        .cardLayout {
+            grid-template-columns: repeat(4,1fr);
+        }
+
+    }
+
+    @media screen and (max-width:820px) {
+        
+        .visual {
+            height: 300px;
+        }
+
+        .cardLayout {
+            grid-template-columns: repeat(3,1fr);
+        }
+
+    }
+
+    @media screen and (max-width:480px) {
+        
+        .visual {
+            height: 250px;
+        }
+
+        .cardLayout {
+            grid-template-columns: repeat(2,1fr); padding: 60px 0;
+            gap: 50px 20px;
+        }
+
+    }
+
+
+}

@@ -16,7 +16,9 @@ function App() {
           <Route index  element={<Main/>} ></Route>
           <Route path='login' element={<Login/>}/>
           <Route path='cart' element={<Cart/>}/>
-          <Route path='list' element={<List/>}/>
+          <Route path='list'>
+            <Route path=':cate' element={<List/>} />
+          </Route>
         </Route>
       </Routes>
       {/* <Footer/> */}

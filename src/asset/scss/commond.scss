@@ -8,6 +8,9 @@
     &[data-max="1480"]{
         max-width: 1480px;
     }
+    &[data-max="850"]{
+        max-width: 850px;
+    }
 }
 
 html,
@@ -15,8 +18,11 @@ body {
     font-family: "Pretendard"; letter-spacing: -0.045em;
 }
 
+input {
+    padding: 0 0.5em; box-sizing: border-box;
+}
 input,button {
-    font-family: "Pretendard";
+    font-family: "Pretendard"; letter-spacing: -0.045em;
 }
 
 .t-title {

@@ -6,6 +6,7 @@ import Footer from './comp/Footer/Footer';
 import Login from './router/Login/Login';
 import Cart from './router/Cart/Cart';
 import List from './router/List/List';
+import Sign from './router/Sign/Sign';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='list'>
             <Route path=':cate' element={<List/>} />
           </Route>
+          <Route path='sign' element={<Sign/>}/>
         </Route>
       </Routes>
       {/* <Footer/> */}

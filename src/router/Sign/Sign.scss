@@ -1,0 +1,80 @@
+._sign {
+
+    padding: 150px 0;
+
+    .h1 {
+        font-size: 48px; text-align: center; font-weight: bold;
+    }
+
+
+    .bx {
+        margin-top: 50px;
+
+        .terms {
+            
+            .cont {
+                margin-top: 10/14*1em; font-size: 14px; line-height: normal; height: 300px; overflow-y: auto; border: 1px solid #ddd; box-sizing: border-box; padding: 1em;
+            }
+
+        }
+
+        .p {
+            padding-bottom: 6px; font-size: 18px; position: relative; margin-top: 50px; font-weight: 500;
+            &::after {
+                position: absolute; left: 0; bottom: 0; width: 95%; height: 2px; background: #000; content: '';
+            }
+        }
+
+        .g {
+            .col {
+                display: grid; grid-template-columns: 150px 1fr; font-size: 14px; border-bottom: 1px solid #ddd;
+
+                .th,
+                .td {
+                    padding: 1em;
+                }
+
+                .th {
+                    background: #f0f0f0; font-weight: 500;
+                    sup {
+                        color: red;
+                    }
+                }
+
+                .td {
+                    input {
+                        height: 30px; border: 1px solid #ddd; min-width: 0; width: 100%;
+                    }
+                    p {
+                        margin-top: 0.25em; font-size: 12px;
+                    }
+
+                    .zip {
+                        display: flex;
+                        button {
+                            font-size: 12px; border: 0; background: 0; background: #000; color: #fff;  margin-left: 5px; width: 70px; cursor: pointer;
+                        }
+                    }
+
+                    .add,
+                    .add2 {
+                        margin-top: 5px;
+                    }
+                    
+
+                }
+
+            }
+        }
+
+        > button {
+            width: 150/18*1em; background: #000; color: #fff; border: 0; margin: 50px auto 0; display: block; font-size: 18px; font-weight: 500; height: 45/18*1em; cursor: pointer;
+        }
+
+
+
+    }
+
+
+
+}

@@ -61,8 +61,8 @@ function Login() {
         <div className="bx">
             <form onSubmit={submitHandler}>
                 <p>회원</p>
-                <input type="text" placeholder='아이디' onChange={idHandler} />
-                <input type="password" placeholder='비밀번호' onChange={passHandler}/>
+                <input type="text" placeholder='아이디' onChange={idHandler} value={idInput}/>
+                <input type="password" placeholder='비밀번호' onChange={passHandler} value={passInput}/>
                 <div className="checkbox">
                     <input type="checkbox" id='idSave' name='idSave'/>
                     <label htmlFor="idSave"><div className="ch-icon"></div> 아이디 저장</label>

@@ -98,10 +98,10 @@ function Header() {
                 <ul>
 
                   {
-                    !loginUser.token ?
+                    !loginUser?.token ?
                     <>
                       <li><Link to={"/login"}>로그인</Link></li>
-                      <li><Link to={"/"}>회원가입</Link></li>
+                      <li><Link to={"/sign"}>회원가입</Link></li>
                     </>
                     :
                     <>
@@ -111,7 +111,6 @@ function Header() {
                       <li><Link to={"/"} onClick={logoutHandler}>로그아웃</Link></li>
                     </>
                   }
-                  
                   
                 </ul>
               </div>

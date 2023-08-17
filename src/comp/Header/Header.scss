@@ -82,6 +82,14 @@
     }
 
 
+    &.sub {
+        color: #000;
+        .menu {
+            span {background: #000;}
+        }
+    }
+
+
     @include max(1024){
 
         .gnb {

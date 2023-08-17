@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import "./Header.scss";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BsCart2,BsPerson } from "react-icons/bs"
 import arr from "../../asset/img/snb_dep2Arr.png"
 import $ from "jquery"
@@ -9,15 +9,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { logoutAction } from '../../store/user';
 
-function Header() {
+function Header({pathSplit}:{pathSplit : String}) {
 
-  const loginUser = useSelector((state:RootState)=>state.user);
+  let subHeader = false;
+
+  switch(pathSplit){
+    case "login" : 
+    case "sign" : 
+      subHeader = true;
+    break
+  }
+
+  const navigate = useNavigate();
+
+  const user = useSelector((state:RootState)=>state.user);
+  // console.log(user);
   const dispath = useDispatch();
 
   const logoutHandler = (e:React.MouseEvent<HTMLAnchorElement>)=>{
     e.preventDefault();
     alert('로그아웃 되었습니다');
     dispath(logoutAction());
+    navigate('/');
   }
 
   useEffect(()=>{
@@ -69,17 +82,18 @@ function Header() {
   }
 
   return (
-    <header className='header'>
+    <header className={`header ${subHeader? "sub" : ""}`}>
       <div className="_k_wrap" data-max={"1600"}>
         <div className="logo">
           <Link to={"/"}>로고</Link>
         </div>
 
         <nav className="gnb">
-          <Link to={"/list/001"}>게시판1</Link>
-          <Link to={"/list/002"}>게시판2</Link>
-          <Link to={"/list/003"}>게시판3</Link>
-          <Link to={"/list/456"}>게시판4</Link>
+          <Link to={"/list/999"}>BEST</Link>
+          <Link to={"/list/001"}>스니커즈</Link>
+          <Link to={"/list/002"}>스포츠</Link>
+          <Link to={"/list/003"}>샌들/슬리퍼</Link>
+          <Link to={"/list/456"}>SALE</Link>
         </nav>
 
         <div className="sbx">
@@ -98,14 +112,14 @@ function Header() {
                 <ul>
 
                   {
-                    !loginUser?.token ?
+                    !user?
                     <>
                       <li><Link to={"/login"}>로그인</Link></li>
                       <li><Link to={"/sign"}>회원가입</Link></li>
                     </>
                     :
                     <>
-                      <li><Link to={"/"}>관심상품</Link></li>
+                      <li><Link to={"/slang"}>관심상품</Link></li>
                       <li><Link to={"/"}>주문내역</Link></li>
                       <li><Link to={"/"}>배송조회</Link></li>
                       <li><Link to={"/"} onClick={logoutHandler}>로그아웃</Link></li>

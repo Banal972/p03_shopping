@@ -1,12 +1,14 @@
 import {configureStore, createSlice} from "@reduxjs/toolkit";
-import { product } from "../store/product";
+import { product, productTag } from "../store/product";
 import { memeber, user } from "../store/user";
 
 export const store = configureStore({
     reducer : {
+        memeber : memeber.reducer,
         user : user.reducer,
         product : product.reducer,
-        memeber : memeber.reducer
+        productTag : productTag.reducer,
+        
     },
     devTools : process.env.NODE_ENV !== "production"
 });

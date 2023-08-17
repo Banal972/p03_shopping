@@ -41,7 +41,7 @@
 
             .des {
                 display: -webkit-box; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis;
-                -webkit-box-orient: vertical; height: 3em; line-height: 1.5em; font-size: 14px; margin-top: 0.5em; color: #555;
+                -webkit-box-orient: vertical; height: 3em; line-height: 1.5em; font-size: 14px; margin-top: 0.5em; color: #555; white-space: pre-line
             }
 
             .icon {

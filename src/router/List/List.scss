@@ -15,9 +15,9 @@
     }
 
     .tag {
-        display: flex; margin: -5px -5px 0;
+        display: flex; margin: -5px -5px 0; flex-wrap: wrap;
         li {
-            font-size: 16px; font-weight: 500; border: 1px solid #000; border-radius: 1000px; padding: 0.25em 0.5em; margin: 5px 5px 0; cursor: pointer;
+            font-size: 14px; font-weight: 500; border: 1.5px solid #ccc; border-radius: 1000px; padding: 0.5em 0.75em; margin: 5px 5px 0; cursor: pointer; flex:  0 0 auto;
         }
     }
 

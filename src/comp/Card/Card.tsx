@@ -1,19 +1,37 @@
 import React from 'react'
 import { useNavigate } from 'react-router'
 import "./Card.scss";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart,AiFillHeart } from "react-icons/ai";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
+import { addSlangAction,removeSlangAction } from '../../store/user';
 
 interface CardType {
   max : number,
-  data? : any[]
+  data? : any[],
+  cate? : String | Number
 }
 
 
 function Card(props : CardType){
 
-  const {max,data} = props;
+  const {max,data,cate} = props;
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const user = useSelector((state:RootState)=>state.user);
+  // console.log(user);
+
+  const iconHandler = (e:React.MouseEvent<HTMLDivElement>,elm:any)=>{
+
+    if(user?.slang?.includes(elm)){
+      dispatch(removeSlangAction(elm));
+    }else{
+      dispatch(addSlangAction(elm));
+    }
+    
+  }
 
   return (
     <div className="cardLayout">
@@ -27,7 +45,7 @@ function Card(props : CardType){
                   <div className="img"  onClick={(e)=>{
                     navigate(`/detail/${elm.id}`);
                   }}>
-                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${elm.src})`}}></div>
+                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
                   </div>
 
                   <div className="tbx">
@@ -50,21 +68,10 @@ function Card(props : CardType){
                       {elm.description}
                     </p>
 
-                    <div className="icon" onClick={()=>{
-                        /* const rs = user.wishlist.findIndex(item=> item.id === elm.id);
-                          if(rs > -1) {
-                            dispatch(wishlistDel(elm.id));
-                          }else {
-                            dispatch(wishlistAdd(elm.id));
-                          } 
-                        */
-                      }}>
+                    <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
                         {
-                          /* 
-                          user.wishlist.find(item=>item.id === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/> 
-                          */
+                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
                         }
-                        <AiOutlineHeart/> 
                     </div>
 
                   </div>

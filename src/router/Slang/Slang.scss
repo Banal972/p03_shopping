@@ -1,0 +1,22 @@
+._slang {
+
+    .visual {
+        height: 500px; text-align: center; background-repeat: no-repeat; background-position: center; background-size: cover;
+        background-attachment: fixed;
+    }
+
+    ._k_wrap {
+        padding: 150px 0;
+    }
+
+    .h1 {
+        font-size: 48px; font-weight: bold;
+    }
+
+    .cardLayout {
+        grid-template-columns: repeat(5,1fr); gap: 80px 30px; margin-top: 50px;
+    }
+
+
+
+}

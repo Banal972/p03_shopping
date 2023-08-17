@@ -13,6 +13,7 @@ function Sign() {
 
     const memberData = useSelector((state:RootState)=>state.memeber);
 
+    const [term,setTerm] = useState(false);
     const [id,setId] = useState('');
     const [pass,setPass] = useState('');
     const [pass2,setPass2] = useState('');
@@ -54,11 +55,20 @@ function Sign() {
         a(e.target.value);
     }
 
+    const termHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        setTerm(e.target.checked);
+    }
+
     const submitHanlder = ()=>{
 
         const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
         const regid = new RegExp('^(?=.*[a-z])[a-z0-9]{4,16}$');
         const regpass = new RegExp('^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$');
+
+        // 동의
+        if(!term){
+            return alert("필수사항에 동의하지 않았습니다");
+        }
 
         // 아이디
         if(id === ""){
@@ -136,6 +146,7 @@ function Sign() {
         dispath(addAction(data));
 
     }
+    
 
 
   return (
@@ -159,11 +170,9 @@ function Sign() {
                         </div>
                     </div>
                     <div className="check">
-                        <input type="checkbox" id='chk1'/>
+                        <input type="checkbox" id='chk1' onChange={termHandler}/>
                         <label htmlFor="chk1">동의합니다.</label>
                     </div>
-                    
-
 
                 </div>
 

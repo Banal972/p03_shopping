@@ -159,7 +159,7 @@ function Main() {
                     navigate(`/detail/${elm.id}`);
                   }}>
                     <div className="img">
-                      <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${elm.src})`}}></div>
+                      <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
                     </div>
                     <div className="tbx">
                       <h2 className="tit">
@@ -205,7 +205,7 @@ function Main() {
                   </dd>
                 </dl>
                 <div className="btn" onClick={()=>{
-                  navigate('/list/SALE');
+                  navigate('/list/456');
                 }}>
                   더보기 <AiOutlineSwapRight/>
                 </div>

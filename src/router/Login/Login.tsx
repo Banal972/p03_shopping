@@ -72,7 +72,7 @@ function Login() {
 
             <ul>
                 <li>
-                    <Link to={"/"}>회원가입</Link>
+                    <Link to={"/sign"}>회원가입</Link>
                 </li>
                 <li>
                     <Link to={"/"}>아이디 찾기</Link>

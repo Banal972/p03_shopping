@@ -10,12 +10,11 @@ interface UserInterface{
     address? : String // 주소
     address2? : String // 상세주소
     phone? : String // 휴대폰
-    token? : Number // 로그인체크용 토큰
-    slang? : Number[] | Number // 찜 목록
+    slang? : (Number | String)[] // 찜 목록
 }
 
 
-let userInitialState :UserInterface = {}
+let userInitialState :UserInterface | null = {}
 if(localStorage.key('user'as any)){
     userInitialState = JSON.parse(localStorage.getItem("user") as any);
 }
@@ -25,25 +24,37 @@ export const user = createSlice({
     initialState : userInitialState,
     reducers : {
         loginAction(state,action: PayloadAction<UserInterface>){
-            
-            const obj = {
-                ...action.payload,
-                token : Math.floor(Math.random()*(999 - 100 + 1)) + 100
-            }
-
-            localStorage.setItem('user',JSON.stringify(obj));
-
-            return obj;
-
+            localStorage.setItem('user',JSON.stringify(action.payload));
+            return action.payload;
         },
         logoutAction(state){
             localStorage.removeItem('user');
-            return {};
+            return null;
+        },
+        addSlangAction(state,action: PayloadAction<Number|String>){
+            
+            if(state?.slang === undefined){
+                return {
+                    ...state,
+                    slang : [action.payload]
+                }
+            }else{
+                state?.slang?.push(action.payload);
+            }
+
+        },
+        removeSlangAction(state,action: PayloadAction<Number|String>){
+            const rs = state?.slang?.findIndex(e=>e === action.payload);
+            if(typeof rs === "number"){
+                if(rs > -1){
+                    state?.slang?.splice(rs,1);
+                }
+            }
         }
     }
 })
 
-export let {loginAction,logoutAction} = user.actions;
+export let {loginAction,logoutAction,addSlangAction,removeSlangAction} = user.actions;
 
 const memeberInitialState :UserInterface[] = [
     {

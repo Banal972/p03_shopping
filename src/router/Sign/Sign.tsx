@@ -27,7 +27,7 @@ function Sign() {
     const [email,setEmail] = useState('');
     
     const zipHandleComplete = (data : any) => {
-        console.log(data);
+        
         let zipcode = data.zonecode;
         let fullAddress = data.address;
         let extraAddress = '';
@@ -44,7 +44,7 @@ function Sign() {
     
         setZipcode(zipcode);
         setAdd(fullAddress);
-      };
+    };
     
     const zipHandleClick = () => {
         open({ onComplete: zipHandleComplete });
@@ -56,30 +56,18 @@ function Sign() {
 
     const submitHanlder = ()=>{
 
+        const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+        const regid = new RegExp('^(?=.*[a-z])[a-z0-9]{4,16}$');
+        const regpass = new RegExp('^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$');
+
+        // 아이디
         if(id === ""){
             return alert('아이디를 입력해주세요');
         }
 
-        if(pass === ""){
-            return alert('비밀번호를 입력해주세요');
+        if(!regid.test(id)){
+            return alert('대문자 혹은 공백 혹은 특수문자가 포함되었거나, 숫자로 시작 또는 숫자로만 이루어진 아이디를 사용하실수 없습니다.');
         }
-
-        if(pass2 === ""){
-            return alert('비밀번호 확인을 입력해주세요');
-        }
-
-        if(name === ""){
-            return alert('이름을 입력해주세요.')
-        }
-
-        if(phoe === "" || phoe2 === "" || phoe3 === ""){
-            return alert("휴대폰번호를 전부 다 입력하지 않았습니다.");
-        }
-
-        if(email === ""){
-            return alert("이메일을 입력해주세요");
-        }
-
 
         const idCheck = memberData.filter(el=>el.userID === id);
         if(idCheck.length > 0){
@@ -87,11 +75,51 @@ function Sign() {
             return setId("");
         }
 
+
+        // 비밀번호
+        if(pass === ""){
+            return alert('비밀번호를 입력해주세요');
+        }
+        
+        if(pass2 === ""){
+            return alert('비밀번호 확인을 입력해주세요');
+        }
+
+
+        if(!regpass.test(pass)){
+            return alert("영문, 숫자, 특수문자 조합으로 이루어진 8~15자 가 들어가야합니다.");
+        }
+
         if(pass !== pass2){
             alert('비밀번호가 서로 다릅니다.');
             return setPass2('');
         }
 
+
+        // 이름
+        if(name === ""){
+            return alert('이름을 입력해주세요.')
+        }
+
+        
+        // 전화번호
+        if(phoe === "" || phoe2 === "" || phoe3 === ""){
+            return alert("휴대폰번호를 전부 다 입력하지 않았습니다.");
+        }
+
+
+        // 이메일
+        if(email === ""){
+            return alert("이메일을 입력해주세요");
+        }
+
+        if(!regex.test(email)){
+            return alert('제대로된 이메일을 입력해주세요.');
+        }
+
+
+
+        // 데이터 조합해서 보내기
         const data = {
             userID : id,
             password : pass,
@@ -109,6 +137,7 @@ function Sign() {
 
     }
 
+
   return (
     <div className="_sign">
 
@@ -121,38 +150,20 @@ function Sign() {
                 <div className="terms">
                     
                     [필수] 필수로 꼭 읽어주세요
-                    <div className="cont">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore provident id et corrupti sequi cumque saepe, doloremque neque nobis vel optio alias veritatis, voluptatum iusto aliquid deserunt quaerat, ipsam tenetur.
-                        Pariatur cupiditate assumenda illum repellendus aliquid provident commodi dolores. Hic fuga libero esse! Nam aspernatur assumenda veritatis eos laborum iure veniam aut quam dolor repellendus, recusandae explicabo? Ducimus, quae sunt!
-                        Culpa repellat harum assumenda perspiciatis voluptatem molestias temporibus rerum deleniti placeat impedit ducimus magni qui earum, accusantium architecto incidunt laboriosam illum quo nulla nisi! Accusantium enim maiores optio non fuga!
-                        Deserunt tempore nemo ratione numquam qui iusto dolorum dicta repudiandae odio, temporibus facere ex repellat perferendis molestiae aut nesciunt tempora, a dolores doloremque maiores? Distinctio omnis reiciendis necessitatibus neque nemo!
-                        Pariatur aut nobis dignissimos saepe assumenda adipisci architecto quas corporis provident voluptates maiores temporibus veritatis recusandae ullam impedit, ex voluptatem molestiae soluta corrupti iusto minima culpa. A voluptas vero iusto?
-                        Perspiciatis repellendus officia delectus mollitia. Velit unde eveniet architecto voluptate numquam sapiente eligendi non deleniti quia? Error reiciendis tenetur nisi corporis labore laudantium, sequi dolorum blanditiis officiis modi perspiciatis minima.
-                        Explicabo veritatis unde modi, iure recusandae porro eaque doloremque illum optio corporis aliquid consequatur nobis perspiciatis blanditiis! Temporibus hic quos possimus id doloremque harum accusantium eos. Illum laboriosam quod consequatur?
-                        Commodi explicabo numquam eligendi, voluptas fugiat suscipit reiciendis corporis dignissimos ut cumque error necessitatibus ea magnam tenetur quisquam labore minima. Dolorum expedita, nulla dolore architecto optio soluta fuga dignissimos aperiam.
-                        Quae nesciunt, provident non, ratione nisi, maiores saepe aliquid nihil fugiat numquam dignissimos? Non pariatur quos quam tempore, ex, atque excepturi ea maiores minima asperiores in odio vitae! Quo, eum.
-                        Omnis accusamus tenetur sit repellat id delectus harum modi, magnam quidem et cumque, tempore temporibus! At, aliquam animi officiis iusto sunt error eos consequatur reiciendis rerum porro voluptatem esse consectetur?
-                        Quidem facilis quae soluta debitis odit beatae ducimus dolores recusandae atque corrupti veniam assumenda odio labore id accusamus sit tenetur adipisci, harum rem delectus non! Nulla optio voluptates minus explicabo.
-                        Ipsa nulla eligendi tempore delectus non. Voluptate a voluptatibus nam nemo reprehenderit aperiam repudiandae expedita facere voluptas dolores itaque veniam maxime quasi incidunt iste rem qui, asperiores, facilis sunt eum.
-                        Molestias explicabo nam officia quas dolores ad ratione ducimus accusantium vel reprehenderit, libero ut expedita sint repudiandae cupiditate minima provident magni dolorum minus exercitationem id? Mollitia optio corporis laudantium natus?
-                        Incidunt omnis doloremque corporis sit. Repudiandae tempore nihil odit voluptates eligendi asperiores delectus ullam. Error commodi iste quibusdam cum fugiat nemo minus optio inventore distinctio. Dolores earum expedita voluptatum minus!
-                        Eveniet illo minima perferendis culpa. Illo suscipit ullam velit et? Facilis, iste! Dolor corrupti deleniti, exercitationem dolore fugit quasi nam qui odit amet architecto! Ipsum excepturi recusandae voluptate sunt nulla.
-                        Libero, earum. Necessitatibus neque, dolor laborum omnis, ad cupiditate quia cumque dicta est, molestias odio placeat nam. Veritatis odit optio enim accusantium! Ad, soluta tempore! Necessitatibus magnam maxime laborum ea!
-                        Dignissimos tenetur eum accusantium corrupti magnam praesentium qui sunt aperiam sequi quis rerum provident veritatis delectus et voluptatum laudantium nulla commodi vero optio aspernatur ipsam a, reprehenderit blanditiis sint? Explicabo?
-                        Facilis eaque qui exercitationem id odio repudiandae nostrum dolore quam quidem. Nesciunt, totam tempore placeat nihil debitis sit veniam quam aliquam labore ex at ratione voluptatum, nisi aliquid dolorem accusantium.
-                        Accusantium tempora odit aut assumenda eius laborum iure corporis odio blanditiis at sunt, voluptates nisi maxime labore dicta ad! Itaque labore alias neque, eius dolorum perspiciatis ut laboriosam iusto nihil.
-                        Temporibus deserunt fugiat aut magnam modi perspiciatis corporis. Sapiente a excepturi totam in praesentium beatae veritatis iste ex laudantium, dignissimos vero provident quae incidunt consequuntur nostrum corrupti, officia repellendus deserunt.
-                        Voluptates, id aliquid beatae non dolores provident, omnis porro asperiores quis ullam fugit magnam magni neque, excepturi corrupti inventore! Error beatae nam pariatur perferendis a autem. Molestias magnam ullam incidunt?
-                        Laudantium architecto nostrum numquam deserunt voluptatem provident earum natus est tenetur aliquid nihil debitis, hic in molestiae doloribus tempore officiis quam quis maxime magni. Eaque modi sit repellat corporis reprehenderit.
-                        Incidunt quidem exercitationem alias. Repudiandae, voluptas adipisci temporibus perferendis fugiat ea fugit! Eveniet autem doloremque dolor dolores corporis, esse accusamus animi voluptatem dolorum veritatis hic nostrum et eligendi error sit.
-                        Dolores placeat molestiae quia, accusantium dicta temporibus? Possimus, quis quaerat tenetur laborum obcaecati eos dolores repudiandae culpa qui optio aliquam molestias quibusdam quos nulla recusandae, odit reprehenderit laboriosam nihil. A!
-                        Aliquam aspernatur reprehenderit doloribus dignissimos sequi asperiores soluta omnis quae a possimus facilis animi vel ad, qui quibusdam ducimus id consequatur quam, quidem excepturi nemo, eos aut! Molestias, adipisci asperiores?
-                        Reprehenderit, necessitatibus vero aliquam temporibus in delectus perferendis sapiente nihil culpa voluptas assumenda? Fugit quia voluptatibus asperiores tempora. Pariatur accusamus ea perspiciatis? Excepturi, in ipsa distinctio magnam nulla fugiat illum.
-                        Beatae, explicabo iste ea quam eum odit perspiciatis. Consequatur similique ut qui ducimus voluptate quia magnam, quisquam ab harum. Deserunt beatae odit, saepe alias inventore odio quae dolor iusto nemo.
-                        Velit neque dolore nisi minus? Id repudiandae ea iusto harum esse optio molestiae modi veniam eaque itaque neque aspernatur quisquam animi ad expedita vitae, aperiam voluptatibus asperiores dolorem sed quidem?
-                        Incidunt magnam eum aliquam aut laborum labore corrupti rem at. Veniam aliquid dolorem harum pariatur cumque fuga consequuntur illum error, labore ad, incidunt quisquam explicabo laudantium ducimus. Delectus, culpa inventore?
-                        Nihil, ut repellendus debitis tempore consectetur voluptatibus, delectus rem incidunt consequuntur commodi sunt molestiae. Corporis atque nostrum a? Ipsum aut iure animi laudantium delectus nam voluptate enim distinctio itaque eveniet.
+                    <div className="cobx">
+                        <div className="cont">
+                            이 사이트는 포트폴리오로 만든 토이 프로젝트 사이트 입니다.<br/>
+                            회원가입 같은 경우 DB에 저장되지 않고 브라우저에 저장되어 사용되기 때문에 <br/>브라우저를 껏다키거나 캐시삭제를 하면 저장된것들이 사라집니다.<br/>
+                            아무생각 없이 가입하셔도 괜찮습니다.<br/>
+                            어떤것에 사용되거나 남겨지거나 하지 않습니다.<br/>
+                        </div>
                     </div>
+                    <div className="check">
+                        <input type="checkbox" id='chk1'/>
+                        <label htmlFor="chk1">동의합니다.</label>
+                    </div>
+                    
+
 
                 </div>
 
@@ -163,14 +174,14 @@ function Sign() {
                         <div className="th">아이디<sup>*</sup></div>
                         <div className="td">
                             <input type="text" onChange={(e)=>inputHandler(e,setId)} value={id}/>
-                            <p>(영문소문자)</p>
+                            <p>(영문소문자/숫자,4~16자)</p>
                         </div>
                     </div>
                     <div className="col">
                         <div className="th">비밀번호<sup>*</sup></div>
                         <div className="td">
                             <input type="password" onChange={(e)=>inputHandler(e,setPass)} value={pass}/>
-                            <p>(영문소문자)</p>
+                            <p>(영문 숫자 특수기호 조합 8자리 이상)</p>
                         </div>
                     </div>
                     <div className="col">
@@ -201,7 +212,7 @@ function Sign() {
                     </div>
                     <div className="col">
                         <div className="th">휴대전화<sup>*</sup></div>
-                        <div className="td">
+                        <div className="td call">
                             <input type="text" style={{maxWidth:100}} onChange={(e)=>inputHandler(e,setPhone)} value={phoe} /> - <input type="text" style={{maxWidth:100}} onChange={(e)=>inputHandler(e,setPhone2)} value={phoe2} /> - <input type="text" style={{maxWidth:100}} onChange={(e)=>inputHandler(e,setPhone3)} value={phoe3} />
                         </div>
                     </div>

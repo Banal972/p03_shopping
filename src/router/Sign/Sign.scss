@@ -1,3 +1,5 @@
+@import "../../asset/scss/lib.scss";
+
 ._sign {
 
     padding: 150px 0;
@@ -11,9 +13,33 @@
         margin-top: 50px;
 
         .terms {
-            
-            .cont {
-                margin-top: 10/14*1em; font-size: 14px; line-height: normal; height: 300px; overflow-y: auto; border: 1px solid #ddd; box-sizing: border-box; padding: 1em;
+            font-size: 16px; font-weight: 500;
+            .cobx {
+                margin-top: 10/14*1em; font-size: 14px; height: 200px; border: 1px solid #ddd; box-sizing: border-box; padding: 1em;
+
+                .cont {
+                    overflow-y: auto; height: 100%; line-height: 1.3; font-weight: normal; word-break: keep-all;
+                }
+
+            }
+
+            .check {
+                margin-top: 10px; font-size: 14px;
+                input {
+                    display: none; width: 0;
+                    &:checked ~ label {
+                        &::before {
+                            background: rgb(51, 150, 189); border-color: rgb(51, 150, 189); color: #fff;
+                        }
+                    }
+                }
+                label {
+                    display: inline-flex; align-items: center; cursor: pointer;
+                    &::before {
+                        width: 12px; height: 12px; border: 1px solid #000; content: '\e929'; margin-right: 5px; font-family : 'xeicon'; display: flex; align-items: center; justify-content: center;
+                    }
+                }
+
             }
 
         }
@@ -75,6 +101,51 @@
 
     }
 
+
+    @include max(820){
+
+        padding: 100px 0;
+
+        .bx {
+            .terms {
+                font-size: 14px;
+                .cont {
+                    height: 200px;
+                }
+            }
+
+            .p {
+                font-size: 16px;
+            }
+
+            .g {
+
+                .col {
+                    display: block;
+
+                    .td {
+                        .zip {
+                            input {max-width: 100px !important;}
+                        }
+                        &.call {
+                            input {
+                                max-width: 80px !important;
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+            > button {
+                font-size: 16px;
+            }
+
+
+        }
+
+    }
 
 
 }

@@ -65,7 +65,7 @@ function Login() {
                 <input type="password" placeholder='비밀번호' onChange={passHandler} value={passInput}/>
                 <div className="checkbox">
                     <input type="checkbox" id='idSave' name='idSave'/>
-                    <label htmlFor="idSave"><div className="ch-icon"></div> 아이디 저장</label>
+                    <label htmlFor="idSave">아이디 저장</label>
                 </div>
                 <button type="submit">로그인</button>
             </form>

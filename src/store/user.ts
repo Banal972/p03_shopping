@@ -14,6 +14,8 @@ interface UserInterface{
 }
 
 
+// 유저관련
+
 let userInitialState :UserInterface | null = {}
 if(localStorage.key('user'as any)){
     userInitialState = JSON.parse(localStorage.getItem("user") as any);
@@ -42,6 +44,9 @@ export const user = createSlice({
                 state?.slang?.push(action.payload);
             }
 
+            // 세션에 저장
+            localStorage.setItem('user',JSON.stringify(state));
+
         },
         removeSlangAction(state,action: PayloadAction<Number|String>){
             const rs = state?.slang?.findIndex(e=>e === action.payload);
@@ -50,11 +55,19 @@ export const user = createSlice({
                     state?.slang?.splice(rs,1);
                 }
             }
+
+            // 세션에 저장
+            localStorage.setItem('user',JSON.stringify(state));
+
         }
     }
 })
 
 export let {loginAction,logoutAction,addSlangAction,removeSlangAction} = user.actions;
+
+
+
+// 회원 멤버 관련
 
 const memeberInitialState :UserInterface[] = [
     {
@@ -75,6 +88,7 @@ if(localStorage.key("member" as any)){
     });
 
 }
+
 
 export const memeber = createSlice({
     name : "memeber",

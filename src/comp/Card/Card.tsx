@@ -25,8 +25,18 @@ function Card(props : CardType){
 
   const iconHandler = (e:React.MouseEvent<HTMLDivElement>,elm:any)=>{
 
+    // 로그인이 안되어있으면
+    if(!user){
+      window.alert('로그인을 해야 찜을 하실수있습니다.') 
+      navigate('/login');
+      return;
+    }
+
+    //user 안에 slang이란 배열안에 id값이 존재하는지 확인
     if(user?.slang?.includes(elm)){
-      dispatch(removeSlangAction(elm));
+      if(window.confirm('정말 삭제하시겠습니까?')){
+        dispatch(removeSlangAction(elm));
+      }
     }else{
       dispatch(addSlangAction(elm));
     }

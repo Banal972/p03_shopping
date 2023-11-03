@@ -43,6 +43,8 @@ function Detail() {
         setShoes(finds);
         webResize();
 
+        window.scrollTo(0,0);
+
     },[id]);
 
     useEffect(()=>{ // 랜덤 신발
@@ -112,25 +114,13 @@ function Detail() {
                                     modules={[EffectFade]}
                                     effect="fade"
                                 >
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-
+                                    {
+                                        new Array(5).fill(0).map((e)=>(
+                                            <SwiperSlide key={e}>
+                                                <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${shoes.src})`}}></div>
+                                            </SwiperSlide>
+                                        ))
+                                    }
                                 </Swiper>
                             </div>
                             <div className="sm">
@@ -141,7 +131,7 @@ function Detail() {
                                     modules={[Navigation]}
                                     slidesPerView={3}
                                     spaceBetween={10}
-                                    loop={true}
+                                    loop={false}
                                     navigation={{
                                         prevEl : '.sm .prev',
                                         nextEl : '.sm .next'
@@ -157,24 +147,14 @@ function Detail() {
                                         }
                                     }}
                                 >
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${shoes.src})`}}></div>
-                                    </SwiperSlide>
+                                    {
+                                        new Array(6).fill(0).map((e)=>(
+                                            <SwiperSlide key={e}>
+                                                <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${shoes.src})`}}></div>
+                                            </SwiperSlide>
+                                        ))
+                                    }
+
                                 </Swiper>
                                 <button className="next">
                                     <AiOutlineRight/>
@@ -266,7 +246,7 @@ function Detail() {
                                             }}
                                             >
                                                 <div className="img">
-                                                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/img/shoes/${elm.src})`}}></div>
+                                                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
                                                 </div>
                                                 <div className="tbx">
                                                     <h2 className="tit">

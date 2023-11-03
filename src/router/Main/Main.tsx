@@ -86,7 +86,7 @@ function Main() {
               주목해야할 인기상품
             </h2>
 
-            <Card max={10} data={productData} />
+            <Card offset={0} data={productData} />
             
           </div>
       </section>
@@ -212,7 +212,7 @@ function Main() {
               </div>
             </div>
 
-            <Card max={10} data={saleData} />
+            <Card offset={0} data={saleData} />
 
           </div>
 

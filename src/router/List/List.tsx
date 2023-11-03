@@ -1,10 +1,11 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useRef} from 'react'
 import Card from '../../comp/Card/Card'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 
 import "./List.scss";
+import { ProductState } from '../../store/product';
 
 function List() {
 
@@ -12,20 +13,45 @@ function List() {
   const navigate = useNavigate();
   const dispath = useDispatch();
 
+  // ref
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   // 상품데이터
   const productData = useSelector((state : RootState)=>state.product);
 
   // 태그 가져오기
   const productTagData = useSelector((state : RootState)=>state.productTag);
+
+  // 태그 선택
+  const [selectTag,setSelectTag] = useState('전체');
+
+  const [offset,setOffset] = useState(0);
+  const [limit,setLimit] = useState(10);
   
   // 데이터 1차 공정
-  let filterProductData = [];
-  if(cate === "456"){ // 세일 데이터
-    filterProductData = productData.filter(el=>el.sale);
-  }else if (cate === "999"){ // BEST 데이터
-    filterProductData = productData.filter(e => e.hit >= 100).sort((a,b)=>{ return b.hit - a.hit });
-  }else { // 나머지 데이터
-    filterProductData = productData.filter(el=>el.cate === cate);
+  
+  let [filterProductData,setFilterProductData] = useState<ProductState[]>();
+
+  // 태그 클릭 데이터
+  const [tagFilterProductData,setTagFilterProductData] = useState<ProductState[]>([]);
+
+  // 클릭데이터
+
+  const tagHandler = (e:string)=>{
+
+    setSelectTag(e); // 셀렉버튼
+
+    // filter
+    if(e === "전체" && filterProductData) return setTagFilterProductData(filterProductData);
+
+    if(filterProductData){
+
+      const ar = filterProductData.filter(a=>a.tag.includes(e));
+
+      setTagFilterProductData(ar);
+
+    }
+
   }
   
   // 이미지URL
@@ -33,21 +59,18 @@ function List() {
   
   // 타이틀
   const [title,setTitle] = useState('타이틀');
-  
-  // 클릭데이터
-  const [selectTag,setSelectTag] = useState<String | null>(null);
 
-  const tagHandler = (e:String)=>{
-    if(e === "전체") return setSelectTag(null);
-    setSelectTag(e);
-  }
-
-  // 태그 클릭 데이터
-  const tagFilterProductData = selectTag ? filterProductData.filter(e=>e.tag.includes(selectTag)) : filterProductData; // includes로 가지고 있는지 체크
-
-  // 타이틀수정
   useEffect(()=>{
 
+    if(cate === "456"){ // 세일 데이터
+      setFilterProductData(productData.filter(el=>el.sale));
+    }else if (cate === "999"){ // BEST 데이터
+      setFilterProductData(productData.filter(e => e.hit >= 100).sort((a,b)=>{ return b.hit - a.hit }));
+    }else { // 나머지 데이터
+      setFilterProductData(productData.filter(el=>el.cate === cate));
+    }
+
+    // 타이틀수정
     switch(cate){
       case "001" :
         setImgSrc('listBg01');
@@ -73,23 +96,48 @@ function List() {
 
     }
 
+    // 초기화
+    setSelectTag('전체');
+
   },[cate]);
 
+
+  // filterProductData가 수정될때
+  useEffect(()=>{
+
+    if(filterProductData){
+      setTagFilterProductData(filterProductData);
+    }
+
+  },[filterProductData])
+
+  
 
   return (
     <div className='_list'>
 
         <div className="visual" style={{backgroundImage: `url(${process.env.PUBLIC_URL}/img/list/${imgSrc}.jpg)`}}></div>
 
-        <div className="_k_wrap" data-max="1600">
+        <div className="_k_wrap" data-max="1600" ref={scrollRef}>
 
             <h1 className="h1">{title}</h1>
 
             <ul className='tag'>
-              { productTagData && productTagData.map((el,i)=><li key={i} onClick={()=>tagHandler(el)} >{el}</li>)}
+              { 
+                productTagData && 
+                productTagData.map((el,i)=>
+                  <li 
+                    key={i} 
+                    className={el == selectTag as String ? "act" : undefined} 
+                    onClick={()=>tagHandler(el as string)}
+                  >
+                    {el}
+                  </li>
+                )
+              }
             </ul>
 
-            <Card max={10} data={tagFilterProductData} cate={cate}/>
+            <Card offset={offset} data={tagFilterProductData} cate={cate}/>
 
         </div>
         

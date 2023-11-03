@@ -2,14 +2,14 @@
 
 .header {
 
-    position: fixed; z-index: 99999; top: 0; left: 0; width: 100%; color: #fff;
+    position: fixed; z-index: 99999; top: 0; left: 0; width: 100%; color: #fff; transition: .4s; transition-property: background;
 
     ._k_wrap {
         display: flex; justify-content: space-between; height: 75px; align-items: center;
     }
 
     .logo {
-        position: relative; z-index: 3;
+        position: relative; z-index: 3; filter: invert(1);
     }
 
     .gnb {
@@ -83,7 +83,24 @@
 
 
     &.sub {
-        color: #000;
+        background: #fff; color: #000;
+
+        .logo {
+            filter: none;
+        }
+
+        .menu {
+            span {background: #000;}
+        }
+    }
+
+    &.scroll {
+        background: #fff; color: #000; border-bottom: 1px solid #000;
+
+        .logo {
+            filter: none;
+        }
+
         .menu {
             span {background: #000;}
         }

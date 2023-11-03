@@ -1,28 +1,45 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { useNavigate } from 'react-router'
 import "./Card.scss";
 import { AiOutlineHeart,AiFillHeart } from "react-icons/ai";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { RootState } from '../../app/store';
 import { addSlangAction,removeSlangAction } from '../../store/user';
+import { ProductState } from '../../store/product';
 
 interface CardType {
-  max : number,
-  data? : any[],
+  offset : number
+  data? : ProductState[]
   cate? : String | Number
 }
 
 
 function Card(props : CardType){
 
-  const {max,data,cate} = props;
+  const {offset,data,cate} = props;
 
+  const limit = 10;
+
+  // 모듈
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // 유저
   const user = useSelector((state:RootState)=>state.user);
-  // console.log(user);
+  
+  // 데이터 2차 공정
+  const [sliceData,setSliceData] = useState<ProductState[]>();
 
+  useEffect(()=>{
+
+    const limitCalc = limit + offset;
+    const slice = data?.slice(offset,(limitCalc));
+
+    setSliceData(slice);
+
+  },[offset]);
+
+  // 찜목록
   const iconHandler = (e:React.MouseEvent<HTMLDivElement>,elm:any)=>{
 
     // 로그인이 안되어있으면
@@ -49,8 +66,7 @@ function Card(props : CardType){
          data && data.map((elm,i)=>{
             return(
 
-              max > i ?
-                <div className="item" key={i} >
+              <div className="item" key={i} >
 
                   <div className="img"  onClick={(e)=>{
                     navigate(`/detail/${elm.id}`);
@@ -65,13 +81,13 @@ function Card(props : CardType){
                     </h2>
 
                     <p className="price">
-                      { 
-                        /* elm.sale ? 
+                      {/* { 
+                        elm.sale ? 
                         <Sale sale={elm.sale} price={elm.price} />
                         :
-                        elm.price  */
+                        elm.price
                       }
-                      {elm.price}원
+                      {elm.price}원 */}
                     </p>
 
                     <p className="des">
@@ -86,7 +102,6 @@ function Card(props : CardType){
 
                   </div>
                 </div>
-              : null
 
             )
           }

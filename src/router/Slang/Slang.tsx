@@ -20,7 +20,7 @@ function Slang() {
 
             <h1 className="h1">관심상품</h1>
 
-            <Card max={100} data={slangProductData}/>
+            <Card offset={0} data={slangProductData}/>
 
         </div>
 

@@ -1,13 +1,26 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import "./Header.scss";
 import { Link, useNavigate } from 'react-router-dom';
+
+// 아이콘
 import { BsCart2,BsPerson } from "react-icons/bs"
-import arr from "../../asset/img/snb_dep2Arr.png"
-import $ from "jquery"
-import gsap from "gsap"
+
+// 리덕스
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { logoutAction } from '../../store/user';
+
+// 모듈
+import $ from "jquery"
+import gsap from "gsap"
+
+// 스타일
+import "./Header.scss";
+
+// 이미지
+import arr from "../../asset/img/snb_dep2Arr.png"
+import logo from "../../asset/img/logo.svg"
+
+
 
 function Header({pathSplit}:{pathSplit : String}) {
 
@@ -15,7 +28,9 @@ function Header({pathSplit}:{pathSplit : String}) {
 
   switch(pathSplit){
     case "login" : 
+    case "detail" :
     case "sign" : 
+    case "cart" :
       subHeader = true;
     break
   }
@@ -46,6 +61,14 @@ function Header({pathSplit}:{pathSplit : String}) {
         chk = 0;
       }
     });
+
+    window.addEventListener('scroll',(e)=>{
+      if(window.scrollY > 0){
+        document.querySelector('.header')?.classList.add('scroll');
+      }else{
+        document.querySelector('.header')?.classList.remove('scroll');
+      }
+    })
 
   },[]);
 
@@ -85,7 +108,9 @@ function Header({pathSplit}:{pathSplit : String}) {
     <header className={`header ${subHeader? "sub" : ""}`}>
       <div className="_k_wrap" data-max={"1600"}>
         <div className="logo">
-          <Link to={"/"}>로고</Link>
+          <Link to={"/"}>
+            <img src={logo} alt="쇼핑몰 로고" width={50}/>
+          </Link>
         </div>
 
         <nav className="gnb">

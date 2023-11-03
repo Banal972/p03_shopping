@@ -9,6 +9,7 @@ import List from './router/List/List';
 import Sign from './router/Sign/Sign';
 import AuthRouter from './Hoc/AuthRouter';
 import Slang from './router/Slang/Slang';
+import Detail from './router/Detail/Detail';
 
 function App() {
 
@@ -20,13 +21,24 @@ function App() {
       <Routes>
         <Route path='/'>
           <Route index  element={<Main/>} ></Route>
+          
           <Route path='login' element={<Login/>}/>
+          
           <Route path='cart' element={<AuthRouter><Cart/></AuthRouter>}/>
+
           <Route path='list'>
             <Route path=':cate' element={<List/>} />
           </Route>
+
+          <Route path="/detail">
+            <Route path=":id" element={<Detail/>}/>
+            {/* <Route path="write/:id" element={<Wirte/>} /> */}
+          </Route>
+
           <Route path='sign' element={<Sign/>}/>
+
           <Route path='slang' element={<Slang/>}/>
+
         </Route>
       </Routes>
       {/* <Footer/> */}

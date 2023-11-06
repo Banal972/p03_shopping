@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from '../../app/store';
 
 // 컴포넌트
-// import { addCart } from "../../store/cart";
+import { addCart } from "../../store/cart";
 
 // 라이브러리
 import { AiOutlineLeft,AiOutlineRight } from "react-icons/ai";
@@ -60,19 +60,23 @@ function Detail() {
 
     },[]);
 
-    function cartAdd(){
+    function cartAdd(){ // 장바구니 추가기능
 
-        /* dispatch(addCart(
-            {
-                id : shoes.id,
-                src : shoes.src,
-                name : shoes.name,
-                size  : size,
-                sale : shoes.sale ? shoes.sale : 0,
-                price : shoes.price,
-                amount : amount,
-            }
-        )); */
+        if(shoes){ // shoes가 존재하면
+
+            dispatch(addCart(
+                {
+                    id : shoes.id,
+                    src : shoes.src,
+                    name : shoes.name,
+                    size  : size,
+                    sale : shoes.sale ? shoes.sale : 0,
+                    price : shoes.price,
+                    amount : amount,
+                }
+            ));
+
+        }
 
         if(window.confirm("장바구니로 이동하시겠습니까?")){
             navigate('/cart');

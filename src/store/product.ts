@@ -9,7 +9,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 */
 
 export interface ProductState {
-    id : Number // 상품-아이디
+    id : number // 상품-아이디
     cate : String | String[] // 카테고리
     src : String // 이미지 URL
     only? : Boolean // 단독상품
@@ -17,9 +17,9 @@ export interface ProductState {
     tag : string[], // 태그
     detail? : String,
     description : String // 설명
-    size : Number[] // 사이즈
-    price : Number // 가격
-    sale? : Number, // 세일
+    size : number[] // 사이즈
+    price : number // 가격
+    sale? : number, // 세일
     hit : number // 조회수
 }
 

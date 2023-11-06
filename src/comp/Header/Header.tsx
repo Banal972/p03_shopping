@@ -20,10 +20,9 @@ import "./Header.scss";
 import arr from "../../asset/img/snb_dep2Arr.png"
 import logo from "../../asset/img/logo.svg"
 
-
-
 function Header({pathSplit}:{pathSplit : String}) {
 
+  // 서브페이지 Header가 블랙으로 시작해야할경우
   let subHeader = false;
 
   switch(pathSplit){
@@ -35,18 +34,34 @@ function Header({pathSplit}:{pathSplit : String}) {
     break
   }
 
+  // 네비게이터
   const navigate = useNavigate();
-
-  const user = useSelector((state:RootState)=>state.user);
-  // console.log(user);
+  // 디스패치
   const dispath = useDispatch();
 
+  // 유저값 가져오기
+  const user = useSelector((state:RootState)=>state.user);
+  
+  // 유저 로그아웃
   const logoutHandler = (e:React.MouseEvent<HTMLAnchorElement>)=>{
     e.preventDefault();
     alert('로그아웃 되었습니다');
     dispath(logoutAction());
     navigate('/');
   }
+
+  // 카트값 가져오기
+  const cart = useSelector((state:RootState)=>state.cart);
+  // 장바구니 갯수
+  const [cartAmount,setCartAmount] = useState(0);
+
+  // 카드값이 변할때마다
+  useEffect(()=>{
+
+    // 카드안에 갯수만큼 수정
+    setCartAmount(cart.length);
+
+  },[cart]);
 
   useEffect(()=>{
 
@@ -124,10 +139,16 @@ function Header({pathSplit}:{pathSplit : String}) {
         <div className="sbx">
 
           <nav className="snb">
+
+            {/* 장바구니 */}
             <div className="icon">
-              <p className='num'>1</p>
+              {
+                cartAmount !== 0 && <p className='num'>{cartAmount}</p>
+              }
               <Link to={"/cart"}><BsCart2/></Link>
             </div>
+
+            {/* 마이페이지 */}
             <div className="icon per">
               <BsPerson/>
               <div className="dep2">
@@ -154,6 +175,7 @@ function Header({pathSplit}:{pathSplit : String}) {
                 </ul>
               </div>
             </div>
+
           </nav>
 
           <div className="menu" onClick={menuHanlder}>

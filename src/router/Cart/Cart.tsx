@@ -3,7 +3,7 @@ import "./Cart.scss"
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { addCart, checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart } from '../../store/cart';
+import { CartInterface, addCart, checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart } from '../../store/cart';
 
 function Cart() {
 
@@ -20,7 +20,7 @@ function Cart() {
   const [checkItem,setCheckItem] = useState<number[]>([]);
 
   // 단일 선택
-  const handleSingleCheck = (checked : any, id : number) => {
+  const handleSingleCheck = (checked : boolean, id : number) => {
     if(checked){
       // 단일 선택시 아이템 추가
       setCheckItem(prev=>[...prev,id]);
@@ -31,9 +31,9 @@ function Cart() {
   }
 
   // 체크박스 전체 선택
-  const handleAllCheck = (checked : any) => {
+  const handleAllCheck = (checked : boolean) => {
     if(checked){
-      const idArray :any[] = [];
+      const idArray : number[] = [];
       cart.forEach((el)=> idArray.push(el.id));
       setCheckItem(idArray);
     }else{

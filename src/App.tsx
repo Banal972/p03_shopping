@@ -1,15 +1,25 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router';
-import Main from './router/Main/Main';
+
+// SCSS
+import "./asset/scss/layout.scss"
+
+// 컴포넌트
 import Header from './comp/Header/Header';
 import Footer from './comp/Footer/Footer';
+
+// 라우터
+import Main from './router/Main/Main';
 import Login from './router/Login/Login';
 import Cart from './router/Cart/Cart';
 import List from './router/List/List';
 import Sign from './router/Sign/Sign';
-import AuthRouter from './Hoc/AuthRouter';
 import Slang from './router/Slang/Slang';
 import Detail from './router/Detail/Detail';
+
+// 권한라우터
+import AuthRouter from './Hoc/AuthRouter';
+
 
 function App() {
 
@@ -18,6 +28,7 @@ function App() {
   return (
     <div className="App">
       <Header pathSplit={router.pathname.split('/')[1]} />
+      
       <Routes>
         <Route path='/'>
           <Route index  element={<Main/>} ></Route>
@@ -41,7 +52,8 @@ function App() {
 
         </Route>
       </Routes>
-      {/* <Footer/> */}
+
+      <Footer/>
     </div>
   );
 }

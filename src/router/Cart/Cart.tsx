@@ -3,7 +3,10 @@ import "./Cart.scss"
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
-import { CartInterface, addCart, checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart } from '../../store/cart';
+import { checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart } from '../../store/cart';
+import { AiOutlineClose } from "react-icons/ai";
+import { ProductState } from '../../store/product';
+
 
 function Cart() {
 
@@ -18,6 +21,20 @@ function Cart() {
 
   // 선택된 아이템
   const [checkItem,setCheckItem] = useState<number[]>([]);
+
+  // 모달창
+  const [moID,setMoID] = useState({
+    show : false,
+    id : 0,
+  });
+
+  // 모달창닫기
+  const modalClose = ()=>{
+    setMoID({
+      ...moID,
+      show :false
+    });
+  }
 
   // 단일 선택
   const handleSingleCheck = (checked : boolean, id : number) => {
@@ -58,12 +75,14 @@ function Cart() {
   },[cart]);
 
   return (
-    <div className="_cart">
+    <>
+
+      <div className="_cart">
         <div className="_k_wrap" data-max="1600">
 
-        <h2 className="t-title">
-            장바구니
-        </h2>
+          <h2 className="t-title">
+              장바구니
+          </h2>
 
           <div className="ctx">
             <table className="ct">
@@ -110,10 +129,10 @@ function Cart() {
                               <dd>사이즈 : {elm.size}</dd>
                             </dl>
                             <button onClick={()=>{
-                              /* setMoID({
+                              setMoID({
                                 show : true,
                                 id : elm.id
-                              }) */
+                              })
                             }}>옵션변경</button>
                           </div>
                         </div>
@@ -198,6 +217,15 @@ function Cart() {
 
         </div>
       </div>
+
+      {
+        moID.show ?
+          <Modal size={moID.id} modalClose={modalClose}/>
+        :
+          null
+      }
+
+    </>
   )
 }
 
@@ -215,6 +243,66 @@ function Sale(props : {sale : number,price : number}){
     </>
   )
 
+}
+
+
+// 모달 컴포넌트
+
+function Modal({size,modalClose} : {size : number, modalClose: Function}) {
+
+  const dispatch = useDispatch();
+
+  const productData = useSelector((state:RootState)=>state.product);
+
+  const [shoes,setShoes] = useState<ProductState>();
+  useEffect(()=>{
+    
+    if(productData){
+      setShoes(
+          productData.find(a=>{
+              return a.id === size;
+          })
+      );
+    }
+      
+  },[size]);    
+
+return (
+  <div className="modal">
+    <div className="back"></div>
+    <div className="cont">
+
+      <div className="close" onClick={()=>{
+          modalClose();
+      }}>
+          <AiOutlineClose/>
+      </div>
+
+      <h2>
+          사이즈 변경
+      </h2>
+
+      <ul className="size">
+          {
+              shoes ? 
+                  shoes.size.map((elm,i)=>(
+                      <li key={i} onClick={()=>{
+                          if(window.confirm(`${elm}cm로 수정하시겠습니까?`)){
+                              dispatch(sizeChangeCart({
+                                  id : size,
+                                  size : elm
+                              }));
+                              modalClose();
+                          }
+                      }}>{elm}</li>
+                  ))
+              : null
+          }
+      </ul>
+
+    </div>
+  </div>
+)
 }
 
 export default Cart

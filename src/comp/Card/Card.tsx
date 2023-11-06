@@ -81,13 +81,13 @@ function Card(props : CardType){
                     </h2>
 
                     <p className="price">
-                      {/* { 
+                      { 
                         elm.sale ? 
                         <Sale sale={elm.sale} price={elm.price} />
                         :
                         elm.price
                       }
-                      {elm.price}원 */}
+                      원
                     </p>
 
                     <p className="des">
@@ -109,6 +109,21 @@ function Card(props : CardType){
       }
     </div>
   )
+}
+
+
+function Sale(props:{sale:number,price:number}){
+
+  function saleCalc(sale:number,price:number){
+    return price - (price * sale/100);
+  }
+
+  return(
+    <>
+      <span className="sales">{props.price}</span> {saleCalc(props.sale,props.price)}
+    </>
+  )
+
 }
 
 export default Card 

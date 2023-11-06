@@ -30,6 +30,7 @@ function Header({pathSplit}:{pathSplit : String}) {
     case "detail" :
     case "sign" : 
     case "cart" :
+    case "buy" :
       subHeader = true;
     break
   }

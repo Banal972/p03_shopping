@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import "./Cart.scss"
-import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart } from '../../store/cart';
@@ -10,7 +9,7 @@ import { ProductState } from '../../store/product';
 
 function Cart() {
 
-  const navigate = useNavigate();
+  // 디스패치
   const dispatch = useDispatch();
 
   // 카트 가져오기

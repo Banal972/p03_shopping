@@ -79,7 +79,7 @@ const memeberInitialState :UserInterface[] = [
     }
 ];
 
-if(localStorage.key("member" as any)){
+/* if(localStorage.key("member" as any)){
 
     const memeberData = JSON.parse(localStorage.getItem('memeber') as any);
 
@@ -87,7 +87,7 @@ if(localStorage.key("member" as any)){
         memeberInitialState.push(el);
     });
 
-}
+} */
 
 
 export const memeber = createSlice({

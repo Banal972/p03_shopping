@@ -88,15 +88,20 @@ function Detail() {
 
     function buy(){
 
-        /* navigate('/complete',{state: [
-            {
-                id : shoes.id,
-                src : shoes.src,
-                name : shoes.naxme,
-                price : shoes.price,
-                amount : 1,
-            }
-        ]}); */
+        if(shoes){
+            const buy = [
+                {
+                    id : shoes.id,
+                    src : shoes.src,
+                    name : shoes.name,
+                    price : shoes.price,
+                    amount : 1,
+                }
+            ];
+
+            navigate('/buy',{state : buy});
+
+        }
 
     }
 
@@ -258,13 +263,13 @@ function Detail() {
                                                     </h2>
                                                     <p className="price">
                                                         {
-                                                            /* elm.sale ? 
+                                                            elm.sale ? 
                                                                 <Sale 
                                                                     sale={elm.sale} 
                                                                     price={elm.price} 
                                                                 />
                                                             :
-                                                            elm.price  */
+                                                            elm.price 
                                                         }
                                                         원
                                                     </p>

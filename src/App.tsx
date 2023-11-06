@@ -19,6 +19,7 @@ import Detail from './router/Detail/Detail';
 
 // 권한라우터
 import AuthRouter from './Hoc/AuthRouter';
+import Buy from './router/Buy/Buy';
 
 
 function App() {
@@ -45,6 +46,8 @@ function App() {
             <Route path=":id" element={<Detail/>}/>
             {/* <Route path="write/:id" element={<Wirte/>} /> */}
           </Route>
+
+          <Route path='buy' element={<Buy/>} />
 
           <Route path='sign' element={<Sign/>}/>
 

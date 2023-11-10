@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // 아이콘
 import { BsCart2,BsPerson } from "react-icons/bs"
+import {AiFillGithub} from "react-icons/ai"
 
 // 리덕스
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,9 +13,6 @@ import { logoutAction } from '../../store/user';
 // 모듈
 import $ from "jquery"
 import gsap from "gsap"
-
-// 스타일
-import "./Header.scss";
 
 // 이미지
 import arr from "../../asset/img/snb_dep2Arr.png"
@@ -89,7 +87,7 @@ function Header({pathSplit}:{pathSplit : String}) {
   },[]);
 
   const menuTl = useMemo(()=>gsap.timeline({paused : true }),[]);
-  const [menuClick,setMenuClick] = useState(true);
+  const [menuClick,setMenuClick] = useState(false);
 
   useEffect(()=>{
 
@@ -112,16 +110,16 @@ function Header({pathSplit}:{pathSplit : String}) {
 
   const menuHanlder = ()=>{
     if(menuClick){
-      menuTl.restart();
+      menuTl.reverse();
       setMenuClick(false);
     }else{
-      menuTl.reverse();
+      menuTl.restart();
       setMenuClick(true);
     }
   }
 
   return (
-    <header className={`header ${subHeader? "sub" : ""}`}>
+    <header className={`header ${subHeader? "sub" : ""} ${menuClick && "active"}`}>
       <div className="_k_wrap" data-max={"1600"}>
         <div className="logo">
           <Link to={"/"}>
@@ -189,7 +187,22 @@ function Header({pathSplit}:{pathSplit : String}) {
 
       </div>
 
-      <div className="full-menu">
+      <div className={'mob-menu'}>
+        <ul className="m-gnb">
+          <li><Link to={"/list/999"}>BEST</Link></li>
+          <li><Link to={"/list/001"}>스니커즈</Link></li>
+          <li><Link to={"/list/002"}>스포츠</Link></li>
+          <li><Link to={"/list/003"}>샌들/슬리퍼</Link></li>
+          <li><Link to={"/list/456"}>SALE</Link></li>
+        </ul>
+
+        <div className="bottom">
+            <p className='p'>
+                이 사이트는 Banal(김지유) <span> <AiFillGithub/><a href="https://github.com/Banal972" target='_blank'>https://github.com/Banal972</a> </span> 포트폴리오 사이트 입니다.
+            </p>
+
+            <p className='copy'>Copyright 2023.Banal(김지유). All rights reserved.</p>
+        </div>
 
       </div>
 

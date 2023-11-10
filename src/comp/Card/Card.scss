@@ -1,15 +1,17 @@
+@import "../../asset/scss/lib.scss";
+
 .cardLayout {
 
-    display: grid;
+    display: grid; font-size: 18px; 
 
     .item {
 
         overflow: hidden;
 
         .img {
-            position: relative; overflow: hidden; border-radius: 5px; cursor: pointer; border: 1px solid #eee;
+            position: relative; overflow: hidden; border-radius: em(5,18); cursor: pointer; border: 1px solid #eee;
             .bg {
-                position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: no-repeat center; background-size: 100% auto;
+                position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: no-repeat center; background-size: cover;
                 transition: transform .4s;
             }
             
@@ -26,29 +28,36 @@
 
         .tbx {
 
-            font-size: 18px; padding: 1em 0 0 0;
+            padding: em(15,18) 0 0 0;
 
             .tit {
                 font-weight: bold;
             }
             
             .price {
-                font-size: 18px; margin-top: 0.5em;
+                font-size: 1em; margin-top: em(10,18);
                 .sales {
-                    text-decoration: line-through; font-size: 14px; color: #555;
+                    text-decoration: line-through; font-size: em(14,18); color: #555;
                 }
             }
 
             .des {
                 display: -webkit-box; -webkit-line-clamp: 2; overflow: hidden; text-overflow: ellipsis;
-                -webkit-box-orient: vertical; height: 3em; line-height: 1.5em; font-size: 14px; margin-top: 0.5em; color: #555; white-space: pre-line
+                -webkit-box-orient: vertical; height: 3em; line-height: 1.5em; font-size: em(14,18);margin-top: 0.5em; color: #555; white-space: pre-line
             }
 
             .icon {
-                margin-top: 5px; cursor: pointer; display: inline-block;
+                margin-top: em(5,18); cursor: pointer; display: inline-block;
             }
 
         }
+
+    }
+
+
+    @include max(820){
+
+        font-size: 16px;
 
     }
 

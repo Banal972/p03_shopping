@@ -43,7 +43,7 @@ function Detail() {
         setShoes(finds);
         webResize();
 
-        window.scrollTo(0,0);
+        window.scrollTo(0,0); // 페이지를 맨위로 올리기
 
     },[id]);
 
@@ -104,8 +104,6 @@ function Detail() {
         }
 
     }
-
-
 
   return (
     <>

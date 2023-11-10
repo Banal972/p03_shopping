@@ -9,3 +9,8 @@
         @content;
     }
 }
+
+
+@function em($size,$fontSize){
+    @return $size/$fontSize*1em
+}

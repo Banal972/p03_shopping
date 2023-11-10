@@ -1,3 +1,233 @@
+@import "../../asset/scss/lib.scss";
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ Header ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+.header {
+
+    position: fixed; z-index: 99999; top: 0; left: 0; width: 100%; color: #fff; transition: .4s; transition-property: background;
+
+    ._k_wrap {
+        display: flex; justify-content: space-between; height: 75px; align-items: center;
+    }
+
+    .logo {
+        position: relative; z-index: 3; filter: invert(1);
+    }
+
+    .gnb {
+        display: flex; height: 100%; font-weight: 500; font-size: 16px; position: absolute; left: 50%; transform: translateX(-50%);
+        a {
+            padding: 0 1em; height: 100%; display: flex; align-items: center;
+        }
+    }
+
+    .sbx {
+        display: flex; align-items: center;
+    }
+
+    .snb {
+        display: flex; align-items: center;
+        .icon {
+            font-size: 24px; position: relative;
+
+            p {
+                position: absolute; right: 0; top: 0; background: red; color: #fff; font-size: 10px; width: 12.5px; height: 12.5px; display: flex; align-items: center; justify-content: center; border-radius: 1000px; overflow: hidden; transform: translate(25%,-25%);
+            }
+
+            + .icon {
+                margin-left: 15/24*1em;
+                svg {
+                    vertical-align: middle;  cursor: pointer;
+                }
+            }
+
+            .dep2 {
+                position: absolute; font-size: 14px; left: 50%; top: 100%; margin-top: 15px; transform: translate(-50%,0); display: none; color: #000;
+                .up {
+                    position: absolute; top: 0; left: 50%; transform: translate(-50%,-75%); z-index: 3;
+                }
+
+                ul {
+                    position: relative; z-index: 2; background: #fff; padding: 0.75em 1em; white-space: nowrap; border: 1px solid #ddd; text-align: center; border-radius: 5px;
+                    li {
+                        + li {
+                            margin-top: 0.5em;
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    .menu {
+        position: relative; width: 23px; height: 13px; margin-left: 40px; cursor: pointer; z-index: 3;
+        span {
+            position: absolute; left: 0; top: 0; width: 100%; transform: translateY(-50%);
+            background: #fff; display: block; height: 2px;
+
+            &:nth-of-type(2) {
+                top: 50%;
+            }
+
+            &:nth-of-type(3) {
+                top: 100%;
+            }
+
+        }
+    }
+
+
+    @include max(1024){
+
+        .gnb {
+            display: none;
+        }
+
+    }
+
+
+    @include max(820){
+
+        ._k_wrap {
+            height: 60px;
+        }
+
+        .logo {
+            width: 40px;
+        }
+
+        .menu {
+            margin-left: 20px;
+        }
+
+    }
+
+    // 서브페이지
+    &.sub {
+        background: #fff; color: #000; border-bottom: 1px solid #ddd;
+
+        .logo {
+            filter: none;
+        }
+
+        .menu {
+            span {background: #000;}
+        }
+    }
+
+    // 스크롤시
+    &.scroll {
+        background: #fff; color: #000; border-bottom: 1px solid #ddd;
+
+        .logo {
+            filter: none;
+        }
+
+        .menu {
+            span {background: #000;}
+        }
+    }
+
+    // 모바일 메뉴
+    &.active {
+
+        .menu {
+            span {
+                background: #000;
+            }
+        }
+
+        .mob-menu {
+            transform: translateX(0);
+        }
+
+    }
+
+
+    // 모바일메뉴
+    .mob-menu {
+        position: fixed; right: 0; top: 0; transform: translateX(100%); height: 100%; width: 85%; background: #fff; border-left: 1px solid #ddd; max-width: 380px; color: #000; font-size: 22px; box-sizing: border-box; padding-top: 75px; font-weight: 500; display: flex; flex-direction: column; transition: transform .4s;
+
+        .m-gnb {
+            padding: em(20,22) em(20,22);
+            li {
+                + li {margin-top: em(15,22); border-top: 1px solid #ccc; padding-top: em(15,22);}
+
+                a {
+                    display: block;
+                }
+
+            }
+        }
+
+        .bottom {
+            
+            font-size: 14px; background: #111; color: #fff; margin-top: auto; padding: em(20,14); word-break: keep-all;
+
+            .p {
+                line-height: 1.3;
+                span {
+                    display: inline-flex; align-items: center; vertical-align: middle; color: slateblue;
+                    svg {
+                        margin-right: 5px;
+                    }
+                }
+        
+            }
+        
+            .copy {
+                padding-top: 10px; margin-top: 10px; border-top: 1px solid #ffffff51;
+            }        
+
+        }
+
+        @include max(820){
+
+            padding-top: 60px; font-size: 20px;
+
+
+        }
+
+    }
+
+
+
+}
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ Footer ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+.footer {
+    background: #111; color: #fff; padding: 50px 0; font-size: 14px; line-height: 1.25; word-break: keep-all;
+
+    .top {
+        font-size: em(24,14);
+    }
+
+    .p {
+        margin-top: em(10,14);
+
+        span {
+            display: inline-flex; align-items: center; vertical-align: middle; color: slateblue;
+            svg {
+                margin-right: 5px;
+            }
+        }
+
+    }
+
+    .copy {
+        padding-top: 10px; margin-top: 10px; border-top: 1px solid #ffffff51;
+    }
+
+    @include max(480){
+        font-size: 12px;
+    }
+
+}
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ modal ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 .modal {
 
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;

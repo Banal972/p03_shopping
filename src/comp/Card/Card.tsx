@@ -66,7 +66,8 @@ function Card(props : CardType){
          data && data.map((elm,i)=>{
             return(
 
-              <div className="item" key={i} >
+              <>
+                <div className="item" key={i} >
 
                   <div className="img"  onClick={(e)=>{
                     navigate(`/detail/${elm.id}`);
@@ -102,6 +103,151 @@ function Card(props : CardType){
 
                   </div>
                 </div>
+                <div className="item" key={i} >
+
+                  <div className="img"  onClick={(e)=>{
+                    navigate(`/detail/${elm.id}`);
+                  }}>
+                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
+                  </div>
+
+                  <div className="tbx">
+
+                    <h2 className="tit">
+                      {elm.name}
+                    </h2>
+
+                    <p className="price">
+                      { 
+                        elm.sale ? 
+                        <Sale sale={elm.sale} price={elm.price} />
+                        :
+                        elm.price
+                      }
+                      원
+                    </p>
+
+                    <p className="des">
+                      {elm.description}
+                    </p>
+
+                    <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
+                        {
+                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
+                        }
+                    </div>
+
+                  </div>
+                </div>
+                <div className="item" key={i} >
+
+                  <div className="img"  onClick={(e)=>{
+                    navigate(`/detail/${elm.id}`);
+                  }}>
+                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
+                  </div>
+
+                  <div className="tbx">
+
+                    <h2 className="tit">
+                      {elm.name}
+                    </h2>
+
+                    <p className="price">
+                      { 
+                        elm.sale ? 
+                        <Sale sale={elm.sale} price={elm.price} />
+                        :
+                        elm.price
+                      }
+                      원
+                    </p>
+
+                    <p className="des">
+                      {elm.description}
+                    </p>
+
+                    <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
+                        {
+                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
+                        }
+                    </div>
+
+                  </div>
+                </div>
+                <div className="item" key={i} >
+
+                  <div className="img"  onClick={(e)=>{
+                    navigate(`/detail/${elm.id}`);
+                  }}>
+                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
+                  </div>
+
+                  <div className="tbx">
+
+                    <h2 className="tit">
+                      {elm.name}
+                    </h2>
+
+                    <p className="price">
+                      { 
+                        elm.sale ? 
+                        <Sale sale={elm.sale} price={elm.price} />
+                        :
+                        elm.price
+                      }
+                      원
+                    </p>
+
+                    <p className="des">
+                      {elm.description}
+                    </p>
+
+                    <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
+                        {
+                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
+                        }
+                    </div>
+
+                  </div>
+                </div>
+                <div className="item" key={i} >
+
+                  <div className="img"  onClick={(e)=>{
+                    navigate(`/detail/${elm.id}`);
+                  }}>
+                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
+                  </div>
+
+                  <div className="tbx">
+
+                    <h2 className="tit">
+                      {elm.name}
+                    </h2>
+
+                    <p className="price">
+                      { 
+                        elm.sale ? 
+                        <Sale sale={elm.sale} price={elm.price} />
+                        :
+                        elm.price
+                      }
+                      원
+                    </p>
+
+                    <p className="des">
+                      {elm.description}
+                    </p>
+
+                    <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
+                        {
+                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
+                        }
+                    </div>
+
+                  </div>
+                </div>
+              </>
 
             )
           }

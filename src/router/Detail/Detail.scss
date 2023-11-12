@@ -1,11 +1,9 @@
-// @import "../../asset/scss/config.scss";
-
 .detailView {
 
     padding-top: 75px;
 
     ._k_wrap {
-        display: flex; position: relative; align-items: flex-start; padding: 50px 0 75px;
+        display: flex; position: relative; align-items: flex-start; padding: 100px 0 155px; width: 90%;
     }
 
     .lbx {
@@ -282,12 +280,16 @@
     @media screen and (max-width:1024px) {
         
 
+        ._k_wrap {
+            width: 95%; 
+        }
+
         .lbx {
 
             .slide {
 
                 .bix {
-                    max-width: 350px;
+                    max-width: 350px; width: 70%;
                 }
 
             }
@@ -348,12 +350,36 @@
 
     }
 
+    
+    @media screen and (max-width:820px) {
+
+        padding-top: 50px;
+
+        ._k_wrap {
+            padding: 80px 0 100px;
+        }
+        
+        .rbx {
+
+            margin-left: 0; margin-top: 50px; position: static; top: 0;
+
+        }
+
+    }
+
+
     @media screen and (max-width:480px) {
         
         .lbx {
 
             .slide .sm button {
-                font-size: 35px;
+                font-size: 30px; padding: 0;
+                &.prev {
+                    margin-right: 10px;
+                }
+                &.next {
+                    margin-left: 10px;
+                }
             }
 
             .detail {

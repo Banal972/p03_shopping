@@ -166,12 +166,11 @@ function Main() {
                         {elm.name}
                       </h2>
                       <p className="price">
-                        {/* {
+                        {
                           elm.sale ?
                           <Sale sale={elm.sale} price={elm.price} />
                           : elm.price
-                        } */}
-                        
+                        }
                         원
                       </p>
                     </div>
@@ -193,6 +192,8 @@ function Main() {
         <div className="_k_wrap" data-max="1600">
           
           <div className="flex">
+
+            <Card offset={0} data={saleData} />
             
             <div className="banner">
               <div className="box">
@@ -212,8 +213,6 @@ function Main() {
               </div>
             </div>
 
-            <Card offset={0} data={saleData} />
-
           </div>
 
         </div>
@@ -222,6 +221,20 @@ function Main() {
     </div>
 
   )
+}
+
+function Sale({price, sale} : {price : any, sale : any}){
+
+  function saleCalc(sale : any, price: any){
+      return String( price - (price * sale/100) );
+  }
+
+  return(
+      <>
+          <span className="sales">{String(price)}</span> <span className='color00'>{saleCalc(sale,price)}</span>
+      </>
+  )
+
 }
 
 export default Main

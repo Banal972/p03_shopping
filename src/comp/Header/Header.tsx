@@ -56,10 +56,8 @@ function Header({pathSplit}:{pathSplit : String}) {
 
   // 카드값이 변할때마다
   useEffect(()=>{
-
     // 카드안에 갯수만큼 수정
     setCartAmount(cart.length);
-
   },[cart]);
 
   useEffect(()=>{
@@ -119,7 +117,7 @@ function Header({pathSplit}:{pathSplit : String}) {
   }
 
   return (
-    <header className={`header ${subHeader? "sub" : ""} ${menuClick && "active"}`}>
+    <header className={`header ${menuClick && "active"} ${subHeader? "sub" : ""}`}>
       <div className="_k_wrap" data-max={"1600"}>
         <div className="logo">
           <Link to={"/"}>
@@ -166,7 +164,6 @@ function Header({pathSplit}:{pathSplit : String}) {
                     <>
                       <li><Link to={"/slang"}>관심상품</Link></li>
                       <li><Link to={"/"}>주문내역</Link></li>
-                      <li><Link to={"/"}>배송조회</Link></li>
                       <li><Link to={"/"} onClick={logoutHandler}>로그아웃</Link></li>
                     </>
                   }

@@ -21,6 +21,7 @@ import $ from "jquery";
 import { ProductState } from "../../store/product";
 
 function Detail() {
+
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -34,33 +35,8 @@ function Detail() {
 
     const [taplist,setTaplist] = useState(true);
 
-    // 이펙트
-
-    useEffect(()=>{ // 번호에 맞는 신발
-
-        const finds = productData.find((a)=>a.id === Number(id));
-
-        setShoes(finds);
-        webResize();
-
-        window.scrollTo(0,0); // 페이지를 맨위로 올리기
-
-    },[id]);
-
-    useEffect(()=>{ // 랜덤 신발
-
-        let rendom = [];
-
-        for(let i= 0; i < 8; i++){
-            let randomNum = Math.floor(Math.random()* productData.length);
-            rendom.push(productData[randomNum]);
-        }
-
-        setRShoes(rendom);
-
-    },[]);
-
-    function cartAdd(){ // 장바구니 추가기능
+    // 장바구니 추가기능
+    function cartAdd(){ 
 
         if(shoes){ // shoes가 존재하면
 
@@ -86,6 +62,7 @@ function Detail() {
 
     }
 
+    // 구매버튼
     function buy(){
 
         if(shoes){
@@ -105,6 +82,74 @@ function Detail() {
 
     }
 
+    // 사이즈 클릭
+    function sizeClick(e : React.MouseEvent<HTMLButtonElement, MouseEvent>){
+        $('.detailView .rbx .layr dl dd.size button').removeClass('active');
+        $(e.target).addClass('active');
+    }
+    
+    
+    // 이펙트
+
+    useEffect(()=>{ // 번호에 맞는 신발
+
+        const finds = productData.find((a)=>a.id === Number(id));
+        setShoes(finds);
+
+    },[id]);
+
+    useEffect(()=>{ // 랜덤 신발
+
+        let rendom = [];
+
+        for(let i= 0; i < 8; i++){
+            let randomNum = Math.floor(Math.random()* productData.length);
+            rendom.push(productData[randomNum]);
+        }
+
+        setRShoes(rendom);
+
+    },[]);
+
+
+    //반응형
+
+    function webResize(){
+        
+        if(window.innerWidth >= 821){
+    
+            if($('.detailView ._k_wrap').children('.rbx').length <= 0){
+    
+                $('.detailView ._k_wrap').append($('.rbx'));
+    
+            }
+    
+        }else{
+    
+            if($('.detailView ._k_wrap .lbx').find('.rbx').length <= 0){
+
+                $('.detailView ._k_wrap .slide').after($('.rbx'));
+    
+            }
+    
+        }
+    
+    } 
+
+    useEffect(()=>{
+
+        window.scrollTo(0,0); // 페이지를 맨위로 올리기
+        webResize();
+
+        window.addEventListener('resize',webResize);
+
+        return ()=>{
+            window.removeEventListener('resize',webResize);
+        }
+
+    },[shoes]);
+
+
   return (
     <>
         {
@@ -122,8 +167,8 @@ function Detail() {
                                     effect="fade"
                                 >
                                     {
-                                        new Array(5).fill(0).map((e)=>(
-                                            <SwiperSlide key={e}>
+                                        new Array(5).fill(0).map((e,i)=>(
+                                            <SwiperSlide key={i}>
                                                 <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${shoes.src})`}}></div>
                                             </SwiperSlide>
                                         ))
@@ -136,7 +181,7 @@ function Detail() {
                                 </button>
                                 <Swiper
                                     modules={[Navigation]}
-                                    slidesPerView={3}
+                                    slidesPerView={2}
                                     spaceBetween={10}
                                     loop={false}
                                     navigation={{
@@ -144,19 +189,27 @@ function Detail() {
                                         nextEl : '.sm .next'
                                     }}
                                     breakpoints={{
-                                        480 : {
+                                        281 : {
                                             slidesPerView : 3,
                                             spaceBetween : 15
                                         },
-                                        1024 : {
+                                        481 : {
+                                            slidesPerView : 4,
+                                            spaceBetween : 15
+                                        },
+                                        821 : {
+                                            slidesPerView : 3,
+                                            spaceBetween : 20
+                                        },
+                                        1025 : {
                                             slidesPerView : 4,
                                             spaceBetween : 20
                                         }
                                     }}
                                 >
                                     {
-                                        new Array(6).fill(0).map((e)=>(
-                                            <SwiperSlide key={e}>
+                                        new Array(6).fill(0).map((e,i)=>(
+                                            <SwiperSlide key={i}>
                                                 <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${shoes.src})`}}></div>
                                             </SwiperSlide>
                                         ))
@@ -311,10 +364,14 @@ function Detail() {
                                     <dd className="size">
                                         {
                                             shoes.size.map((elm,i)=>(
-                                                <button onClick={(e)=>{
-                                                    setSize(elm);
-                                                    sizeClick(e);
-                                                }} className={i === 0 ? 'active' : undefined} key={i}>{String(elm)}</button>
+                                                <button 
+                                                    onClick={(e)=>{
+                                                        setSize(elm);
+                                                        sizeClick(e);
+                                                    }} 
+                                                    className={i === 0 ? 'active' : undefined} 
+                                                    key={i}
+                                                > {String(elm)} </button>
                                             ))
                                         }
                                     </dd>
@@ -366,39 +423,10 @@ function Sale({price, sale} : {price : any, sale : any}){
 
     return(
         <>
-            <span className="sales">{String(price)}</span> {saleCalc(sale,price)}
+            <span className="sales">{String(price)}</span> <span className='color00'>{saleCalc(sale,price)}</span>
         </>
     )
 
 }
-
-function sizeClick(e : React.MouseEvent<HTMLButtonElement, MouseEvent>){
-    $('.detailView .rbx .layr dl dd.size button').removeClass('active');
-    $(e.target).addClass('active');
-}
-
-function webResize(){
-
-    if(window.innerWidth >= 1024){
-
-        if($('.detailView ._wrap').children('.rbx').length <= 0){
-
-            $('.detailView ._wrap').append($('.rbx'));
-
-        }
-
-    }else{
-
-        if($('.detailView ._wrap .lbx').find('.rbx').length <= 0){
-
-            $('.detailView ._wrap .slide').after($('.rbx'));
-
-        }
-
-    }
-
-}
-
-$(window).resize(webResize);
 
 export default Detail

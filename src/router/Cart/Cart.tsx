@@ -237,9 +237,7 @@ function Sale(props : {sale : number,price : number}){
   }
 
   return(
-    <>
-      {saleCalc(props.sale,props.price)}
-    </>
+    <span className="color00">{saleCalc(props.sale,props.price)}</span>
   )
 
 }

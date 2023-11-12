@@ -23,16 +23,42 @@ export interface ProductState {
     hit : number // 조회수
 }
 
-const productTagInitialState : String[] = [
-    "전체",
-    "운동화",
-    "농구화",
-    "등산화",
-    "축구화",
-    "부츠",
-    "샌들",
-    "실내화",
-    "기타"
+export interface ProudctTag {
+    tagNumber : string  // 태그번호
+    name : string[]
+}
+
+const productTagInitialState : ProudctTag[] = [
+    {
+        tagNumber : "001",
+        name : ["전체"]
+    },
+    {
+        tagNumber : "002",
+        name : ["전체"]
+    },
+    {
+        tagNumber : "003",
+        name : ["전체"]
+    },
+    {
+        tagNumber : "456",
+        name : ["전체"]
+    },
+    {
+        tagNumber : "999",
+        name : [
+            "전체",
+            "운동화",
+            "농구화",
+            "등산화",
+            "축구화",
+            "부츠",
+            "샌들",
+            "실내화",
+            "기타"
+        ]
+    }
 ]
 
 const productInitialState : ProductState[] = [

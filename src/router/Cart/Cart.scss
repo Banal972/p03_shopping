@@ -76,8 +76,12 @@
             p.sale {
                 font-size: 14px; text-decoration: line-through; color: #555; white-space: nowrap;
             }
+
             p.price {
                 margin-top: 5px; font-weight: bold; white-space: nowrap;
+                .color00 {
+                    color: #e02626;
+                }
             }
 
             .amount {

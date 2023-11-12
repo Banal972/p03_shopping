@@ -1,8 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import { useNavigate } from 'react-router'
-import "./Card.scss";
 import { AiOutlineHeart,AiFillHeart } from "react-icons/ai";
 import { useDispatch, useSelector, useStore } from 'react-redux';
+
+// SCSS
+import "./Card.scss";
+
+// 스토어
 import { RootState } from '../../app/store';
 import { addSlangAction,removeSlangAction } from '../../store/user';
 import { ProductState } from '../../store/product';
@@ -66,8 +70,7 @@ function Card(props : CardType){
          data && data.map((elm,i)=>{
             return(
 
-              <>
-                <div className="item" key={i} >
+              <div className="item" key={i} >
 
                   <div className="img"  onClick={(e)=>{
                     navigate(`/detail/${elm.id}`);
@@ -81,14 +84,13 @@ function Card(props : CardType){
                       {elm.name}
                     </h2>
 
-                    <p className="price">
+                    <p className='price'>
                       { 
                         elm.sale ? 
                         <Sale sale={elm.sale} price={elm.price} />
                         :
                         elm.price
-                      }
-                      원
+                      }원
                     </p>
 
                     <p className="des">
@@ -103,151 +105,6 @@ function Card(props : CardType){
 
                   </div>
                 </div>
-                <div className="item" key={i} >
-
-                  <div className="img"  onClick={(e)=>{
-                    navigate(`/detail/${elm.id}`);
-                  }}>
-                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
-                  </div>
-
-                  <div className="tbx">
-
-                    <h2 className="tit">
-                      {elm.name}
-                    </h2>
-
-                    <p className="price">
-                      { 
-                        elm.sale ? 
-                        <Sale sale={elm.sale} price={elm.price} />
-                        :
-                        elm.price
-                      }
-                      원
-                    </p>
-
-                    <p className="des">
-                      {elm.description}
-                    </p>
-
-                    <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
-                        {
-                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
-                        }
-                    </div>
-
-                  </div>
-                </div>
-                <div className="item" key={i} >
-
-                  <div className="img"  onClick={(e)=>{
-                    navigate(`/detail/${elm.id}`);
-                  }}>
-                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
-                  </div>
-
-                  <div className="tbx">
-
-                    <h2 className="tit">
-                      {elm.name}
-                    </h2>
-
-                    <p className="price">
-                      { 
-                        elm.sale ? 
-                        <Sale sale={elm.sale} price={elm.price} />
-                        :
-                        elm.price
-                      }
-                      원
-                    </p>
-
-                    <p className="des">
-                      {elm.description}
-                    </p>
-
-                    <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
-                        {
-                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
-                        }
-                    </div>
-
-                  </div>
-                </div>
-                <div className="item" key={i} >
-
-                  <div className="img"  onClick={(e)=>{
-                    navigate(`/detail/${elm.id}`);
-                  }}>
-                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
-                  </div>
-
-                  <div className="tbx">
-
-                    <h2 className="tit">
-                      {elm.name}
-                    </h2>
-
-                    <p className="price">
-                      { 
-                        elm.sale ? 
-                        <Sale sale={elm.sale} price={elm.price} />
-                        :
-                        elm.price
-                      }
-                      원
-                    </p>
-
-                    <p className="des">
-                      {elm.description}
-                    </p>
-
-                    <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
-                        {
-                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
-                        }
-                    </div>
-
-                  </div>
-                </div>
-                <div className="item" key={i} >
-
-                  <div className="img"  onClick={(e)=>{
-                    navigate(`/detail/${elm.id}`);
-                  }}>
-                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
-                  </div>
-
-                  <div className="tbx">
-
-                    <h2 className="tit">
-                      {elm.name}
-                    </h2>
-
-                    <p className="price">
-                      { 
-                        elm.sale ? 
-                        <Sale sale={elm.sale} price={elm.price} />
-                        :
-                        elm.price
-                      }
-                      원
-                    </p>
-
-                    <p className="des">
-                      {elm.description}
-                    </p>
-
-                    <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
-                        {
-                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
-                        }
-                    </div>
-
-                  </div>
-                </div>
-              </>
 
             )
           }
@@ -266,7 +123,7 @@ function Sale(props:{sale:number,price:number}){
 
   return(
     <>
-      <span className="sales">{props.price}</span> {saleCalc(props.sale,props.price)}
+      <span className="sales">{props.price}</span> <span className='color00'>{saleCalc(props.sale,props.price)}</span>
     </>
   )
 

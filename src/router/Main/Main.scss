@@ -110,7 +110,7 @@
         }
 
         .c-t {
-            flex: 1; margin-right: 50px; position: sticky; top: 50px;
+            flex: 1; margin-right: 50px; position: sticky; top: (30 + 75)*1px;
         }
 
         .cardLayout {
@@ -279,6 +279,9 @@
                         .sales {
                             text-decoration: line-through; font-size: 14px; color: #555;
                         }
+                        .color00 {
+                            color: #e02626;
+                        }
                     }
         
                 }
@@ -371,7 +374,7 @@
             display: flex; align-items: flex-start;
 
             .banner {
-                flex: 0.8; max-width: 450px; position: relative; background: #000 url(/asset/img/main/banner02.jpg) no-repeat center/cover; position: sticky; top: 30px;
+                flex: 0.8; max-width: 450px; position: relative; background: #000 url(/asset/img/main/banner02.jpg) no-repeat center/cover; position: sticky; top: (30 + 75)*1px;
 
                 &::before {
                     position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: rgba($color: #000, $alpha: 0.5); content: '';
@@ -414,7 +417,7 @@
             }
 
             .cardLayout {
-                flex: 1.5; grid-template-columns: repeat(5,1fr); margin-left: 40px; gap: 20px 15px;
+                flex: 1.5; grid-template-columns: repeat(5,1fr); margin-right: 40px; gap: 20px 15px;
             }
 
         }
@@ -452,7 +455,7 @@
                 }
 
                 .cardLayout {
-                    grid-template-columns: repeat(2,1fr);
+                    grid-template-columns: repeat(2,1fr); margin-right: 20px;
                 }
             }
 
@@ -461,9 +464,10 @@
         @include max(480){
 
             .flex {
-                display: block;
+                display: flex; flex-direction: column-reverse;
+
                 .banner{
-                    width: 75%; min-width: 0;
+                    width: 75%; min-width: 0; position: relative; top: 0;
 
                     .box {
                         dl {
@@ -481,7 +485,7 @@
                 }
 
                 .cardLayout {
-                    grid-template-columns: repeat(2,1fr); margin-left: 0; margin-top: 50px;
+                    grid-template-columns: repeat(2,1fr); margin-right: 0; margin-top: 50px;
                 }
             }
 

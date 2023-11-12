@@ -1,10 +1,18 @@
 import React,{useEffect,useState,useRef} from 'react'
-import Card from '../../comp/Card/Card'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 
+// 컴포넌트
+import Card from '../../comp/Card/Card'
+
+// 인터페이스
+import {ProudctTag} from "../../store/product"
+
+// SCSS
 import "./List.scss";
+
+// Store
 import { ProductState } from '../../store/product';
 
 function List() {
@@ -20,23 +28,28 @@ function List() {
   const productData = useSelector((state : RootState)=>state.product);
 
   // 태그 가져오기
-  const productTagData = useSelector((state : RootState)=>state.productTag);
+  const tagData = useSelector((state : RootState)=>state.productTag);
+  const [productTag,setProductTag] = useState<ProudctTag | undefined>(undefined);
+
+  useEffect(()=>{
+
+    const filter = tagData.filter(e=>e.tagNumber === cate)[0];
+    setProductTag(filter);
+
+  },[cate]);
 
   // 태그 선택
   const [selectTag,setSelectTag] = useState('전체');
-
   const [offset,setOffset] = useState(0);
   const [limit,setLimit] = useState(10);
   
   // 데이터 1차 공정
-  
   let [filterProductData,setFilterProductData] = useState<ProductState[]>();
 
   // 태그 클릭 데이터
   const [tagFilterProductData,setTagFilterProductData] = useState<ProductState[]>([]);
 
   // 클릭데이터
-
   const tagHandler = (e:string)=>{
 
     setSelectTag(e); // 셀렉버튼
@@ -72,6 +85,7 @@ function List() {
 
     // 타이틀수정
     switch(cate){
+
       case "001" :
         setImgSrc('listBg01');
         setTitle('스니커즈');
@@ -111,7 +125,6 @@ function List() {
 
   },[filterProductData])
 
-  
 
   return (
     <div className='_list'>
@@ -124,8 +137,8 @@ function List() {
 
             <ul className='tag'>
               { 
-                productTagData && 
-                productTagData.map((el,i)=>
+                productTag &&
+                productTag.name.map((el,i)=>
                   <li 
                     key={i} 
                     className={el == selectTag as String ? "act" : undefined} 

@@ -13,6 +13,9 @@ html::-webkit-scrollbar-thumb {background-color: #2f3542; border-radius: 10px;}
     &[data-max="1480"]{
         max-width: 1480px;
     }
+    &[data-max="1280"]{
+        max-width: 1280px;
+    }
     &[data-max="850"]{
         max-width: 850px;
     }
@@ -31,7 +34,7 @@ input,button {
 }
 
 .t-title {
-    font-size: 40px; margin-bottom: 25px; font-weight: bold; text-align: center;
+    font-size: 40px; margin-bottom: 75px; font-weight: bold; text-align: center;
 
     @include max(480){
         font-size: 32px;

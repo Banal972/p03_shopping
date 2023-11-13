@@ -1,41 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import {BsBoxSeam} from "react-icons/bs"
 
 // 스타일
 import "./Complete.scss";
-
-interface BuyInterFace{
-    id : string
-    src : string
-    name : string
-    price : number
-    size : number
-    sale : number
-    amount : number
-}
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
+import { ProductState } from "../../store/product";
+import { BuyProduct, HistoryInterface } from "../../store/hitory";
 
 function Complete() {
 
-    const location = useLocation();
-    const [buyItem,setBuyItem] = useState<BuyInterFace[]>(location.state);
-    const [total,setTotal] = useState(0);
+    const {token} = useParams();
 
-    // 총액 계산
+    const user = useSelector((state:RootState)=>state.user);
+    const history = useSelector((state:RootState)=>state.history);
+    const [item,setItem] = useState<HistoryInterface>();
+
     useEffect(()=>{
 
-        let allPrice = 0;
+        const filter = history.filter(e=>{
+            return e.token === Number(token) && e.user === user.userID
+        })[0];
 
-        buyItem.forEach((elm)=>{
-            elm.sale ? 
-                allPrice += (elm.price - (elm.price * elm.sale/100)) * elm.amount
-            :
-                allPrice += elm.price * elm.amount;
-            });
+        setItem(filter);
 
-        setTotal(allPrice);
-
-    },[]);
+    },[token]);
 
     return (
         <div className="_complete">
@@ -43,13 +33,14 @@ function Complete() {
 
                 <div className="tbx">
                     <div className="icon"><BsBoxSeam/></div>
-                    <h4>주문이 완료되었습니다.</h4>
+                    <h4>결제가 완료되었습니다.</h4>
                 </div>
 
                 <ul className="grid">
 
                     {
-                        buyItem.map((a,i)=>(
+                        item ?
+                        item?.buyItem.map((a,i)=>(
                             <li key={i}>
 
                                 <div className="tup">
@@ -61,28 +52,28 @@ function Complete() {
                                             a.sale !== 0 && <div className="tg">SALE</div>
                                         }
                                         <p className="name">{a.name}</p>
-                                        <p className="option">└ 신발 사이즈 - {a.size}</p>
+                                        <p className="option">└ 신발 사이즈 - {a.product_size}</p>
                                     </div>
 
                                 </div>
 
                                 <div className="tbm">
                                     <p> 
-                                        주문금액 : {a.amount}개 <span>{a.price} 원</span> 
+                                        구매 갯수 : {a.product_amount}개 <span>{a.price * a.product_amount} 원</span> 
                                     </p>
                                     {
                                         a.sale !== 0 && <p> 할인율 : <span>{a.sale} %</span> </p>
                                     }
                                     <p className="last"> 
-                                        결제금액 <span>
+                                        결제금액 <span className={a.sale ? "color01" : ""}>
                                             {
                                                 a.sale ? 
                                                 <>
-                                                    <i>{a.price}</i> { a.price - (a.price * a.sale/100)}
+                                                    <i>{a.price * a.product_amount}</i> { (a.price - (a.price * a.sale/100) ) * a.product_amount}
                                                 </>
                                                 :
                                                 <>
-                                                    {a.price}
+                                                    {a.price * a.product_amount}
                                                 </>
                                             }
                                             원
@@ -93,11 +84,13 @@ function Complete() {
 
                             </li>       
                         ))
+                        : "오류"
                     }
 
                 </ul>
 
-                <p className="all">총 결제금액 <span>{total} 원</span></p>
+                <p className="delivery">배송비 <span>{item?.total_pay.delivery_pay} 원</span></p>
+                <p className="all">총 결제금액 <span>{item?.total_pay.total} 원</span></p>
 
                 <div className="btn">
                     <Link to={'/'}>주문내역</Link>

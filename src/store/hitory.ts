@@ -1,43 +1,36 @@
 import { createSlice,PayloadAction } from "@reduxjs/toolkit"
+import { ProductState } from "./product"
+
+export interface BuyProduct extends ProductState{
+    product_size : number
+    product_amount : number
+}
+  
 
 export interface HistoryInterface {
-    buyToken : number
-    userID : string
-    name : string
-    src : string
-    size : number
-    price : number
-    buydate : Date
+    user : String | undefined
+    token : number
+    date : string
+    buyItem : BuyProduct[]
+    delivery : {
+        request_select: string;
+        request_input: string;
+        d_name: String | undefined;
+        d_phone: String | undefined;
+        d_addr1: String | undefined;
+        d_addr2: String | undefined;
+    }
+    pay : string
+    total_pay : {
+        total: number;
+        total_product: number;
+        total_sale: number;
+        delivery_pay: number;
+    }
 }
 
 const hitoryState : HistoryInterface[] = [
-    {
-        buyToken : 12321321321,
-        userID : "admin",
-        name : "신발",
-        src : "/img/shoes/sneakers/high/high01.jpg",
-        size : 230,
-        price : 25000,
-        buydate : new Date()
-    },
-    {
-        buyToken : 12321321321,
-        userID : "admin",
-        name : "신발",
-        src : "/img/shoes/sneakers/high/high01.jpg",
-        size : 230,
-        price : 25000,
-        buydate : new Date()
-    },
-    {
-        buyToken : 12321321321,
-        userID : "test",
-        name : "신발",
-        src : "/img/shoes/sneakers/high/high01.jpg",
-        size : 230,
-        price : 25000,
-        buydate : new Date()
-    }
+
 ]
 
 export const history = createSlice({

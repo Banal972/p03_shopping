@@ -45,7 +45,7 @@ export const user = createSlice({
             }
 
             // 세션에 저장
-            localStorage.setItem('user',JSON.stringify(state));
+            // localStorage.setItem('user',JSON.stringify(state));
 
         },
         removeSlangAction(state,action: PayloadAction<Number|String>){
@@ -74,8 +74,12 @@ const memeberInitialState :UserInterface[] = [
         userID : "admin",
         password : "qq1234",
         email : "admin@test.com",
+        name: "어드민",
         nickname : "어드민",
-        address : "주소",
+        zipcode: "21405",
+        address: "인천 부평구 경원대로1232번길 2 (산곡동)",
+        address2: "21321",
+        phone: "01012345678"
     },
     {
         userID: "test",

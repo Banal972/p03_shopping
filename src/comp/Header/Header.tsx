@@ -23,8 +23,6 @@ function Header({pathSplit}:{pathSplit : String}) {
   // 서브페이지 Header가 블랙으로 시작해야할경우
   let subHeader = true;
 
-  console.log(pathSplit);
-
   switch(pathSplit){
     case "" :
     case "list" :

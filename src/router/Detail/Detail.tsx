@@ -88,14 +88,9 @@ function Detail() {
 
             const buy = [
                 {
-                    user : userData?.userID,
-                    id : shoes.id,
-                    src : shoes.src,
-                    name : shoes.name,
-                    price : shoes.price,
-                    sale : shoes.sale ? shoes.sale : 0,
-                    size : size,
-                    amount : 1,
+                    product_id : shoes.id,
+                    product_size : size,
+                    product_amount: amount,
                 }
             ];
 

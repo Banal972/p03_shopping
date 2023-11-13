@@ -21,7 +21,8 @@ import Slang from './router/Slang/Slang';
 import Detail from './router/Detail/Detail';
 import Buy from './router/Buy/Buy';
 import Complete from './router/Complete/Complete';
-import History from './router/History/History';
+import History from './router/History/Index/History';
+import More from './router/History/More/More';
 
 // 권한라우터
 import AuthRouter from './Hoc/AuthRouter';
@@ -70,10 +71,13 @@ function App() {
           <Route path='buy' element={<Buy/>} />
 
           {/* 구매 완료페이지 */}
-          <Route path='complete' element={<Complete/>} />
+          <Route path='complete/:token' element={<Complete/>} />
 
           {/* 구매내역 */}
-          <Route path='history' element={<History/>} />
+          <Route path='history'>
+            <Route index element={<History/>} />
+            <Route path='more/:token' element={<More/>} />
+          </Route>
 
 
         </Route>

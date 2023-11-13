@@ -47,7 +47,7 @@ function Card(props : CardType){
   const iconHandler = (e:React.MouseEvent<HTMLDivElement>,elm:any)=>{
 
     // 로그인이 안되어있으면
-    if(!user){
+    if(Object.keys(user).length === 0){
       window.alert('로그인을 해야 찜을 하실수있습니다.') 
       navigate('/login');
       return;

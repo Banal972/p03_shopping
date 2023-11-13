@@ -21,15 +21,14 @@ import logo from "../../asset/img/logo.svg"
 function Header({pathSplit}:{pathSplit : String}) {
 
   // 서브페이지 Header가 블랙으로 시작해야할경우
-  let subHeader = false;
+  let subHeader = true;
+
+  console.log(pathSplit);
 
   switch(pathSplit){
-    case "login" : 
-    case "detail" :
-    case "sign" : 
-    case "cart" :
-    case "buy" :
-      subHeader = true;
+    case "" :
+    case "list" :
+      subHeader = false;
     break
   }
 
@@ -155,7 +154,7 @@ function Header({pathSplit}:{pathSplit : String}) {
                 <ul>
 
                   {
-                    !user?
+                    Object.keys(user).length === 0 ?
                     <>
                       <li><Link to={"/login"}>로그인</Link></li>
                       <li><Link to={"/sign"}>회원가입</Link></li>
@@ -163,7 +162,7 @@ function Header({pathSplit}:{pathSplit : String}) {
                     :
                     <>
                       <li><Link to={"/slang"}>관심상품</Link></li>
-                      <li><Link to={"/"}>주문내역</Link></li>
+                      <li><Link to={"/history"}>주문내역</Link></li>
                       <li><Link to={"/"} onClick={logoutHandler}>로그아웃</Link></li>
                     </>
                   }

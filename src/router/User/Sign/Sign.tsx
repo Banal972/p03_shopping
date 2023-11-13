@@ -1,18 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useDaumPostcodePopup } from "react-daum-postcode"
-import "./Sign.scss";
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
-import { addAction } from '../../store/user';
+import { useNavigate } from 'react-router-dom';
+
+// SCSS
+import "./Sign.scss";
+
+// Redux
+import { RootState } from '../../../app/store';
+import { addAction } from '../../../store/user';
 
 function Sign() {
+    
 
+    // 주소찾기 lib
     const open = useDaumPostcodePopup("//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js");
 
+    // 내비게이터
+    const navigator = useNavigate();
+
+    // 디스패치
     const dispath = useDispatch();
 
+    // 멤버
     const memberData = useSelector((state:RootState)=>state.memeber);
 
+    // 데이터
     const [term,setTerm] = useState(false);
     const [id,setId] = useState('');
     const [pass,setPass] = useState('');
@@ -26,7 +39,13 @@ function Sign() {
     const [phoe2,setPhone2] = useState('');
     const [phoe3,setPhone3] = useState('');
     const [email,setEmail] = useState('');
+
+    // 동의
+    const termHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        setTerm(e.target.checked);
+    }
     
+    // 우편번호
     const zipHandleComplete = (data : any) => {
         
         let zipcode = data.zonecode;
@@ -47,18 +66,17 @@ function Sign() {
         setAdd(fullAddress);
     };
     
+    // 주소찾기 버튼
     const zipHandleClick = () => {
         open({ onComplete: zipHandleComplete });
     };
 
+    // 인풋 이벤트
     const inputHandler = (e:React.ChangeEvent<HTMLInputElement>,a: React.Dispatch<React.SetStateAction<string>>)=>{
         a(e.target.value);
     }
 
-    const termHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
-        setTerm(e.target.checked);
-    }
-
+    // 회원가입
     const submitHanlder = ()=>{
 
         const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
@@ -144,10 +162,16 @@ function Sign() {
 
         alert('회원가입이 완료되었습니다.');
         dispath(addAction(data));
+        navigator('/');
 
     }
-    
 
+    useEffect(()=>{
+
+        window.scrollTo(0,0);
+
+    },[]);
+    
 
   return (
     <div className="_sign">
@@ -164,9 +188,8 @@ function Sign() {
                     <div className="cobx">
                         <div className="cont">
                             이 사이트는 포트폴리오로 만든 토이 프로젝트 사이트 입니다.<br/>
-                            회원가입 같은 경우 DB에 저장되지 않고 브라우저에 저장되어 사용되기 때문에 <br/>브라우저를 껏다키거나 캐시삭제를 하면 저장된것들이 사라집니다.<br/>
-                            아무생각 없이 가입하셔도 괜찮습니다.<br/>
-                            어떤것에 사용되거나 남겨지거나 하지 않습니다.<br/>
+                            회원가입시 모든 데이터들이 따로 저장되지 않습니다. <br/>
+                            새로고침할시 저장되었던 모든 데이터가 삭제됩니다.
                         </div>
                     </div>
                     <div className="check">

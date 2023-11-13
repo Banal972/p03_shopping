@@ -25,7 +25,7 @@ function Main() {
 
     return (
 
-      <Swiper         
+      <Swiper
           speed={600}
           loop={true}
           parallax={true}

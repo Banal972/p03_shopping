@@ -2,6 +2,7 @@ import {configureStore, createSlice} from "@reduxjs/toolkit";
 import { product, productTag } from "../store/product";
 import { memeber, user } from "../store/user";
 import cart from "../store/cart";
+import { history } from "../store/hitory";
 
 export const store = configureStore({
     reducer : {
@@ -9,7 +10,8 @@ export const store = configureStore({
         user : user.reducer,
         product : product.reducer,
         productTag : productTag.reducer,
-        cart : cart.reducer
+        cart : cart.reducer,
+        history : history.reducer
     },
     devTools : process.env.NODE_ENV !== "production"
 });

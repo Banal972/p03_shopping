@@ -116,7 +116,7 @@ function Cart() {
                       <td>
                         <input type="checkbox" 
                           onChange={(e)=>{handleSingleCheck(e.target.checked,elm.id)}} 
-                          checked={checkItem.includes(elm.id) ? true : false}
+                          defaultChecked={checkItem.includes(elm.id) ? true : false}
                         />
                       </td>
                       <td>

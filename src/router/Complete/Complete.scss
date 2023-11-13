@@ -1,0 +1,190 @@
+._complete {
+
+    padding: 250px 0;
+
+    .tbx {
+        text-align: center;
+        
+        .icon {
+            font-size: 62px;
+        }
+
+        h4 {
+            font-weight: 500; margin-top: 15px; font-size: 16px;
+        }
+
+    }
+
+    .grid {
+
+        border-top: 2px solid #000; margin-top: 115px;
+
+        li {
+
+            + li {
+                border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;
+            }
+
+            .tup {
+                display: flex; padding: 15px 0; align-items: flex-start;
+
+                .img {
+                    background-color: #fff; background-repeat: no-repeat; background-position: center; background-size: cover; flex: 0 0 185px;
+                    &::after {
+                        content: ''; display: block; padding-bottom: 100%;
+                    }
+                }
+
+                .desc {
+
+                    font-size: 14px; padding: 15/14*1em;
+
+                    .tg {
+                        background: #cf2f2f; color: #fff; display: inline-block; padding: 2.5px 5px; 
+                        margin-bottom: 15px;
+                    }
+
+                    .name {
+                        font-size: 18px; font-weight: bold; margin-bottom: 15px;
+                    }
+
+                    .option {
+                        color: #555;
+                    }
+
+                }
+
+            }
+            
+            .tbm {
+                padding: 20px 0; border-top: 1px solid #eee;
+
+                p {
+                    display: flex; justify-content: space-between; color: #555;
+                    + p {
+                        margin-top: 20px;
+                    }
+
+                    span {
+                        color: #000; font-weight: 500;
+                    }
+
+                    &.last {
+                        color: #000; font-size: 18px;
+
+                        span {
+                            font-weight: bold;
+                        }
+
+                        i {
+                            text-decoration:line-through; font-weight: 400; font-size: 14px; color: #555;
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    .all {
+        font-size: 22px; font-weight: bold; margin-top: 50px;
+        span {
+            margin-left: 25px;
+        }
+    }
+
+    .btn {
+        text-align: center; margin-top: 85px; font-size: 16px; display: flex; justify-content: center;
+        a {
+            background: #2fb7cf; color: #fff; width: 150px; display: flex; align-items: center; justify-content: center; padding: 10px 0; box-sizing: border-box;
+            + a {
+                margin-left: 25px; border: 1px solid #000; background: #fff; color: #000;
+            }
+        }
+    }
+
+    @media screen and (max-width:820px) {
+        
+        padding: 125px 0;
+
+        .tbx {
+            
+            .icon {
+                font-size: 52px;
+            }
+    
+            h4 {
+                font-size: 16px;
+            }
+    
+        }
+
+        .grid {
+
+            margin-top: 65px;
+    
+            li {
+
+                .tup {
+    
+                    .img {
+                        flex: 0 0 135px;
+                    }
+    
+                    .desc {
+    
+                        font-size: 14px;
+
+                        .name {
+                            font-size: 16px;
+                        }
+
+                        .option {
+                            font-size: 12px;
+                        }
+    
+                    }
+    
+                }
+                
+                .tbm {
+                    padding: 20px 0; border-top: 1px solid #eee;
+    
+                    p {
+                        + p {
+                            margin-top: 20px;
+                        }
+    
+                        &.last {
+                            font-size: 16px;
+                        }
+    
+                    }
+    
+                }
+    
+            }
+    
+        }
+
+        .all {
+            font-size: 18px; margin-top: 30px;
+        }
+
+        .btn {
+            margin-top: 95px; font-size: 14px;
+            a {
+                width: 125px;
+                + a {
+                    margin-left: 15px;
+                }
+            }
+        }
+
+    }
+    
+}

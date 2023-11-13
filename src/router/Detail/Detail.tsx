@@ -25,6 +25,11 @@ function Detail() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    // 유저
+    const userData = useSelector((state : RootState)=>{return state.user});
+
+    // 제품
     const productData = useSelector((state : RootState)=>{return state.product});
 
     // 관리
@@ -36,7 +41,14 @@ function Detail() {
     const [taplist,setTaplist] = useState(true);
 
     // 장바구니 추가기능
-    function cartAdd(){ 
+    function cartAdd(){
+
+        if(Object.keys(userData).length === 0){
+
+            alert('로그인을 해야합니다.');
+            return navigate('/login');
+
+        }
 
         if(shoes){ // shoes가 존재하면
 
@@ -63,15 +75,26 @@ function Detail() {
     }
 
     // 구매버튼
-    function buy(){
+    function buyHanlder(){
+
+        if(Object.keys(userData).length === 0){
+
+            alert('로그인을 해야합니다.');
+            return navigate('/login');
+
+        }
 
         if(shoes){
+
             const buy = [
                 {
+                    user : userData?.userID,
                     id : shoes.id,
                     src : shoes.src,
                     name : shoes.name,
                     price : shoes.price,
+                    sale : shoes.sale ? shoes.sale : 0,
+                    size : size,
                     amount : 1,
                 }
             ];
@@ -88,9 +111,7 @@ function Detail() {
         $(e.target).addClass('active');
     }
     
-    
     // 이펙트
-
     useEffect(()=>{ // 번호에 맞는 신발
 
         const finds = productData.find((a)=>a.id === Number(id));
@@ -113,7 +134,6 @@ function Detail() {
 
 
     //반응형
-
     function webResize(){
         
         if(window.innerWidth >= 821){
@@ -403,7 +423,7 @@ function Detail() {
 
                             <ul className="btn">
                                 <li className="color0" onClick={cartAdd}>장바구니</li>
-                                <li onClick={buy}>구매하기</li>
+                                <li onClick={buyHanlder}>구매하기</li>
                             </ul>
                     </div>
 

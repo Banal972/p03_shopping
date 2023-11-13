@@ -1,6 +1,6 @@
 import { createSlice,PayloadAction } from "@reduxjs/toolkit"
 
-interface UserInterface{
+export interface UserInterface{
     userID? : String // 아이디
     password? : String // 패스워드
     email? : String // 이메일
@@ -13,25 +13,25 @@ interface UserInterface{
     slang? : (Number | String)[] // 찜 목록
 }
 
-
 // 유저관련
 
-let userInitialState :UserInterface | null = {}
-if(localStorage.key('user'as any)){
+let userInitialState :UserInterface = {};
+
+/* if(localStorage.key('user'as any)){
     userInitialState = JSON.parse(localStorage.getItem("user") as any);
-}
+} */
 
 export const user = createSlice({
     name : "user",
     initialState : userInitialState,
     reducers : {
         loginAction(state,action: PayloadAction<UserInterface>){
-            localStorage.setItem('user',JSON.stringify(action.payload));
+            // localStorage.setItem('user',JSON.stringify(action.payload));
             return action.payload;
         },
         logoutAction(state){
-            localStorage.removeItem('user');
-            return null;
+            // localStorage.removeItem('user');
+            return {};
         },
         addSlangAction(state,action: PayloadAction<Number|String>){
             
@@ -57,7 +57,7 @@ export const user = createSlice({
             }
 
             // 세션에 저장
-            localStorage.setItem('user',JSON.stringify(state));
+            // localStorage.setItem('user',JSON.stringify(state));
 
         }
     }
@@ -76,6 +76,17 @@ const memeberInitialState :UserInterface[] = [
         email : "admin@test.com",
         nickname : "어드민",
         address : "주소",
+    },
+    {
+        userID: "test",
+        password: "!qlqjs123",
+        email: "test01@test.com",
+        name: "테스트",
+        nickname: "테스트",
+        zipcode: "21405",
+        address: "인천 부평구 경원대로1232번길 2 (산곡동)",
+        address2: "21321",
+        phone: "01012345678"
     }
 ];
 
@@ -96,7 +107,7 @@ export const memeber = createSlice({
     reducers : {
         addAction(state,action : PayloadAction<UserInterface>){
 
-            if(localStorage.key("member" as any)){
+            /* if(localStorage.key("member" as any)){
 
                 const memeberData = JSON.parse(localStorage.getItem('memeber') as any);
 
@@ -109,9 +120,10 @@ export const memeber = createSlice({
 
                 localStorage.setItem('memeber',JSON.stringify([action.payload]))
 
-            }
+            } */
 
             state.push(action.payload);
+            
         }
     }
 })

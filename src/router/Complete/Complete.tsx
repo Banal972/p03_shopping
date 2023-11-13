@@ -25,6 +25,8 @@ function Complete() {
 
         setItem(filter);
 
+        console.log(filter);
+
     },[token]);
 
     return (
@@ -61,9 +63,7 @@ function Complete() {
                                     <p> 
                                         구매 갯수 : {a.product_amount}개 <span>{a.price * a.product_amount} 원</span> 
                                     </p>
-                                    {
-                                        a.sale !== 0 && <p> 할인율 : <span>{a.sale} %</span> </p>
-                                    }
+                                    <p> 할인율 : <span>{a.sale ? a.sale : 0} %</span> </p>
                                     <p className="last"> 
                                         결제금액 <span className={a.sale ? "color01" : ""}>
                                             {
@@ -93,7 +93,7 @@ function Complete() {
                 <p className="all">총 결제금액 <span>{item?.total_pay.total} 원</span></p>
 
                 <div className="btn">
-                    <Link to={'/'}>주문내역</Link>
+                    <Link to={'/history'}>주문내역</Link>
                     <Link to={'/'}>돌아가기</Link>
                 </div>
 

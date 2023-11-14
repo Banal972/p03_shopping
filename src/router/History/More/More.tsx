@@ -89,6 +89,10 @@ function More() {
             <li><p>받는분</p> <span>{data?.delivery.d_name}</span></li>
             <li><p>주소</p> <span>{data?.delivery.d_addr1}<br/>{data?.delivery.d_addr2}</span></li>
             <li><p>연락처</p> <span>{data?.delivery.d_phone}</span></li>
+            {
+              data?.delivery.request_select !== "" &&
+              <li><p>배송 메세지</p> <span>{data?.delivery.request_select} <br/> { data?.delivery.request_input}</span></li>
+            }
           </ul>
         </div>
 

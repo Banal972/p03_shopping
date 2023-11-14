@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 // 아이콘
 import { BsCart2,BsPerson } from "react-icons/bs"
@@ -30,8 +30,12 @@ function Header({pathSplit}:{pathSplit : String}) {
     break
   }
 
+  // location
+  const location = useLocation();
+
   // 네비게이터
   const navigate = useNavigate();
+
   // 디스패치
   const dispath = useDispatch();
 
@@ -85,6 +89,11 @@ function Header({pathSplit}:{pathSplit : String}) {
   const [menuClick,setMenuClick] = useState(false);
 
   useEffect(()=>{
+    setMenuClick(false);
+  },[location])
+  
+
+/*   useEffect(()=>{
 
     menuTl.to('.header .menu span:nth-of-type(1)',{
       rotate : 45,
@@ -101,14 +110,14 @@ function Header({pathSplit}:{pathSplit : String}) {
       yPercent : -50
     },'m');
 
-  },[])
+  },[]) */
 
   const menuHanlder = ()=>{
     if(menuClick){
-      menuTl.reverse();
+      // menuTl.reverse();
       setMenuClick(false);
     }else{
-      menuTl.restart();
+      // menuTl.restart();
       setMenuClick(true);
     }
   }
@@ -182,6 +191,15 @@ function Header({pathSplit}:{pathSplit : String}) {
       </div>
 
       <div className={'mob-menu'}>
+        
+        <div className="top">
+          <div className="menu" onClick={menuHanlder}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
         <ul className="m-gnb">
           <li><Link to={"/list/999"}>BEST</Link></li>
           <li><Link to={"/list/001"}>스니커즈</Link></li>

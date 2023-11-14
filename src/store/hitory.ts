@@ -15,10 +15,10 @@ export interface HistoryInterface {
     delivery : {
         request_select: string;
         request_input: string;
-        d_name: String | undefined;
-        d_phone: String | undefined;
-        d_addr1: String | undefined;
-        d_addr2: String | undefined;
+        d_name? : String
+        d_phone? : String
+        d_addr1? : String
+        d_addr2? : String
     }
     pay : string
     total_pay : {

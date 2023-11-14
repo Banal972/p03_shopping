@@ -178,7 +178,7 @@ function Sign() {
 
         <div className="_k_wrap" data-max="850">
 
-            <h1 className="h1">회원가입</h1>
+            <h1 className="t-title">회원가입</h1>
 
             <div className="bx">
 

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {BsBoxSeam} from "react-icons/bs"
 
 // 스타일
 import "./Complete.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { ProductState } from "../../store/product";
-import { BuyProduct, HistoryInterface } from "../../store/hitory";
+import { HistoryInterface } from "../../store/hitory";
 
 function Complete() {
 

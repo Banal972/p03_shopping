@@ -1,13 +1,25 @@
-import React,{useState,useEffect} from 'react'
+// SCSS
 import "./Cart.scss"
-import { useDispatch, useSelector } from 'react-redux';
+
+// lib
+import { toNumber } from '../../lib/lib';
+
+// redux
+import { ProductState } from '../../store/product';
 import { RootState } from '../../app/store';
 import { checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart } from '../../store/cart';
+
+// 모듈
+import React,{useState,useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineClose } from "react-icons/ai";
-import { ProductState } from '../../store/product';
+import { useNavigate } from 'react-router-dom';
 
 
 function Cart() {
+
+  // 네비게이터
+  const navigate = useNavigate();
 
   // 디스패치
   const dispatch = useDispatch();
@@ -15,48 +27,8 @@ function Cart() {
   // 카트 가져오기
   const cart = useSelector((state:RootState)=>state.cart);
   
-  // 총액 계산
+  // 총액
   const [total,setTotal] = useState(0);
-
-  // 선택된 아이템
-  const [checkItem,setCheckItem] = useState<number[]>([]);
-
-  // 모달창
-  const [moID,setMoID] = useState({
-    show : false,
-    id : 0,
-  });
-
-  // 모달창닫기
-  const modalClose = ()=>{
-    setMoID({
-      ...moID,
-      show :false
-    });
-  }
-
-  // 단일 선택
-  const handleSingleCheck = (checked : boolean, id : number) => {
-    if(checked){
-      // 단일 선택시 아이템 추가
-      setCheckItem(prev=>[...prev,id]);
-    }else {
-      // 단일 선택 해제 시 체크된 아이템 제외
-      setCheckItem(checkItem.filter(el=>el !== id));
-    }
-  }
-
-  // 체크박스 전체 선택
-  const handleAllCheck = (checked : boolean) => {
-    if(checked){
-      const idArray : number[] = [];
-      cart.forEach((el)=> idArray.push(el.id));
-      setCheckItem(idArray);
-    }else{
-      setCheckItem([]);
-    }
-  }
-
   // 총액계산
   useEffect(()=>{
 
@@ -73,6 +45,75 @@ function Cart() {
 
   },[cart]);
 
+  // 선택된 아이템
+  const [checkItem,setCheckItem] = useState<number[]>([]);
+
+  // 모달창
+  const [moID,setMoID] = useState({
+    show : false,
+    id : 0,
+  });
+
+  // 모달창닫기
+  const modalClose = ()=>{
+
+    setMoID({
+      ...moID,
+      show :false
+    });
+    
+  }
+
+  // 단일 선택
+  const handleSingleCheck = (checked : boolean, id : number) => {
+
+    if(checked){
+      // 단일 선택시 아이템 추가
+      setCheckItem(prev=>[...prev,id]);
+    }else {
+      // 단일 선택 해제 시 체크된 아이템 제외
+      setCheckItem(checkItem.filter(el=>el !== id));
+    }
+
+  }
+
+  // 체크박스 전체 선택
+  const handleAllCheck = (checked : boolean) => {
+
+    if(checked){
+      const idArray : number[] = [];
+      cart.forEach((el)=> idArray.push(el.id));
+      setCheckItem(idArray);
+    }else{
+      setCheckItem([]);
+    }
+
+  }
+
+
+
+  const buyBtn = ()=>{
+    
+    const buy = new Array();
+
+    cart.forEach(e=>{
+
+      const data = {
+        product_id : e.id,
+        product_size : e.size,
+        product_amount: e.amount,
+      }
+
+      buy.push(data);
+
+    });
+
+    if(window.confirm('상품을 구매하시겠습니까?')){
+      navigate('/buy',{state : {type : "cart", buy}});
+    }
+
+  }
+
   return (
     <>
 
@@ -85,6 +126,7 @@ function Cart() {
 
           <div className="ctx">
             <table className="ct">
+
               <colgroup>
                 <col/>
                 <col/>
@@ -93,11 +135,13 @@ function Cart() {
                 <col/>
                 <col/>
               </colgroup>
+
               <thead>
                 <tr>
                   <th>
-                    <input type="checkbox" onChange={(e)=>handleAllCheck(e.target.checked)}
-                      checked={checkItem.length === cart.length ? true : false}
+                    <input type="checkbox" 
+                      onChange={(e)=>handleAllCheck(e.target.checked)}
+                      checked={checkItem.length === cart.length ? true : false} readOnly
                     />
                   </th>
                   <th>상품명</th>
@@ -107,6 +151,7 @@ function Cart() {
                   <th>삭제</th>
                 </tr>
               </thead>
+
               <tbody>
                 {
                   cart.length > 0 ?
@@ -116,7 +161,7 @@ function Cart() {
                       <td>
                         <input type="checkbox" 
                           onChange={(e)=>{handleSingleCheck(e.target.checked,elm.id)}} 
-                          defaultChecked={checkItem.includes(elm.id) ? true : false}
+                          checked={checkItem.includes(elm.id) ? true : false} readOnly
                         />
                       </td>
                       <td>
@@ -141,15 +186,15 @@ function Cart() {
                           elm.sale ?
                           <>
                             <p className="sale">
-                              {elm.price}원
+                              {toNumber(elm.price as number)}원
                             </p>
                             <p className="price">
-                              <Sale price={elm.price} sale={elm.sale} />원
+                              <Sale price={elm.price} sale={elm.sale} />
                             </p>
                           </> 
                           :
                           <p className="price">
-                            {elm.price}원
+                            {toNumber(elm.price as number)}원
                           </p>
                         }
                       </td>
@@ -158,7 +203,7 @@ function Cart() {
                           <button onClick={()=>{
                             dispatch(plusCart(elm.id));
                           }}>+</button>
-                            <input type="text" value={elm.amount} />
+                            <input type="text" value={elm.amount} readOnly />
                           <button onClick={()=>{
                             if(elm.amount <= 1){
                               if(window.confirm('삭제 하시겠습니까?')){
@@ -170,16 +215,16 @@ function Cart() {
                               dispatch(minusCart(elm.id));
                             }
                           }}>-</button>
+
                         </div>
                       </td>
                       <td style={{whiteSpace:"nowrap"}}>
                         {
                           elm.sale ?
-                          (elm.price - (elm.price * elm.sale/100))*elm.amount
+                          toNumber(((elm.price - (elm.price * elm.sale/100))*elm.amount) as number)+"원"
                           :
-                          elm.price * elm.amount
+                          toNumber(elm.price * elm.amount as number)+"원"
                         }
-                        원
                       </td>
                       <td>
                         <button className="delete" onClick={()=>{
@@ -200,7 +245,7 @@ function Cart() {
 
           <div className="allPrice">
             결제 예정금액 
-            <h2><span>{total.toLocaleString('ko-KR')}</span>원</h2>
+            <h2><span>{toNumber(total as number)}</span>원</h2>
           </div>
 
           <div className="btnList">
@@ -209,7 +254,7 @@ function Cart() {
             }}>
               선택삭제
             </button>
-            <button className="color1">
+            <button className="color1" onClick={buyBtn}>
               결제하기
             </button>
           </div>
@@ -237,7 +282,7 @@ function Sale(props : {sale : number,price : number}){
   }
 
   return(
-    <span className="color00">{saleCalc(props.sale,props.price)}</span>
+    <span className="color00">{ toNumber(saleCalc(props.sale,props.price) as number)}원</span>
   )
 
 }
@@ -265,7 +310,7 @@ function Modal({size,modalClose} : {size : number, modalClose: Function}) {
   },[size]);    
 
 return (
-  <div className="modal">
+  <div className="modal-cart">
     <div className="back"></div>
     <div className="cont">
 

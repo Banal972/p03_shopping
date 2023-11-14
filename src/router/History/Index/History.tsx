@@ -41,10 +41,11 @@ function History() {
 
                             {
                                 e.buyItem.map((a,index)=>(
+
                                     <div className="imb" key={index}>
                                         <div className="img" style={{backgroundImage : `url(${a.src})`}}></div>
                                         <div className="tbx">
-                                            <p className='name'>{a.name}</p>
+                                            <p className='name'>{a.name} </p>
                                             <p className='size'>SIZE : {a.product_size} | {a.product_amount}개</p>
                                             <p className='price'>
                                                 {
@@ -54,11 +55,12 @@ function History() {
                                                         a.price * a.product_amount
                                                 } 원
                                             </p>
-                                            <Link to={`more/${e.token}`}>상세 정보</Link>
                                         </div>
                                     </div>
-                                    ))
+                                ))
                             }
+
+                            <Link className='detail' to={`more/${e.token}`}>상세 정보</Link>
                             
                         </li>
                     ))

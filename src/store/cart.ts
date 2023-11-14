@@ -5,9 +5,7 @@ export interface CartInterface extends ProductState{
     amount : number
 }
 
-const initialState :CartInterface[] = [
-
-]
+const initialState :CartInterface[] = []
 
 const cart = createSlice({
     name : "cart",
@@ -30,6 +28,9 @@ const cart = createSlice({
             return state.filter(elm => !actions.payload.includes(elm.id));
             // 배열끼리 비교하여 중복삭제
         },
+        allDelete(state,action){
+            return []; // 전체삭제
+        },
         deleteCart(state,actions){
             let rs = state.findIndex(elm=>elm.id === actions.payload);
             if(rs > -1){
@@ -51,6 +52,6 @@ const cart = createSlice({
     }
 });
 
-export let {addCart,plusCart,minusCart,deleteCart,checkDelete,sizeChangeCart} = cart.actions;
+export let {addCart,plusCart,minusCart,deleteCart,checkDelete,sizeChangeCart,allDelete} = cart.actions;
 
 export default cart

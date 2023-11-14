@@ -2,7 +2,13 @@
 
 ._cart {
 
-    padding: 250px 0;
+    padding-top: 75px;
+
+    ._k_wrap {
+
+        padding: 100px 0;
+
+    }
 
     .ctx {
         overflow-x: auto;
@@ -140,7 +146,7 @@
     }
 
     @include max(820) {
-        padding: 50vw 0;
+        padding-top: 50px;
     }
 
     @include max(480) {

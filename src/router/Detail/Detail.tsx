@@ -94,7 +94,7 @@ function Detail() {
                 }
             ];
 
-            navigate('/buy',{state : buy});
+            navigate('/buy',{state : {type : "single", buy}});
 
         }
 

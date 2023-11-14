@@ -12,6 +12,7 @@ import Card from '../../comp/Card/Card'
 import "swiper/css"
 import "./Main.scss"
 import { useNavigate } from 'react-router'
+import { toNumber } from '../../lib/lib'
 
 function Main() {
 
@@ -169,9 +170,8 @@ function Main() {
                         {
                           elm.sale ?
                           <Sale sale={elm.sale} price={elm.price} />
-                          : elm.price
+                          : elm.price+"원"
                         }
-                        원
                       </p>
                     </div>
                   </SwiperSlide>
@@ -226,12 +226,12 @@ function Main() {
 function Sale({price, sale} : {price : any, sale : any}){
 
   function saleCalc(sale : any, price: any){
-      return String( price - (price * sale/100) );
+      return price - (price * sale/100);
   }
 
   return(
       <>
-          <span className="sales">{String(price)}</span> <span className='color00'>{saleCalc(sale,price)}</span>
+          <span className="sales">{toNumber(price as number)}</span> <span className='color00'>{toNumber(saleCalc(sale,price) as number)}원</span>
       </>
   )
 

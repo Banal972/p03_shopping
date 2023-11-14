@@ -10,11 +10,12 @@ import { RootState } from '../../app/store';
 import { ProductState } from '../../store/product';
 import moment from "moment"
 import { addAction } from '../../store/hitory';
+import { toNumber } from '../../lib/lib';
+import { allDelete } from '../../store/cart';
 
 interface BuyInterFace{
-  product_id : number
-  product_size : number
-  product_amount : number
+  type : string
+  buy : {product_id : number, product_size : number, product_amount : number}[]
 }
 
 interface BuyProduct extends ProductState{
@@ -40,17 +41,17 @@ function Buy() {
   const product = useSelector((state:RootState)=>state.product);
 
   // 구매데이터
-  const [locationData,setLocationData] = useState<BuyInterFace[]>(location.state)
+  const [locationData,setLocationData] = useState<BuyInterFace>(location.state)
   const [buyItem,setBuyItem] = useState<BuyProduct[]>([]);
 
   useEffect(()=>{
-
+    
     const data : BuyProduct[] = [];
 
     product.forEach(a=>{
 
-      locationData.forEach(b=>{
-        
+      locationData.buy.forEach(b=>{
+
         if(a.id === b.product_id){
 
           const object = {
@@ -173,10 +174,20 @@ function Buy() {
       "total_pay" : totalPay // 총 결제액
     };
 
-    dispatch(addAction(data));
+    try{
+      dispatch(addAction(data));
 
-    alert(`${pay}형식으로 결제합니다.`)
-    navigate(`/complete/${token}`);
+      if(locationData.type === "cart"){
+        dispatch(allDelete(""));
+      }
+
+      alert(`${pay}형식으로 결제합니다.`)
+      navigate(`/complete/${token}`);
+
+    }
+    catch{
+      alert('에러가 발생했습니다')
+    }
 
   }
 
@@ -186,7 +197,7 @@ function Buy() {
         <div className="_k_wrap" data-max="1024">
 
             <div className="infor">
-              <h4 className='small-tit'>상품정보 총 O개</h4>
+              <h4 className='small-tit'>상품정보 총 {buyItem.length}개</h4>
 
               <ul className='box'>
                 {
@@ -203,7 +214,7 @@ function Buy() {
                         <dl>
                           <dt>{a.name}</dt>
                           <dd>사이즈 - {a.product_size}</dd>
-                          <dd className='price'>{a.price}원 <span>{a.product_amount}개</span></dd>
+                          <dd className='price'>{toNumber(a.price as number)}원 <span>{a.product_amount}개</span></dd>
                         </dl>
                       </div>
                     </li>
@@ -243,12 +254,12 @@ function Buy() {
 
             <div className="total-price">
 
-              <h4 className='small-tit'>총 결제금액 <p>{totalPay.total}원</p> </h4>
+              <h4 className='small-tit'>총 결제금액 <p>{toNumber(totalPay.total as number)}원</p> </h4>
 
               <ul className='price-info'>
-                <li>총 상품금액 <span>{totalPay.total_product}원</span></li>
-                <li>상품 할인 <span>{totalPay.total_sale}원</span></li>
-                <li>배송비 <span>{totalPay.delivery_pay}원</span></li>
+                <li>총 상품금액 <span>{toNumber(totalPay.total_product as number)}원</span></li>
+                <li>상품 할인 <span>{toNumber(totalPay.total_sale as number)}원</span></li>
+                <li>배송비 <span>{toNumber(totalPay.delivery_pay as number)}원</span></li>
               </ul>
 
             </div>
@@ -264,7 +275,7 @@ function Buy() {
               </div>
             </div>
 
-            <button className='submit' onClick={buyButton}>{totalPay.total}원 결제하기</button>
+            <button className='submit' onClick={buyButton}>{toNumber(totalPay.total as number)}원 결제하기</button>
 
         </div>
 

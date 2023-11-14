@@ -10,6 +10,7 @@ import "./Card.scss";
 import { RootState } from '../../app/store';
 import { addSlangAction,removeSlangAction } from '../../store/user';
 import { ProductState } from '../../store/product';
+import { toNumber } from '../../lib/lib';
 
 interface CardType {
   offset : number
@@ -89,8 +90,8 @@ function Card(props : CardType){
                         elm.sale ? 
                         <Sale sale={elm.sale} price={elm.price} />
                         :
-                        elm.price
-                      }원
+                        toNumber(elm.price as number)+"원"
+                      }
                     </p>
 
                     <p className="des">
@@ -123,7 +124,7 @@ function Sale(props:{sale:number,price:number}){
 
   return(
     <>
-      <span className="sales">{props.price}</span> <span className='color00'>{saleCalc(props.sale,props.price)}</span>
+      <span className="sales">{toNumber(props.price as number)}</span> <span className='color00'>{toNumber(saleCalc(props.sale,props.price) as number)}원</span>
     </>
   )
 

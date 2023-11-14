@@ -25,8 +25,6 @@ function Complete() {
 
         setItem(filter);
 
-        console.log(filter);
-
     },[token]);
 
     return (
@@ -55,6 +53,7 @@ function Complete() {
                                         }
                                         <p className="name">{a.name}</p>
                                         <p className="option">└ 신발 사이즈 - {a.product_size}</p>
+                                        <p className="option">└ 가격 - {a.price}원</p>
                                     </div>
 
                                 </div>

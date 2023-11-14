@@ -220,7 +220,7 @@
                         font-size: 18px; font-weight: normal; color: #999;
                     }
                     dd {
-                        font-size: 44px; font-weight: bold; margin-top: 0.5em;
+                        font-size: 44px; font-weight: bold; margin-top: 10/44*1em;
                     }
                 }
 
@@ -275,9 +275,9 @@
                     }
                     
                     .price {
-                        font-size: 18px; margin-top: 0.5em;
+                        font-size: 18px; margin-top: 0.5em; font-weight: 500;
                         .sales {
-                            text-decoration: line-through; font-size: 14px; color: #555;
+                            text-decoration: line-through; font-size: 14px; color: #555; font-weight: 300;
                         }
                         .color00 {
                             color: #e02626;

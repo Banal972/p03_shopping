@@ -50,6 +50,9 @@
 
                     .option {
                         color: #555;
+                        + .option {
+                            margin-top: 5px;
+                        }
                     }
 
                 }

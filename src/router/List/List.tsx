@@ -1,5 +1,5 @@
 import React,{useEffect,useState,useRef} from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 
@@ -17,9 +17,17 @@ import { ProductState } from '../../store/product';
 
 function List() {
 
+  // cate
   const {cate} = useParams();
+
+  // 내비게이터
   const navigate = useNavigate();
+
+  // 디스패치
   const dispath = useDispatch();
+
+  // location
+  const location = useLocation();
 
   // ref
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -124,6 +132,11 @@ function List() {
     }
 
   },[filterProductData])
+
+
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[location])
 
 
   return (

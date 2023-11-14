@@ -19,6 +19,7 @@ import {EffectFade,Navigation} from "swiper";
 import {Swiper,SwiperSlide} from "swiper/react";
 import $ from "jquery";
 import { ProductState } from "../../store/product";
+import { toNumber } from "../../lib/lib";
 
 function Detail() {
 
@@ -177,7 +178,8 @@ function Detail() {
 
                         <div className="slide">
                             <div className="bix">
-                                <Swiper
+                                <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${shoes.src})`}}></div>
+                                {/* <Swiper
                                     modules={[EffectFade]}
                                     effect="fade"
                                 >
@@ -188,9 +190,9 @@ function Detail() {
                                             </SwiperSlide>
                                         ))
                                     }
-                                </Swiper>
+                                </Swiper> */}
                             </div>
-                            <div className="sm">
+                            {/* <div className="sm">
                                 <button className="prev">
                                     <AiOutlineLeft/>
                                 </button>
@@ -234,7 +236,7 @@ function Detail() {
                                 <button className="next">
                                     <AiOutlineRight/>
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="detail">
@@ -290,7 +292,7 @@ function Detail() {
                         <div className="popular">
                             <dl>
                                 <dt>비슷한 상품</dt>
-                                <dd>상품1과 관련된 비슷한 상품도 보고 가세요.</dd>
+                                <dd>{shoes.name} 과 관련된 비슷한 상품도 보고 가세요.</dd>
                             </dl>
                             <div className="p_slide">
                                 <button className="prev"><AiOutlineLeft/></button>
@@ -335,9 +337,8 @@ function Detail() {
                                                                     price={elm.price} 
                                                                 />
                                                             :
-                                                            elm.price 
+                                                            toNumber(elm.price as number)+"원"
                                                         }
-                                                        원
                                                     </p>
                                                     <p className="des">
                                                         {elm.description}
@@ -433,12 +434,12 @@ function Detail() {
 function Sale({price, sale} : {price : any, sale : any}){
 
     function saleCalc(sale : any, price: any){
-        return String( price - (price * sale/100) );
+        return price - (price * sale/100);
     }
 
     return(
         <>
-            <span className="sales">{String(price)}</span> <span className='color00'>{saleCalc(sale,price)}</span>
+            <span className="sales">{toNumber(price as number)}</span> <span className='color00'>{toNumber(saleCalc(sale,price) as number)}원</span>
         </>
     )
 

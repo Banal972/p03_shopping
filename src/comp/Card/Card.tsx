@@ -76,7 +76,7 @@ function Card(props : CardType){
                   <div className="img"  onClick={(e)=>{
                     navigate(`/detail/${elm.id}`);
                   }}>
-                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
+                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}} ></div>
                   </div>
 
                   <div className="tbx">

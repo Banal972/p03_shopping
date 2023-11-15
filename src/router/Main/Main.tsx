@@ -13,6 +13,7 @@ import "swiper/css"
 import "./Main.scss"
 import { useNavigate } from 'react-router'
 import { toNumber } from '../../lib/lib'
+import { ProductState } from '../../store/product'
 
 function Main() {
 
@@ -62,8 +63,20 @@ function Main() {
   // 상품
   const productData = useSelector((state: RootState)=>state.product);
 
+  // 인기상품
+  const [best,setBest] = useState<ProductState[]>([]);
+
+  useEffect(()=>{
+    const filter = productData.filter(e => e.hit >= 100).sort((a,b)=>{ return b.hit - a.hit })
+    setBest(filter);
+  },[]);
+
   // 세일데이터
-  const saleData = useSelector((state : RootState)=>state.product).filter(el=>el.sale !== undefined);
+  const saleData = useSelector((state : RootState)=>state.product).filter(el=>{
+    if(el.sale  !== undefined){
+      return el.sale > 0;
+    }
+  });
 
   // 단독상품데이터
   const onlyData = useSelector((state : RootState)=>state.product).filter(el=>el.only);
@@ -74,9 +87,7 @@ function Main() {
     <div className="_main">
 
       <section className="visual">
-
         <Visual/>
-
       </section>
 
       <section className="s1">
@@ -87,7 +98,7 @@ function Main() {
               주목해야할 인기상품
             </h2>
 
-            <Card offset={0} data={productData} />
+            <Card offset={20} data={best} />
             
           </div>
       </section>
@@ -123,6 +134,7 @@ function Main() {
                 modules={[Navigation,Pagination,Autoplay]}
                 slidesPerView={1.5}
                 spaceBetween={20}
+                loop
                 breakpoints={{
                   480 : {
                     slidesPerView :2.5,
@@ -193,7 +205,7 @@ function Main() {
           
           <div className="flex">
 
-            <Card offset={0} data={saleData} />
+            <Card offset={15} data={saleData} />
             
             <div className="banner">
               <div className="box">
@@ -223,9 +235,9 @@ function Main() {
   )
 }
 
-function Sale({price, sale} : {price : any, sale : any}){
+function Sale({price, sale} : {price : number, sale : number}){
 
-  function saleCalc(sale : any, price: any){
+  function saleCalc(sale : number, price: number){
       return price - (price * sale/100);
   }
 

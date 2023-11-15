@@ -1,7 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import { useNavigate } from 'react-router'
+import { useLocation } from 'react-router-dom';
 import { AiOutlineHeart,AiFillHeart } from "react-icons/ai";
 import { useDispatch, useSelector, useStore } from 'react-redux';
+
+// GSAP
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
 
 // SCSS
 import "./Card.scss";
@@ -14,16 +19,18 @@ import { toNumber } from '../../lib/lib';
 
 interface CardType {
   offset : number
+  type? : string
   data? : ProductState[]
   cate? : String | Number
 }
 
-
 function Card(props : CardType){
 
-  const {offset,data,cate} = props;
-
+  const {offset,data,type,cate} = props;
   const limit = 10;
+
+  // location
+  const location = useLocation();
 
   // 모듈
   const navigate = useNavigate();
@@ -64,6 +71,35 @@ function Card(props : CardType){
     }
     
   }
+
+  // GSAP
+  gsap.registerPlugin(ScrollTrigger);
+  useEffect(()=>{
+
+    if(type === "scroll"){
+
+      gsap.utils.toArray<HTMLElement>(".cardLayout .item").forEach((e)=>{
+
+        gsap.fromTo(e,{
+          yPercent : 20,
+          opacity : 0
+        },{
+          yPercent : 0,
+          opacity : 1,
+          duration : 0.6,
+          ease : "back.inOut(1.7)",
+          scrollTrigger : {
+            trigger : e,
+            // markers : true,
+            start : "top-=20% bottom-=5%"
+          }
+        })
+  
+      })
+
+    }
+
+  },[data]);
 
   return (
     <div className="cardLayout">

@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../../app/store'
 import moment from 'moment';
 import { HistoryInterface } from '../../../../store/hitory';
+import { toNumber } from '../../../../lib/lib'
 
 function History() {
 
@@ -50,9 +51,9 @@ function History() {
                                             <p className='price'>
                                                 {
                                                     a.sale ?
-                                                        (a.price - (a.price * a.sale / 100)) * a.product_amount
+                                                        toNumber((a.price - (a.price * a.sale / 100)) * a.product_amount as number)
                                                     :
-                                                        a.price * a.product_amount
+                                                        toNumber(a.price * a.product_amount as number)
                                                 } 원
                                             </p>
                                         </div>

@@ -263,7 +263,14 @@ function Cart() {
 
           <div className="btnList">
             <button className="color0" onClick={()=>{
-              dispatch(checkDelete(checkItem))
+
+              if(checkItem.length <= 0){
+                return alert('체크된 상품이 없습니다.')
+              }
+
+              if(window.confirm("삭제하시겠습니까?")){
+                dispatch(checkDelete(checkItem))
+              }
             }}>
               선택삭제
             </button>

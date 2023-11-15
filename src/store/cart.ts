@@ -27,7 +27,8 @@ const cart = createSlice({
 
         },
         checkDelete(state,action){
-            return state.filter(elm => !action.payload.includes(elm.id));
+            console.log(action);
+            return state.filter(elm => !action.payload.includes(`${elm.id}${elm.size}`));
             // 배열끼리 비교하여 중복삭제
         },
         allDelete(state,action){

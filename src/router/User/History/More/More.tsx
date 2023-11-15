@@ -59,7 +59,7 @@ function More() {
                     <dl>
                       <dt>{a.name}</dt>
                       <dd>사이즈 - {a.product_size}</dd>
-                      <dd className='price'><span>{a.price}원</span> {a.product_amount}개</dd>
+                      <dd className='price'><span>{toNumber(a.price as number)}원</span> {a.product_amount}개</dd>
                     </dl>
                   </div>
 

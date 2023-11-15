@@ -224,7 +224,7 @@ function Buy() {
                         <div className="img" style={{backgroundImage: `url(${a.src})`}}></div>
                         <div className="tbx">
                           {
-                            a.sale && <div className="tag color01">SALE</div>
+                            a.sale && a.sale > 0 ? <div className="tag color01">SALE</div> : ""
                           }
                           {
                             a.only && <div className="tag color02">ONLY</div>

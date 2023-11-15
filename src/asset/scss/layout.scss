@@ -141,14 +141,13 @@
     // 모바일 메뉴
     &.active {
 
-        .menu {
-            span {
-                background: #000;
-            }
-        }
-
         .mob-menu {
             transform: translateX(0);
+            .menu {
+                span {
+                    background: #000;
+                }
+            }
         }
 
     }

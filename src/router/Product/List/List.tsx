@@ -48,8 +48,6 @@ function List() {
 
   // 태그 선택
   const [selectTag,setSelectTag] = useState('전체');
-  const [offset,setOffset] = useState(0);
-  const [limit,setLimit] = useState(10);
   
   // 데이터 1차 공정
   let [filterProductData,setFilterProductData] = useState<ProductState[]>();
@@ -85,6 +83,8 @@ function List() {
 
     if(cate === "456"){ // 세일 데이터
       setFilterProductData(productData.filter(el=>el.sale));
+    }else if (cate === "789"){ // ONLY 데이터
+      setFilterProductData(productData.filter(e=>e.only));
     }else if (cate === "999"){ // BEST 데이터
       setFilterProductData(productData.filter(e => e.hit >= 100).sort((a,b)=>{ return b.hit - a.hit }));
     }else { // 나머지 데이터
@@ -110,9 +110,12 @@ function List() {
         setImgSrc('listBg04');
         setTitle('SALE');
       break;
-
-      case "999" :
+      case "789" :
         setImgSrc('listBg05');
+        setTitle('ONLY');
+      break;
+      case "999" :
+        setImgSrc('listBg06');
         setTitle('BEST');
       break;
 
@@ -138,7 +141,6 @@ function List() {
     window.scrollTo(0,0);
   },[location])
 
-
   return (
     <div className='_list'>
 
@@ -163,7 +165,7 @@ function List() {
               }
             </ul>
 
-            <Card offset={offset} data={tagFilterProductData} cate={cate}/>
+            <Card offset={10} type={"scroll"} data={tagFilterProductData} cate={cate}/>
 
         </div>
         

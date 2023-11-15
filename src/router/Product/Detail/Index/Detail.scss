@@ -258,7 +258,7 @@
                         margin: -5px;
                         button {
                             background: #fff; color: #666; border: 1px solid #666; display: inline-block;
-                            margin: 5px; cursor: pointer; font-size: 12px; border-radius: 2.5px;
+                            margin: 5px; cursor: pointer; font-size: 12px; border-radius: 2.5px; padding: 5px 10px;
                             // font-family: $pre;
                             &.active {
                                 background: #000; color: #fff;

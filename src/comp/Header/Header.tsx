@@ -90,6 +90,7 @@ function Header({pathSplit}:{pathSplit : String}) {
 
   useEffect(()=>{
     setMenuClick(false);
+    document.querySelector('.header')?.classList.remove("active");
   },[location])
   
 
@@ -116,14 +117,16 @@ function Header({pathSplit}:{pathSplit : String}) {
     if(menuClick){
       // menuTl.reverse();
       setMenuClick(false);
+      document.querySelector('.header')?.classList.remove("active");
     }else{
       // menuTl.restart();
       setMenuClick(true);
+      document.querySelector('.header')?.classList.add("active");
     }
   }
 
   return (
-    <header className={`header ${menuClick && "active"} ${subHeader? "sub" : ""}`}>
+    <header className={`header ${subHeader? "sub" : ""}`}>
       <div className="_k_wrap" data-max={"1600"}>
         <div className="logo">
           <Link to={"/"}>
@@ -136,6 +139,7 @@ function Header({pathSplit}:{pathSplit : String}) {
           <Link to={"/list/001"}>스니커즈</Link>
           <Link to={"/list/002"}>스포츠</Link>
           <Link to={"/list/456"}>SALE</Link>
+          <Link to={"/list/789"}>ONLY</Link>
         </nav>
 
         <div className="sbx">
@@ -204,6 +208,7 @@ function Header({pathSplit}:{pathSplit : String}) {
           <li><Link to={"/list/001"}>스니커즈</Link></li>
           <li><Link to={"/list/002"}>스포츠</Link></li>
           <li><Link to={"/list/456"}>SALE</Link></li>
+          <li><Link to={"/list/789"}>ONLY</Link></li>          
         </ul>
 
         <div className="bottom">

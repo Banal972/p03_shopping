@@ -101,7 +101,7 @@ function Login() {
                 <input type="text" placeholder='아이디' onChange={idHandler} value={idInput}/>
                 <input type="password" placeholder='비밀번호' onChange={passHandler} value={passInput}/>
                 <div className="checkbox">
-                    <input type="checkbox" id='idSave' name='idSave' onChange={termHandler} checked={term} readOnly={true}/>
+                    <input type="checkbox" id='idSave' name='idSave' onChange={termHandler} checked={term} readOnly/>
                     <label htmlFor="idSave">아이디 저장</label>
                 </div>
                 <button type="submit">로그인</button>

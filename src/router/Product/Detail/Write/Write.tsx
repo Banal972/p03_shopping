@@ -49,6 +49,13 @@ function Write() {
     const [productName,setProductName] = useState("");
     const [title,setTitle] = useState("");
     const [value, setValue] = useState('');
+
+    // 맨위로
+    useEffect(()=>{
+
+        window.scrollTo(0,0);
+
+    },[location])
     
 
     // product 이름 가져오기

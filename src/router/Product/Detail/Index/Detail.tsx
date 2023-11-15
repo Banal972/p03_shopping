@@ -18,7 +18,7 @@ import { addCart } from "../../../../store/cart";
 import { authLogin, toNumber } from "../../../../lib/lib";
 
 // 모듈
-import {EffectFade,Navigation} from "swiper";
+import {Autoplay, EffectFade,Navigation} from "swiper";
 import {Swiper,SwiperSlide} from "swiper/react";
 import $ from "jquery";
 import moment from "moment";
@@ -42,7 +42,7 @@ function Detail() {
 
     // 관리
     const [shoes,setShoes] = useState<ProductState | undefined>(undefined);
-    const [size,setSize] = useState<Number>(230);
+    const [size,setSize] = useState<Number>();
     const [amount,setAmount] = useState(1);
     const [rShoes,setRShoes] = useState<ProductState[] | null>(null);
 
@@ -97,33 +97,31 @@ function Detail() {
         }
 
     }
-
-    // 사이즈 클릭
-    function sizeClick(e : React.MouseEvent<HTMLButtonElement, MouseEvent>){
-        $('.detailView .rbx .layr dl dd.size button').removeClass('active');
-        $(e.target).addClass('active');
-    }
     
     // 이펙트
     useEffect(()=>{ // 번호에 맞는 신발
 
         const finds = productData.find((a)=>a.id === Number(id));
         setShoes(finds);
+        setSize(finds?.size[0])
+        setAmount(1);
 
     },[id]);
 
     useEffect(()=>{ // 랜덤 신발
 
-        let rendom = [];
+        let rendom :ProductState[] = [];
 
         for(let i= 0; i < 8; i++){
             let randomNum = Math.floor(Math.random()* productData.length);
-            rendom.push(productData[randomNum]);
+            if(!rendom.includes(productData[randomNum])){ // 중복제거
+                rendom.push(productData[randomNum]);
+            }
         }
 
         setRShoes(rendom);
 
-    },[]);
+    },[shoes]);
 
 
     //반응형
@@ -269,11 +267,17 @@ function Detail() {
                                 <Swiper
                                     slidesPerView={2.5}
                                     spaceBetween={15}
-                                    modules={[Navigation]}
+                                    modules={[Navigation,Autoplay]}
                                     navigation={{
                                         prevEl : '.p_slide button.prev',
                                         nextEl : '.p_slide button.next'
                                     }}
+                                    autoplay={{
+                                        delay : 3000,
+                                        disableOnInteraction : false
+                                    }}
+                                    loop
+                                    speed={500}
                                     breakpoints={{
                                         480 : {
                                             slidesPerView : 3.5,
@@ -353,11 +357,12 @@ function Detail() {
                                                 <button 
                                                     onClick={(e)=>{
                                                         setSize(elm);
-                                                        sizeClick(e);
                                                     }} 
-                                                    className={i === 0 ? 'active' : undefined} 
+                                                    className={elm === size ? 'active' : undefined} 
                                                     key={i}
-                                                > {String(elm)} </button>
+                                                > 
+                                                    {String(elm)} 
+                                                </button>
                                             ))
                                         }
                                     </dd>
@@ -444,7 +449,7 @@ function Inquiry(){
         const filter = inquiryData[Number(id)]
         setData(filter);
 
-    },[id]);
+    },[id,inquiryData]);
 
 
     // 수정버튼

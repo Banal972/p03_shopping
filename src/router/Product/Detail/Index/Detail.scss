@@ -81,49 +81,66 @@
 
                 // 상품설명
                 .cont {
-                    margin-top: 50px; line-height: 1.3; font-size: 16px; min-height: 350px; word-break: keep-all;
+                    margin-top: 50px; line-height: 1.3; font-size: 16px; word-break: keep-all;
                     img {
                         margin: 10px 0;
                     }
                 }
 
 
-                // ?
+                // 상품문의
                 .gh {
                     margin-top: 50px;
 
                     .lay {
+
+                        border-bottom: 1px solid #999; padding-bottom: 25px;
 
                         li {
                             + li {
                                 margin-top: 25px; padding: 25px 0 0; border-top: 1px solid #000;
                             }
 
-                            .name {
+                            .gh-n {
                                 font-size: 13px;
                             }
-                            .tit {
-                                font-size: 22px; margin-top: 5px;
+                            .gh-t {
+                                font-size: 20px; margin-top: 5px; font-weight: bold;
                             }
 
-                            .cont{
-                                font-size: 16px; margin-top: 5px;
+                            .gh-c{
+                                margin-top: 10px;
                             }
                             
-                            .date {
-                                font-size: 14px; margin-top: 10px;
+                            .gh-d {
+                                font-size: 14px; margin-top: 10px; color: #555;
+                            }
+
+                            .btn-l {
+                                display: flex; justify-content: flex-end;
+                                button {
+                                    font-size: 14px; width: 5em; height: 2em; padding: 0; border: 0; background: #26a8e0; color: #fff; cursor: pointer;
+                                    + button {
+                                        margin-left: 10px; background: #e02626; 
+                                    }
+                                }
                             }
 
                         }
 
                     }
 
-                    button {
+                    .write {
                         margin-left: auto; margin-top: 25px; width: 5em; height: 2em; font-size: 14px; background: #000; color: #fff;
                         display: block; border: 0; cursor: pointer; font-weight: "Pretendard";
                     }
 
+
+                    
+
                 }
+
+                
 
             }
 
@@ -179,7 +196,7 @@
                     font-size: 18px; padding: 1em 0 0 0;
         
                     .tit {
-                        font-weight: bold;
+                        font-weight: bold; font-size: 1em;
                     }
                     
                     .price {
@@ -209,7 +226,7 @@
         flex: 0.6; margin-left: 75px; position: sticky; top: 135px;
 
         .tit {
-            font-weight: 500;  font-size: 36px;
+            font-weight: 600;  font-size: 34px;
         }
 
         .price {
@@ -235,7 +252,7 @@
                     width: 100px;
                 }
                 dd {
-                    font-size: 14px; line-height: normal;
+                    font-size: 14px; line-height: 1.3;
 
                     &.size {
                         margin: -5px;

@@ -3,17 +3,24 @@ import React,{useState,useEffect} from 'react'
 // SCSS
 import "./Buy.scss"
 
+// 아이콘
+import { MdClose } from "react-icons/md";
+
+// 라이브러리
+import { getToken, toNumber } from '../../../lib/lib';
+
+// redux
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
+import { ProductState } from '../../../store/product';
+import { addAction } from '../../../store/hitory';
+import { allDelete } from '../../../store/cart';
+
 // 모듈
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
-import { ProductState } from '../../store/product';
 import moment from "moment"
-import { addAction } from '../../store/hitory';
-import { toNumber } from '../../lib/lib';
-import { allDelete } from '../../store/cart';
-import { MdClose } from "react-icons/md";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
+
 
 interface BuyInterFace{
   type : string
@@ -172,9 +179,7 @@ function Buy() {
 
     const now = new Date();
 
-    const timestamp =  new Date().getTime(); // 지금 시간 타임스탭
-    const random = Math.floor(Math.random() * 1000); // 랜덤 숫자
-    let token = timestamp - random // 구매상품 내역 token 만들기
+    let token = getToken();
 
     const data = {
       "user" : user.userID,

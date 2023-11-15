@@ -1,8 +1,8 @@
 import React from 'react'
 import "./Slang.scss"
-import Card from '../../comp/Card/Card'
+import Card from '../../../comp/Card/Card'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../app/store'
+import { RootState } from '../../../app/store'
 
 function Slang() {
 

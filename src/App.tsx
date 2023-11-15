@@ -10,19 +10,26 @@ import Footer from './comp/Footer/Footer';
 
 // 라우터
 import Main from './router/Main/Main';
-import Login from './router/User/Login/Login';
-import Cart from './router/Cart/Cart';
-import List from './router/List/List';
 
+// 유저 관련
+import Login from './router/User/Login/Login';
 import Sign from './router/User/Sign/Sign';
 import IdFind from './router/User/IdFind/IdFind';
+import History from './router/User/History/Index/History';
+import More from './router/User/History/More/More';
 
-import Slang from './router/Slang/Slang';
-import Detail from './router/Detail/Detail';
-import Buy from './router/Buy/Buy';
-import Complete from './router/Complete/Complete';
-import History from './router/History/Index/History';
-import More from './router/History/More/More';
+// 카트
+import Cart from './router/Cart/Cart';
+
+// 상품관련
+import Slang from './router/Product/Slang/Slang';
+import Detail from './router/Product/Detail/Index/Detail';
+import Write from './router/Product/Detail/Write/Write';
+import List from './router/Product/List/List';
+
+// 구매관련
+import Buy from './router/Buy/Index/Buy';
+import Complete from './router/Buy/Complete/Complete';
 
 // 권한라우터
 import AuthRouter from './Hoc/AuthRouter';
@@ -64,7 +71,7 @@ function App() {
           {/* 상품정보 */}
           <Route path="detail">
             <Route path=":id" element={<Detail/>}/>
-            {/* <Route path="write/:id" element={<Wirte/>} /> */}
+            <Route path="write" element={<Write/>} />
           </Route>
 
           {/* 구매페이지 */}

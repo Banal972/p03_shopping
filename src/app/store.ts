@@ -3,6 +3,7 @@ import { product, productTag } from "../store/product";
 import { memeber, user } from "../store/user";
 import cart from "../store/cart";
 import { history } from "../store/hitory";
+import { inquiry } from "../store/inquiry";
 
 export const store = configureStore({
     reducer : {
@@ -11,7 +12,8 @@ export const store = configureStore({
         product : product.reducer,
         productTag : productTag.reducer,
         cart : cart.reducer,
-        history : history.reducer
+        history : history.reducer,
+        inquiry : inquiry.reducer
     },
     devTools : process.env.NODE_ENV !== "production"
 });

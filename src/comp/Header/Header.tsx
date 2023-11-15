@@ -135,7 +135,6 @@ function Header({pathSplit}:{pathSplit : String}) {
           <Link to={"/list/999"}>BEST</Link>
           <Link to={"/list/001"}>스니커즈</Link>
           <Link to={"/list/002"}>스포츠</Link>
-          <Link to={"/list/003"}>샌들/슬리퍼</Link>
           <Link to={"/list/456"}>SALE</Link>
         </nav>
 
@@ -204,7 +203,6 @@ function Header({pathSplit}:{pathSplit : String}) {
           <li><Link to={"/list/999"}>BEST</Link></li>
           <li><Link to={"/list/001"}>스니커즈</Link></li>
           <li><Link to={"/list/002"}>스포츠</Link></li>
-          <li><Link to={"/list/003"}>샌들/슬리퍼</Link></li>
           <li><Link to={"/list/456"}>SALE</Link></li>
         </ul>
 

@@ -6,25 +6,32 @@ import "./Detail.scss"
 // 리덕스
 import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from '../../app/store';
+import { RootState } from '../../../../app/store';
+import { ProductState } from "../../../../store/product";
+import { deleteAction, inquiryData } from "../../../../store/inquiry";
 
 // 컴포넌트
-import { addCart } from "../../store/cart";
+import { addCart } from "../../../../store/cart";
 
 // 라이브러리
-import { AiOutlineLeft,AiOutlineRight } from "react-icons/ai";
+
+import { authLogin, toNumber } from "../../../../lib/lib";
 
 // 모듈
 import {EffectFade,Navigation} from "swiper";
 import {Swiper,SwiperSlide} from "swiper/react";
 import $ from "jquery";
-import { ProductState } from "../../store/product";
-import { toNumber } from "../../lib/lib";
+import moment from "moment";
+import { AiOutlineLeft,AiOutlineRight } from "react-icons/ai";
+
+
 
 function Detail() {
 
     const { id } = useParams();
     const dispatch = useDispatch();
+
+    // navigate
     const navigate = useNavigate();
 
     // 유저
@@ -44,12 +51,8 @@ function Detail() {
     // 장바구니 추가기능
     function cartAdd(){
 
-        if(Object.keys(userData).length === 0){
-
-            alert('로그인을 해야합니다.');
-            return navigate('/login');
-
-        }
+        // 로그인체크
+        authLogin(userData,navigate);
 
         if(shoes){ // shoes가 존재하면
 
@@ -250,39 +253,12 @@ function Detail() {
 
                             {
                                 taplist === true ? 
+
                                 <div className="cont" dangerouslySetInnerHTML={{__html : shoes.detail as string}}></div>
+
                                 : 
 
-                                <div className="gh">
-
-                                    <ul className="lay">
-                                        <li>
-                                            <p className="name">작성자 - OOO</p>
-                                            <h2 className="tit">제목입니다.</h2>
-                                            <p className="cont">문의 내용입니다.</p>
-                                            <p className="date">2023/03/20</p>
-                                        </li>
-                                        <li>
-                                            <p className="name">작성자 - OOO</p>
-                                            <h2 className="tit">제목입니다.</h2>
-                                            <p className="cont">문의 내용입니다.</p>
-                                            <p className="date">2023/03/20</p>
-                                        </li>
-                                        <li>
-                                            <p className="name">작성자 - OOO</p>
-                                            <h2 className="tit">제목입니다.</h2>
-                                            <p className="cont">문의 내용입니다.</p>
-                                            <p className="date">2023/03/20</p>
-                                        </li>
-                                    </ul>
-
-                                    <button onClick={()=>{
-                                        navigate(`/detail/write/${id}`);
-                                    }}>
-                                        등록
-                                    </button>
-
-                                </div>
+                                <Inquiry/>
 
                             }
                         
@@ -431,6 +407,7 @@ function Detail() {
   )
 }
 
+// 세일 컴포넌트
 function Sale({price, sale} : {price : any, sale : any}){
 
     function saleCalc(sale : any, price: any){
@@ -444,5 +421,103 @@ function Sale({price, sale} : {price : any, sale : any}){
     )
 
 }
+
+
+// 상품문의 컴포넌트
+function Inquiry(){
+
+    //params
+    const { id } = useParams();
+
+    //navigate
+    const navigate = useNavigate();
+
+    //disptach
+    const dispatch = useDispatch();
+
+    //userData
+    const userData = useSelector((state:RootState)=>state.user);
+
+    //inquiryData
+    const inquiryData = useSelector((state:RootState)=>state.inquiry);
+
+    // 상품문의 데이터
+    const [data,setData] = useState<inquiryData[] | undefined>(undefined);
+
+    // 데이터 filter
+    useEffect(()=>{
+
+        const filter = inquiryData[Number(id)]
+        setData(filter);
+
+    },[id]);
+
+
+    // 수정버튼
+    const updateHanlder = (a : inquiryData)=>{
+        navigate(`/detail/write?mode=u&id=${id}&token=${a.token}`);
+    }
+
+    // 삭제버튼
+    const delHandler = (a : inquiryData)=>{
+
+        if(window.confirm('삭제 하시겠습니까?')){
+            dispatch(deleteAction({
+                productID : id, 
+                user: a.user, 
+                token : a.token
+            }))
+        }
+
+    }
+    
+    
+
+    return (
+        <div className="gh">
+
+            <ul className="lay">
+
+                {
+                    data ?
+                    data.length > 0 ?
+                        data.map((a,i)=>(
+                            <li key={i}>
+                                <p className="gh-n">작성자 - {a.write}</p>
+                                <h2 className="gh-t">{a.title}</h2>
+                                <div className="gh-c" dangerouslySetInnerHTML={{__html : a.cont}}></div>
+                                <p className="gh-d">{moment(new Date(a.date)).format("YYYY/MM/DD")}</p>
+
+                                {
+                                    a.user === userData.userID &&
+                                    <div className="btn-l">
+                                        <button onClick={()=>updateHanlder(a)}>수정</button>
+                                        <button onClick={()=>delHandler(a)}>삭제</button>
+                                    </div>
+                                }
+                                
+                            </li>
+                        ))
+                        : <li>상품문의가 존재하지 않습니다</li>
+                    :
+                    <li>상품문의가 존재하지 않습니다</li>
+                }
+
+            </ul>
+
+            <button className="write" onClick={()=>{
+                // 로그인 체크
+                if(authLogin(userData,navigate)){
+                    navigate(`/detail/write?mode=w&id=${id}`);
+                }
+            }}>
+                등록
+            </button>
+
+        </div>
+    )
+
+}
+
 
 export default Detail

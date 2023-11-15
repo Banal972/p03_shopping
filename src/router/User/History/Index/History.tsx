@@ -4,9 +4,9 @@ import React,{useEffect,useState} from 'react'
 import "./History.scss"
 import {Link} from "react-router-dom"
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../app/store'
+import { RootState } from '../../../../app/store'
 import moment from 'moment';
-import { HistoryInterface } from '../../../store/hitory';
+import { HistoryInterface } from '../../../../store/hitory';
 
 function History() {
 

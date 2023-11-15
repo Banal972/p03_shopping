@@ -3,9 +3,9 @@ import React,{useState,useEffect} from 'react'
 import "./More.scss"
 import { useLocation, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/store';
-import { HistoryInterface } from '../../../store/hitory';
-import { toNumber } from '../../../lib/lib';
+import { RootState } from '../../../../app/store';
+import { HistoryInterface } from '../../../../store/hitory';
+import { toNumber } from '../../../../lib/lib';
 
 function More() {
 

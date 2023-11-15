@@ -1,19 +1,19 @@
 import React,{useEffect,useState,useRef} from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
+import { RootState } from '../../../app/store';
 
 // 컴포넌트
-import Card from '../../comp/Card/Card'
+import Card from '../../../comp/Card/Card'
 
 // 인터페이스
-import {ProudctTag} from "../../store/product"
+import {ProudctTag} from "../../../store/product"
 
 // SCSS
 import "./List.scss";
 
 // Store
-import { ProductState } from '../../store/product';
+import { ProductState } from '../../../store/product';
 
 function List() {
 

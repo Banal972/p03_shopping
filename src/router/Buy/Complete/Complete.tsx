@@ -4,9 +4,11 @@ import {BsBoxSeam} from "react-icons/bs"
 
 // 스타일
 import "./Complete.scss";
+
+// 리덕스
 import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
-import { HistoryInterface } from "../../store/hitory";
+import { RootState } from "../../../app/store";
+import { HistoryInterface } from "../../../store/hitory";
 
 function Complete() {
 

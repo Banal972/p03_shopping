@@ -51,9 +51,6 @@ function Detail() {
     // 장바구니 추가기능
     function cartAdd(){
 
-        // 로그인체크
-        authLogin(userData,navigate);
-
         if(shoes){ // shoes가 존재하면
 
             dispatch(addCart(
@@ -81,24 +78,21 @@ function Detail() {
     // 구매버튼
     function buyHanlder(){
 
-        if(Object.keys(userData).length === 0){
+        if(authLogin(userData,navigate)){
 
-            alert('로그인을 해야합니다.');
-            return navigate('/login');
+            if(shoes){
 
-        }
-
-        if(shoes){
-
-            const buy = [
-                {
-                    product_id : shoes.id,
-                    product_size : size,
-                    product_amount: amount,
-                }
-            ];
-
-            navigate('/buy',{state : {type : "single", buy}});
+                const buy = [
+                    {
+                        product_id : shoes.id,
+                        product_size : size,
+                        product_amount: amount,
+                    }
+                ];
+    
+                navigate('/buy',{state : {type : "single", buy}});
+    
+            }
 
         }
 

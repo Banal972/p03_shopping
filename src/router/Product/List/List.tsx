@@ -112,7 +112,7 @@ function List() {
       break;
 
       case "999" :
-        setImgSrc('listBg01');
+        setImgSrc('listBg05');
         setTitle('BEST');
       break;
 

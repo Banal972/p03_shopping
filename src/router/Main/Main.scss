@@ -9,7 +9,7 @@
             position: relative;
 
             .swiper-slide {
-                overflow: hidden; position: relative; height: 650px;
+                overflow: hidden; position: relative; height: 600px;
 
                 .bg {
                     background-repeat: no-repeat; background-position: center; background-size: 1920px auto;
@@ -42,24 +42,15 @@
 
         }
 
-        // @include max(1280) {
-            
-        //     .swiper {
+        @include max(1280) {
 
-        //         .swiper-slide {
-        //             height: 350px;
-        //         }
+            .swiper {
+                .swiper-slide {
+                    height: 500px;
+                }
+            }
 
-        //         .nav {
-        //             width: 60%;
-        //             li {
-        //                 margin: 0 10px;
-        //             }
-        //         }
-
-        //     }
-
-        // }
+        }
 
         @include max(820) {
 
@@ -101,8 +92,7 @@
 
     }
 
-
-     .s1 {
+    .s1 {
         margin: 100px 0 0 0;
 
         ._k_wrap { 
@@ -271,7 +261,7 @@
                     font-size: 18px; padding: 1em 0 0 0;
         
                     .tit {
-                        font-weight: bold;
+                        font-weight: bold; font-size: 20/18*1em;
                     }
                     
                     .price {
@@ -493,6 +483,7 @@
 
     }
 
+    
 
 
 }

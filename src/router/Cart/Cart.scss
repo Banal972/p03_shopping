@@ -10,49 +10,50 @@
 
     }
 
-    .ctx {
-        overflow-x: auto;
-    }
+    .grid-table {
 
-    .ct {
-        width: 100%; border-top: 2px solid #000; border-bottom: 1px solid #ddd; table-layout: auto;
-        min-width: 900px;
+        border-top: 2px solid #000; border-bottom: 1px solid #ddd;
 
-        colgroup {
-            col {
-                &:nth-of-type(1) {
-                    width: 25px;
-                }
-                &:nth-of-type(3) {
-                    width: 10%;
-                }
-                &:nth-of-type(4) {
-                    width: 10%;
-                }
-                &:nth-of-type(5) {
-                    width: 10%;
-                }
-                &:nth-of-type(6) {
-                    width: 10%;
-                }
+        .h-col {
+            display: grid; grid-template-columns: 50px auto 10% 10% 10%; align-items: center; text-align: center;
+            + .h-col {
+                border-top: 1px solid #ddd;
+            }
+            &.head {
+                font-weight: 600;
             }
         }
 
-        th,
-        td {
-            padding: 15px; vertical-align: middle; text-align: center;
-        }
+        .col {
+            padding: 15px; box-sizing: border-box;
 
-        tr{
-            border-top: 1px solid #ddd;
-        }
+            .flay {
+                .all-amount {
+                    display: none;
+                }
+            }
 
-        td {
+            .check {
+                input {
+                    display: none;
+                    &:checked ~ label {
+                        background: #26a8e0; color: #fff; border-color: #26a8e0;
+                    }
+                }
+                label {
+                    width: 15px; height: 15px; border: 1px solid #ddd; display: block; position: relative; cursor: pointer; box-sizing: border-box; margin: 0 auto;
+                    svg {
+                        position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+                    }
+                }
+
+            }
+
             .fl {
                 display: flex; align-items: center;
 
                 .img {
-                    background: no-repeat center/cover; width: 150px;
+                    background: no-repeat center/cover; width: 150px; border-radius: 5px;
                     &::after {
                         content: ''; display: block; padding-bottom: 100%;
                     }
@@ -84,7 +85,7 @@
             }
 
             p.price {
-                margin-top: 5px; font-weight: bold; white-space: nowrap;
+                font-weight: bold; white-space: nowrap;
                 .color00 {
                     color: #e02626;
                 }
@@ -108,14 +109,18 @@
             }
 
             .delete {
-                background: #000; color: #fff; border: 0; padding: 0.5em 1em; cursor: pointer;
+                background: #e02626; color: #fff; border: 0; padding: 0.5em 1em; cursor: pointer;
                 white-space: nowrap;
+            }
+
+            .p-col {
+                display: none;
             }
 
         }
 
     }
-
+    
     .allPrice {
         display: flex; align-items: center; justify-content: flex-end; align-items: center; margin-top: 25px;
         font-size: 16px;
@@ -130,13 +135,13 @@
     .btnList {
         display: flex; justify-content: flex-end; margin-top: 25px;
         button {
-            border: 1px solid #000; width: 150/16+em; height: 50/16+em; font-weight: bold;
+            border: 1px solid #000; width: 125/16+em; height: 40/16+em; font-weight: bold;
             cursor: pointer; font-size: 16px;
             + button {
                 margin-left: 20px;
             }
             &.color0 {
-                background: #fff; color: #000;
+                background: #e02626; color: #fff; border-color: #e02626;
             }
             &.color1 {
                 background: #000; color: #fff;
@@ -145,8 +150,98 @@
         }
     }
 
+    @include max(1280){
+
+        .grid-table {
+            .h-col {
+                grid-template-columns: 50px auto 15% 15% 15%; font-size: 14px;
+            }
+
+            .col {
+                padding: 15px 10px;
+                .fl {
+                    .img {
+                        width: 100px;
+                    }
+                }
+            }
+        }
+
+    }
+
     @include max(820) {
         padding-top: 50px;
+
+        .grid-table {
+
+            .h-col {
+                text-align: left;
+
+                &.head {
+                    grid-template-columns: 1fr;
+                    .col {
+                        display: none; padding: 0;
+                        &:nth-of-type(1) {
+                            display: block;
+                        }
+                    }
+                }
+
+                &:not(.head){
+                    grid-template-columns: 50px 1fr 1fr;
+                    .col {
+                        grid-column: 2/4;
+
+                        &:nth-of-type(1) {
+                            grid-column: 1;
+                        }
+
+                    }
+                }
+
+                .col {
+
+                    +.col {
+                        padding-top: 0;
+                    }
+
+                    &:nth-of-type(2) {
+                        padding-top: 15px;
+                    }
+
+                    &.amountCol,
+                    &.priceCol {
+                        display: flex; align-items: center;
+                    }
+
+                    .p-col {
+                        font-size: 14px; font-weight: 500; margin-right: 15px; flex: 0 0 auto; display: block;
+                    }
+
+                    .amount {
+                        justify-content: flex-start; flex: 1; max-width: 150px;
+                        input {
+                            width: 100%;
+                        }
+                    }
+
+                    .flay {
+                        display: grid; width: 100%; padding: 15px 0; grid-template-columns: 50px 1fr;
+                        .all-amount {
+                            display: block; margin-left: 10px;
+                        }
+                    }
+
+                    .delete {
+                        display: none;
+                    }
+
+                }
+
+            }
+
+        }
+
     }
 
     @include max(480) {

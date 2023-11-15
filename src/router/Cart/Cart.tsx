@@ -2,12 +2,15 @@
 import "./Cart.scss"
 
 // lib
-import { toNumber } from '../../lib/lib';
+import { authLogin, toNumber } from '../../lib/lib';
 
 // redux
 import { ProductState } from '../../store/product';
 import { RootState } from '../../app/store';
 import { checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart } from '../../store/cart';
+
+// icon
+import { IoIosCheckmark } from "react-icons/io";
 
 // 모듈
 import React,{useState,useEffect} from 'react'
@@ -24,6 +27,9 @@ function Cart() {
 
   // 디스패치
   const dispatch = useDispatch();
+
+  // 유저 가져오기
+  const userData = useSelector((state:RootState)=>state.user);
 
   // 카트 가져오기
   const cart = useSelector((state:RootState)=>state.cart);
@@ -47,7 +53,7 @@ function Cart() {
   },[cart]);
 
   // 선택된 아이템
-  const [checkItem,setCheckItem] = useState<number[]>([]);
+  const [checkItem,setCheckItem] = useState<string[]>([]);
 
   // 모달창
   const [moID,setMoID] = useState({
@@ -66,7 +72,7 @@ function Cart() {
   }
 
   // 단일 선택
-  const handleSingleCheck = (checked : boolean, id : number) => {
+  const handleSingleCheck = (checked : boolean, id : string) => {
 
     if(checked){
       // 단일 선택시 아이템 추가
@@ -82,8 +88,8 @@ function Cart() {
   const handleAllCheck = (checked : boolean) => {
 
     if(checked){
-      const idArray : number[] = [];
-      cart.forEach((el)=> idArray.push(el.id));
+      const idArray : string[] = [];
+      cart.forEach((el)=> idArray.push(`${el.id}${el.size}`));
       setCheckItem(idArray);
     }else{
       setCheckItem([]);
@@ -91,26 +97,29 @@ function Cart() {
 
   }
 
-
-
+  // 구매버튼
   const buyBtn = ()=>{
     
-    const buy = new Array();
+    if(authLogin(userData,navigate)){
 
-    cart.forEach(e=>{
+      const buy = new Array();
 
-      const data = {
-        product_id : e.id,
-        product_size : e.size,
-        product_amount: e.amount,
+      cart.forEach(e=>{
+
+        const data = {
+          product_id : e.id,
+          product_size : e.size,
+          product_amount: e.amount,
+        }
+
+        buy.push(data);
+
+      });
+
+      if(window.confirm('상품을 구매하시겠습니까?')){
+        navigate('/buy',{state : {type : "cart", buy}});
       }
 
-      buy.push(data);
-
-    });
-
-    if(window.confirm('상품을 구매하시겠습니까?')){
-      navigate('/buy',{state : {type : "cart", buy}});
     }
 
   }
@@ -125,123 +134,126 @@ function Cart() {
               장바구니
           </h2>
 
-          <div className="ctx">
-            <table className="ct">
+          <div className="grid-table">
 
-              <colgroup>
-                <col/>
-                <col/>
-                <col/>
-                <col/>
-                <col/>
-                <col/>
-              </colgroup>
+            <div className="h-col head">
 
-              <thead>
-                <tr>
-                  <th>
+              <div className="col">
+                
+                <div className="flay">
+                  <div className="check">
                     <input type="checkbox" 
                       onChange={(e)=>handleAllCheck(e.target.checked)}
-                      checked={checkItem.length === cart.length ? true : false} readOnly
+                      checked={checkItem.length === cart.length ? true : false} 
+                      readOnly
+                      id="all"
                     />
-                  </th>
-                  <th>상품명</th>
-                  <th>가격</th>
-                  <th>수량</th>
-                  <th>합계</th>
-                  <th>삭제</th>
-                </tr>
-              </thead>
+                    <label htmlFor="all"><IoIosCheckmark/></label>
+                  </div>
+                  <p className="all-amount">전체선택 ({checkItem.length}/{cart.length})</p>
+                </div>
 
-              <tbody>
-                {
-                  cart.length > 0 ?
-                  cart.map((elm,i)=>(
+              </div>
+              
+              <div className="col">상품명</div>
+              <div className="col">가격</div>
+              <div className="col">수량</div>
+              <div className="col">삭제</div>
 
-                    <tr key={i}>
-                      <td>
-                        <input type="checkbox" 
-                          onChange={(e)=>{handleSingleCheck(e.target.checked,elm.id)}} 
-                          checked={checkItem.includes(elm.id) ? true : false} readOnly
-                        />
-                      </td>
-                      <td>
-                        <div className="fl">
-                          <div className="img" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
-                          <div className="tbx">
-                            <dl>
-                              <dt>{elm.name}</dt>
-                              <dd>사이즈 : {elm.size}</dd>
-                            </dl>
-                            <button onClick={()=>{
-                              setMoID({
-                                show : true,
-                                id : elm.id
-                              })
-                            }}>옵션변경</button>
-                          </div>
+            </div>
+
+            {
+
+              cart.length > 0 ?
+              cart.map((elm,i)=>(
+                <div className="h-col" key={i}>
+
+                  <div className="col">
+                    <div className="check">
+                      <input type="checkbox" 
+                        onChange={(e)=>{handleSingleCheck(e.target.checked,`${elm.id}${elm.size}`)}} 
+                        checked={checkItem.includes(`${elm.id}${elm.size}`) ? true : false} 
+                        readOnly
+                        id={`chk${elm.id}${elm.size}`}
+                      />
+                      <label htmlFor={`chk${elm.id}${elm.size}`}><IoIosCheckmark/></label>
+                    </div>
+                  </div>
+
+                  <div className="col">
+                    <div className="fl">
+                        <div className="img" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
+                        <div className="tbx">
+                          <dl>
+                            <dt>{elm.name}</dt>
+                            <dd>사이즈 : {elm.size}</dd>
+                          </dl>
                         </div>
-                      </td>
-                      <td>
-                        {
-                          elm.sale ?
-                          <>
-                            <p className="sale">
-                              {toNumber(elm.price as number)}원
-                            </p>
-                            <p className="price">
-                              <Sale price={elm.price} sale={elm.sale} />
-                            </p>
-                          </> 
-                          :
-                          <p className="price">
-                            {toNumber(elm.price as number)}원
-                          </p>
-                        }
-                      </td>
-                      <td>
-                        <div className="amount">
-                          <button onClick={()=>{
-                            dispatch(plusCart(elm.id));
-                          }}>+</button>
-                            <input type="text" value={elm.amount} readOnly />
-                          <button onClick={()=>{
-                            if(elm.amount <= 1){
-                              if(window.confirm('삭제 하시겠습니까?')){
-                                dispatch(deleteCart(elm.id));
-                              }else{
-                                return;
-                              }
-                            }else{
-                              dispatch(minusCart(elm.id));
-                            }
-                          }}>-</button>
+                      </div>
+                  </div>
 
-                        </div>
-                      </td>
-                      <td style={{whiteSpace:"nowrap"}}>
-                        {
-                          elm.sale ?
-                          toNumber(((elm.price - (elm.price * elm.sale/100))*elm.amount) as number)+"원"
-                          :
-                          toNumber(elm.price * elm.amount as number)+"원"
-                        }
-                      </td>
-                      <td>
-                        <button className="delete" onClick={()=>{
-                          if(window.confirm('정말 삭제하시겠습니까?')) dispatch(deleteCart(elm.id));
-                        }}>삭제하기</button>
-                      </td>
-                    </tr>
+                  <div className="col priceCol">
+                    <p className="p-col">가격</p>
+                    {
+                      elm.sale ?
+                      <div>
+                        <p className="sale">
+                          {toNumber(elm.price as number)}원
+                        </p>
+                        <p className="price">
+                          <Sale price={elm.price} sale={elm.sale} />
+                        </p>
+                      </div> 
+                      :
+                      <p className="price">
+                        {toNumber(elm.price as number)}원
+                      </p>
+                    }
+                  </div>
 
-                  ))
-                  :
-                  <tr>
-                    <td colSpan={6}>상품이 존재하지 않습니다.</td>
-                  </tr>
-                }
-              </tbody>
-            </table>
+                  <div className="col amountCol">
+
+                    <p className="p-col">
+                      수량
+                    </p>
+                    <div className="amount">
+
+                      <button onClick={()=>{
+                        dispatch(plusCart({id :elm.id, size : elm.size}));
+                      }}>+</button>
+
+                      <input type="text" value={elm.amount} readOnly />
+
+                      <button onClick={()=>{
+                        if(elm.amount <= 1){
+                          if(window.confirm('삭제 하시겠습니까?')){
+                            dispatch(deleteCart({id : elm.id, size : elm.size}));
+                          }else{
+                            return;
+                          }
+                        }else{
+                          dispatch(minusCart(elm.id));
+                        }
+                      }}>-</button>
+
+                    </div>
+
+                  </div>
+
+                  <div className="col">
+                    <button className="delete" onClick={()=>{
+                      if(window.confirm('정말 삭제하시겠습니까?')) dispatch(deleteCart(elm.id));
+                    }}>삭제하기</button>
+                  </div>
+
+                </div>
+              ))
+              :
+              <div className="h-col">
+                <div className="col" style={{gridColumn:"1/10", textAlign : "center"}}>상품이 존재하지 않습니다.</div>
+              </div>
+            }
+
           </div>
 
           <div className="allPrice">
@@ -290,7 +302,6 @@ function Sale(props : {sale : number,price : number}){
 
 
 // 모달 컴포넌트
-
 function Modal({size,modalClose} : {size : number, modalClose: Function}) {
 
   const dispatch = useDispatch();

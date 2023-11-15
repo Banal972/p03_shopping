@@ -12,9 +12,11 @@ const cart = createSlice({
     initialState : initialState,
     reducers : {
         addCart(state,action){
+            
+            const {id,size} = action.payload
 
             let rs = state.findIndex(el=>{ // findIndex 로 값이 있는지 체크
-                return el.id === action.payload.id;
+                return el.id === id && el.size === size;
             });
 
             if(rs > -1){ // 값이 존재하면
@@ -24,26 +26,38 @@ const cart = createSlice({
             }
 
         },
-        checkDelete(state,actions){
-            return state.filter(elm => !actions.payload.includes(elm.id));
+        checkDelete(state,action){
+            return state.filter(elm => !action.payload.includes(elm.id));
             // 배열끼리 비교하여 중복삭제
         },
         allDelete(state,action){
             return []; // 전체삭제
         },
-        deleteCart(state,actions){
-            let rs = state.findIndex(elm=>elm.id === actions.payload);
+        deleteCart(state,action){
+
+            const {id,size} = action.payload
+            
+            let rs = state.findIndex(elm=>elm.id === id && elm.size === size);
             if(rs > -1){
                 state.splice(rs,1); // splice로 배열삭제
             }
+
         },
-        minusCart(state,actions){
-            let rs = state.findIndex(elm=>elm.id === actions.payload);
+        minusCart(state,action){
+
+            const {id,size} = action.payload
+
+            let rs = state.findIndex(elm=>elm.id === id && elm.size === size);
             state[rs].amount--;
+
         },
-        plusCart(state,actions){
-            let rs = state.findIndex(elm=>elm.id === actions.payload);
+        plusCart(state,action){
+
+            const {id,size} = action.payload
+
+            let rs = state.findIndex(elm=>elm.id === id && elm.size === size);
             state[rs].amount++;
+
         },
         sizeChangeCart(state,actions){
             let rs = state.findIndex(elm=>elm.id === actions.payload.id);

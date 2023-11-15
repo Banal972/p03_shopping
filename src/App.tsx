@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes, useLocation } from 'react-router';
+import {Outlet} from "react-router-dom"
 
 // SCSS
 import "./asset/scss/layout.scss"
@@ -31,9 +32,13 @@ import List from './router/Product/List/List';
 import Buy from './router/Buy/Index/Buy';
 import Complete from './router/Buy/Complete/Complete';
 
+// 404에러
+import Not from './router/Not/Not';
+
 // 권한라우터
 import AuthRouter from './Hoc/AuthRouter';
 import PassFind from './router/User/PassFind/PassFind';
+
 
 
 function App() {
@@ -42,14 +47,20 @@ function App() {
 
   return (
     <div className="App">
-      <Header pathSplit={router.pathname.split('/')[1]} />
+      
       
       <Routes>
 
-        <Route path='/'>
+        <Route path='/' element={
+          <>
+            <Header pathSplit={router.pathname.split('/')[1]} />
+              <Outlet/>
+            <Footer/>
+          </>
+        }>
 
           {/* 메인페이지 */}
-          <Route index  element={<Main/>} ></Route>
+          <Route index element={<Main/>} ></Route>
           
           {/* 유저관련 라우터 */}
           <Route path='login' element={<Login/>}/>
@@ -58,7 +69,7 @@ function App() {
           <Route path='sign' element={<Sign/>}/>
           
           {/* 장바구니 */}
-          <Route path='cart' element={<AuthRouter><Cart/></AuthRouter>}/>
+          <Route path='cart' element={<Cart/>}/>
 
           {/* 상품리스트 */}
           <Route path='list'>
@@ -66,32 +77,69 @@ function App() {
           </Route>
 
           {/* 찜목록 */}
-          <Route path='slang' element={<Slang/>}/>
+          <Route path='slang' 
+            element={
+              <AuthRouter>
+                <Slang/>
+              </AuthRouter>
+            }
+          />
 
           {/* 상품정보 */}
           <Route path="detail">
             <Route path=":id" element={<Detail/>}/>
-            <Route path="write" element={<Write/>} />
+            <Route path="write" 
+              element={
+                <AuthRouter>
+                  <Write/>
+                </AuthRouter>
+              } 
+            />
           </Route>
 
           {/* 구매페이지 */}
-          <Route path='buy' element={<Buy/>} />
+          <Route path='buy' 
+            element={
+              <AuthRouter>
+                <Buy/>
+              </AuthRouter>
+            }
+          />
 
           {/* 구매 완료페이지 */}
-          <Route path='complete/:token' element={<Complete/>} />
+          <Route path='complete/:token' 
+            element={
+              <AuthRouter>
+                <Complete/>
+              </AuthRouter>
+            } 
+          />
 
           {/* 구매내역 */}
           <Route path='history'>
-            <Route index element={<History/>} />
-            <Route path='more/:token' element={<More/>} />
+            <Route index 
+              element={
+                <AuthRouter>
+                  <History/>
+                </AuthRouter>
+              } 
+            />
+            <Route path='more/:token' 
+              element={
+                <AuthRouter>
+                  <More/>
+                </AuthRouter>
+              }
+            />
           </Route>
 
 
         </Route>
 
+        <Route path='/*' element={<Not/>}/>
+
       </Routes>
 
-      <Footer/>
     </div>
   );
 }

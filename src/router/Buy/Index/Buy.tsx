@@ -220,7 +220,7 @@ function Buy() {
                 <ul className='box'>
                   {
                     buyItem.map((a,i)=>(
-                      <li>
+                      <li key={i}>
                         <div className="img" style={{backgroundImage: `url(${a.src})`}}></div>
                         <div className="tbx">
                           {

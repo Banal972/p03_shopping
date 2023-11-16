@@ -112,8 +112,10 @@ function Detail() {
 
         let rendom :ProductState[] = [];
 
+        const filter = productData.filter(e=>e.id !== Number(id));
+
         for(let i= 0; i < 8; i++){
-            let randomNum = Math.floor(Math.random()* productData.length);
+            let randomNum = Math.floor(Math.random()* filter.length);
             if(!rendom.includes(productData[randomNum])){ // 중복제거
                 rendom.push(productData[randomNum]);
             }
@@ -238,7 +240,7 @@ function Detail() {
 
                             <ul className="tap">
                                 <li className={taplist ? "active" : undefined} onClick={()=>setTaplist(true)} >상세정보</li>
-                                <li className={!taplist ? "active" : undefined} onClick={()=>setTaplist(false)} >상품문의</li>
+                                <li className={!taplist ? "active" : undefined} onClick={()=>setTaplist(false)} >상품후기</li>
                                 <li></li>
                                 <li></li>
                             </ul>
@@ -337,7 +339,21 @@ function Detail() {
                             </h2>
 
                             <p className="price">
-                                { shoes.price.toLocaleString('ko-KR') } 원
+                                {
+                                    shoes &&
+                                    shoes.sale ?
+                                    <>
+                                        <span>{shoes.price.toLocaleString('ko-KR')}</span> 
+                                        <span className="p-no">
+                                            { (shoes.price - (shoes.price * shoes.sale / 100)).toLocaleString("ko-KR") }원
+                                        </span>
+                                    </>
+                                    :
+                                    <>
+                                        { shoes.price.toLocaleString('ko-KR') } 원
+                                    </>
+                                }
+                                
                             </p>
 
                             <div className="layr">
@@ -376,9 +392,7 @@ function Detail() {
                                                 setAmount(amount+1);
                                             }}
                                         >+</button>
-                                        <div className="num">
-                                            {amount}
-                                        </div>
+                                        <input type="text" className="num" value={amount} onChange={(e)=>{setAmount(Number(e.target.value))}} />
                                         <button
                                             onClick={()=>{
                                                 if(amount <= 1){
@@ -407,9 +421,9 @@ function Detail() {
 }
 
 // 세일 컴포넌트
-function Sale({price, sale} : {price : any, sale : any}){
+function Sale({price, sale} : {price : number, sale : number}){
 
-    function saleCalc(sale : any, price: any){
+    function saleCalc(sale : number, price: number){
         return price - (price * sale/100);
     }
 

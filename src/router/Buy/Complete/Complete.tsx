@@ -9,6 +9,7 @@ import "./Complete.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { HistoryInterface } from "../../../store/hitory";
+import { toNumber } from "../../../lib/lib";
 
 function Complete() {
 
@@ -54,14 +55,14 @@ function Complete() {
                                         }
                                         <p className="name">{a.name}</p>
                                         <p className="option">└ 신발 사이즈 - {a.product_size}</p>
-                                        <p className="option">└ 가격 - {a.price}원</p>
+                                        <p className="option">└ 가격 - {toNumber(a.price as number)}원</p>
                                     </div>
 
                                 </div>
 
                                 <div className="tbm">
                                     <p> 
-                                        구매 갯수 : {a.product_amount}개 <span>{a.price * a.product_amount} 원</span> 
+                                        구매 갯수 : {a.product_amount}개 <span>{toNumber(a.price * a.product_amount as number)} 원</span> 
                                     </p>
                                     <p> 할인율 : <span>{a.sale ? a.sale : 0} %</span> </p>
                                     <p className="last"> 
@@ -69,11 +70,11 @@ function Complete() {
                                             {
                                                 a.sale ? 
                                                 <>
-                                                    <i>{a.price * a.product_amount}</i> { (a.price - (a.price * a.sale/100) ) * a.product_amount}
+                                                    <i>{toNumber(a.price * a.product_amount as number)}</i> { toNumber((a.price - (a.price * a.sale/100) ) * a.product_amount as number) }
                                                 </>
                                                 :
                                                 <>
-                                                    {a.price * a.product_amount}
+                                                    {toNumber(a.price * a.product_amount as number)}
                                                 </>
                                             }
                                             원
@@ -89,8 +90,8 @@ function Complete() {
 
                 </ul>
 
-                <p className="delivery">배송비 <span>{item?.total_pay.delivery_pay} 원</span></p>
-                <p className="all">총 결제금액 <span>{item?.total_pay.total} 원</span></p>
+                <p className="delivery">배송비 <span>{toNumber(item?.total_pay.delivery_pay as number)} 원</span></p>
+                <p className="all">총 결제금액 <span>{toNumber(item?.total_pay.total as number)} 원</span></p>
 
                 <div className="btn">
                     <Link to={'/history'}>주문내역</Link>

@@ -119,7 +119,7 @@ function Write() {
 
         <div className="_k_wrap" data-max="1024">
 
-            <h2 className="t-title">상품문의 - {productName}</h2>
+            <h2 className="t-title">상품후기 - {productName}</h2>
 
             <div className="input-t">
                 <label htmlFor="t">제목</label>

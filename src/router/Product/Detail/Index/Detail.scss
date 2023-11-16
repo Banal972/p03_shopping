@@ -231,6 +231,15 @@
 
         .price {
             margin-top: 25px; font-size: 28px; font-weight: 500;
+
+            span:not(.p-no) {
+                text-decoration: line-through; font-size: 20/28*1em;
+            }
+
+            .p-no {
+                margin-left: 10px; color: #e02626;
+            }
+
         }
 
         .layr {
@@ -274,7 +283,7 @@
                         }
                         .num {
                             width: 100px; border: 1px solid #666; display: flex; align-items: center;
-                            justify-content: center; margin: 0 10px; font-size: 18px; border-radius: 2.5px;
+                            justify-content: center; margin: 0 10px; font-size: 18px; border-radius: 2.5px; text-align: center;
                         }
                     }
 
@@ -332,7 +341,7 @@
             padding: 0; flex: 0.7; margin-left: 50px;
 
             .tit {
-                font-size: 32px;
+                font-size: 28px;
             }
 
             .price {

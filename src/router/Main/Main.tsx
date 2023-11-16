@@ -95,7 +95,7 @@ function Main() {
             
             <h2 className="c-t">
               지금 가장<br/>
-              주목해야할 인기상품
+              주목해야 할 인기상품
             </h2>
 
             <Card offset={20} data={best} />

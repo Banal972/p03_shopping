@@ -61,7 +61,7 @@ function PassFind() {
             <p className='line'>비밀번호 찾기</p>
             <div className="in">
                 <input type="text" value={input.user_id} placeholder='아이디' onChange={e=>inputHandler(e,"user_id")} />
-                <p>가입시 사용했던 성함을 입력해주세요.</p>
+                <p>가입시 사용했던 아이디을 입력해주세요.</p>
             </div>
             <div className="in">
                 <input type="email" value={input.user_email} placeholder='이메일' onChange={e=>inputHandler(e,"user_email")} />

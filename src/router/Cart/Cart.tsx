@@ -7,7 +7,7 @@ import { authLogin, toNumber } from '../../lib/lib';
 // redux
 import { ProductState } from '../../store/product';
 import { RootState } from '../../app/store';
-import { checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart } from '../../store/cart';
+import { checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart, chengeCart } from '../../store/cart';
 
 // icon
 import { IoIosCheckmark } from "react-icons/io";
@@ -222,7 +222,9 @@ function Cart() {
                         dispatch(plusCart({id :elm.id, size : elm.size}));
                       }}>+</button>
 
-                      <input type="text" value={elm.amount} readOnly />
+                      <input type="text" value={elm.amount} onChange={(e)=>{
+                        dispatch( chengeCart ({id :elm.id, size : elm.size, amount: e.target.value}) );
+                      }} />
 
                       <button onClick={()=>{
                         if(elm.amount <= 1){
@@ -232,7 +234,7 @@ function Cart() {
                             return;
                           }
                         }else{
-                          dispatch(minusCart(elm.id));
+                          dispatch(minusCart({id :elm.id, size : elm.size}));
                         }
                       }}>-</button>
 

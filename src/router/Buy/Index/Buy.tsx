@@ -160,8 +160,8 @@ function Buy() {
     });
 
 
-    // 만약 총 가격이 45000 이상이면
-    if(total_product >= 45000){
+    // 만약 총 가격이 100000 이상이면
+    if(total_product >= 100000){
       delivery_pay = 0
     }
 
@@ -344,8 +344,6 @@ function Modal({change, modal} : {change : React.Dispatch<React.SetStateAction<D
         }
         fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
       }
-
-      console.log(zipcode,fullAddress);
 
       setData((prev)=>({
         ...prev,

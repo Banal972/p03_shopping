@@ -71,27 +71,16 @@ export let {loginAction,logoutAction,addSlangAction,removeSlangAction} = user.ac
 
 const memeberInitialState :UserInterface[] = [
     {
-        userID : "admin",
-        password : "qq1234",
+        userID : "test",
+        password : "a123456",
         email : "admin@test.com",
-        name: "어드민",
-        nickname : "어드민",
+        name: "테스트",
+        nickname : "테스트",
         zipcode: "21405",
         address: "인천 부평구 경원대로1232번길 2 (산곡동)",
         address2: "21321",
         phone: "01012345678"
     },
-    {
-        userID: "test",
-        password: "!qlqjs123",
-        email: "test01@test.com",
-        name: "테스트",
-        nickname: "테스트",
-        zipcode: "21405",
-        address: "인천 부평구 경원대로1232번길 2 (산곡동)",
-        address2: "21321",
-        phone: "01012345678"
-    }
 ];
 
 /* if(localStorage.key("member" as any)){

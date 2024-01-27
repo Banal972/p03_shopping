@@ -1,32 +1,19 @@
-import {useEffect, useState} from 'react'
+import React,{useEffect} from 'react'
+import "./Slang.scss"
+import Card from '../../../comp/Card/Card'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../app/store'
 
 // GSAP
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 
-// Recoil
-import { useRecoilValue } from "recoil";
-import { userState } from "../../../state/atoms/user";
-import { ProductType } from "../../../types/customType";
-import axios from "axios";
-
-import Card from '../../../component//Card/Card'
-
 function Slang() {
 
-    const user = useRecoilValue(userState);
-    const [slangProductData,setSlangProductData] = useState<ProductType[]>([]);
-    useEffect(()=>{
-        axios.get('http://localhost:9000/product')
-        .then(({data} : {data : ProductType[]})=>{
-            const filter = data.filter(el=>user?.slang?.some(e => e === el.id)); // some 은 특정 조건을 충족하는지 검사해줍니다.
-            setSlangProductData(filter);
-        })
-        .catch(e=>{
-            console.log('통신 에러');
-        })
-    },[user]);
-
+    const user = useSelector((state:RootState)=>state.user);
+    const slangProductData = useSelector((state:RootState)=>state.product).filter(el=>{
+        return user?.slang?.some(e => e === el.id);
+    })
 
     // GSAP
     gsap.registerPlugin(ScrollTrigger);
@@ -62,7 +49,7 @@ function Slang() {
 
             <h1 className="h1">관심상품</h1>
 
-            <Card data={slangProductData}/>
+            <Card offset={10} data={slangProductData}/>
 
         </div>
         

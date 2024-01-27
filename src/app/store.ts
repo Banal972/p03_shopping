@@ -1,9 +1,9 @@
 import {configureStore, createSlice} from "@reduxjs/toolkit";
-import { product, productTag } from "../store/product";
-import { memeber, user } from "../store/user";
-import cart from "../store/cart";
-import { history } from "../store/hitory";
-import { inquiry } from "../store/inquiry";
+import { product, productTag } from "../../remove/store/product";
+import { memeber, user } from "../../remove/store/user";
+import cart from "../../remove/store/cart";
+import { history } from "../../remove/store/hitory";
+import { inquiry } from "../../remove/store/inquiry";
 
 export const store = configureStore({
     reducer : {

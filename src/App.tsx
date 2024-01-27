@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 import {Outlet} from "react-router-dom"
 
@@ -6,38 +5,49 @@ import {Outlet} from "react-router-dom"
 import "./asset/scss/layout.scss"
 
 // 컴포넌트
-import Header from './comp/Header/Header';
-import Footer from './comp/Footer/Footer';
+import Header from './component/Header/Header';
+import Footer from './component/Footer/Footer';
 
 // 라우터
 import Main from './router/Main/Main';
 
-// 유저 관련
-import Login from './router/User/Login/Login';
-import Sign from './router/User/Sign/Sign';
-import IdFind from './router/User/IdFind/IdFind';
-import History from './router/User/History/Index/History';
-import More from './router/User/History/More/More';
-
-// 카트
-import Cart from './router/Cart/Cart';
-
-// 상품관련
-import Slang from './router/Product/Slang/Slang';
-import Detail from './router/Product/Detail/Index/Detail';
-import Write from './router/Product/Detail/Write/Write';
-import List from './router/Product/List/List';
-
-// 구매관련
-import Buy from './router/Buy/Index/Buy';
-import Complete from './router/Buy/Complete/Complete';
-
 // 404에러
 import Not from './router/Not/Not';
 
+// 장바구니
+import Cart from './router/Cart/Cart';
+
+// 상품관련
+import List from './router/Product/List/List';
+import Slang from './router/Product/Slang/Slang';
+import Detail from './router/Product/Detail/Detail/Detail';
+
+
+// 구매관련
+import Buy from './router/Buy/Buy/Buy';
+import Complete from './router/Buy/Complete/Complete';
+
+// 유저 관련
+import History from './router/User/History/Index/History';
+import More from './router/User/History/More/More';
+
 // 권한라우터
 import AuthRouter from './Hoc/AuthRouter';
-import PassFind from './router/User/PassFind/PassFind';
+
+
+/* // 유저 관련
+import Sign from './router/User/Sign/Sign';
+import Login from './router/User/Login/Login';
+
+import IdFind from './router/User/IdFind/IdFind';
+
+
+// 상품관련
+
+import Write from './router/Product/Detail/Write/Write';
+
+
+import PassFind from './router/User/PassFind/PassFind'; */
 
 
 
@@ -48,7 +58,6 @@ function App() {
   return (
     <div className="App">
       
-      
       <Routes>
 
         <Route path='/' element={
@@ -56,17 +65,17 @@ function App() {
             <Header pathSplit={router.pathname.split('/')[1]} />
               <Outlet/>
             <Footer/>
-          </>
+          </>          
         }>
 
           {/* 메인페이지 */}
           <Route index element={<Main/>} ></Route>
           
           {/* 유저관련 라우터 */}
-          <Route path='login' element={<Login/>}/>
+          {/* <Route path='login' element={<Login/>}/>
           <Route path='idfind' element={<IdFind/>}/>
           <Route path='passfind' element={<PassFind/>}/>
-          <Route path='sign' element={<Sign/>}/>
+          <Route path='sign' element={<Sign/>}/> */}
           
           {/* 장바구니 */}
           <Route path='cart' element={<Cart/>}/>
@@ -88,13 +97,13 @@ function App() {
           {/* 상품정보 */}
           <Route path="detail">
             <Route path=":id" element={<Detail/>}/>
-            <Route path="write" 
+            {/* <Route path="write" 
               element={
                 <AuthRouter>
                   <Write/>
                 </AuthRouter>
               } 
-            />
+            /> */}
           </Route>
 
           {/* 구매페이지 */}

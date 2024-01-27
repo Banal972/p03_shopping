@@ -1,9 +1,9 @@
 import { NavigateFunction } from "react-router-dom";
-import { UserInterface } from "../store/user";
+import { UserType } from "../types/customType";
 
 // 3자리마다 소수점
 export const toNumber = (price : number ) =>{
-    if(price != undefined){
+    if(price !== undefined){
         return price.toLocaleString("ko-KR")
     }
 }
@@ -17,8 +17,8 @@ export const getToken = ()=>{
 }
 
 // 로그인체크
-export const authLogin = (user : UserInterface,navigate : NavigateFunction)=>{
-    if(Object.keys(user).length === 0){
+export const authLogin = (user : UserType, navigate : NavigateFunction)=>{
+    if(!user){
 
         alert('로그인을 해야합니다.');
         return navigate('/login');

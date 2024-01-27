@@ -1,14 +1,14 @@
 import React,{useState,useEffect} from 'react'
 import {Link,useNavigate} from "react-router-dom"
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {useCookies} from "react-cookie"
 import axios from 'axios';
 
-// 타입
-import { UserType } from '../../../types/customType';
-
 // SCSS
 import "./Login.scss"
+
+// 타입
+import { UserType } from '../../../types/customType';
 
 function Login() {
 
@@ -16,7 +16,7 @@ function Login() {
     const navigate = useNavigate();
 
     // 디스패치
-    // const dispath = useDispatch();
+    const dispath = useDispatch();
 
     // 쿠키
     const [cookies, setCookie, removeCookie] = useCookies(['userID']);
@@ -44,19 +44,13 @@ function Login() {
     const [memeberData,setMemeberData] = useState<UserType>({});
     useEffect(()=>{
 
-        const api = process.env.REACT_APP_MEMBER_AJAX || "";
-
-        if(api){
-
-            axios.get(api)
-            .then(({data})=>{
-                setMemeberData(data);
-            })
-            .catch(e=>{
-                console.log('통신 에러');
-            });
-
-        }
+        axios.get('http://localhost:9000/user')
+        .then(({data})=>{
+            setMemeberData(data);
+        })
+        .catch(e=>{
+            console.log('통신 에러');
+        });
 
     },[]);
 

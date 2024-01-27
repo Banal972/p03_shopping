@@ -1,15 +1,20 @@
 import {useEffect,useState,useRef} from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
 import axios from 'axios';
 
 // 컴포넌트
-import Card from '../../../component/Card/Card'
+import Card from '../../../comp/Card/Card'
+
+// 인터페이스
+import {ProudctTag} from "../../../store/product"
 
 // SCSS
 import "./List.scss";
 
 // 타입
-import { ProductType, TagType } from '../../../types/customType';
+import { ProductType } from '../../../types/customType';
 
 function List() {
 
@@ -26,53 +31,32 @@ function List() {
   const [productData,setProductData] = useState<ProductType[]>([]);
   useEffect(()=>{
 
-    const api = process.env.REACT_APP_PRODUCT_AJAX || "";
-
-    if(api){
-
-      axios.get(api)
-      .then(({data} : {data : ProductType[]})=>{
-        setProductData(data)
-      })
-      .catch(e=>{
-        console.log('통신 에러');
-      })
-
-    }
+    axios.get('http://localhost:9000/product')
+    .then(({data})=>{
+      setProductData(data)
+    })
+    .catch(e=>{
+      console.log('통신 에러');
+    })
 
   },[]);
 
   // 태그 가져오기
-  const [tagData,setTagData] = useState<TagType[]>([]);
-  useEffect(()=>{
-    const api = process.env.REACT_APP_TAG_AJAX || ""
-    if(api){
-
-      axios.get(api)
-      .then(({data} : {data : TagType[]})=>{
-        setTagData(data);
-      })
-      .catch(e=>{
-        console.log('통신 에러');
-      })
-
-    }
-  },[])
-
-  const [productTag,setProductTag] = useState<TagType | null>(null);
+  const tagData = useSelector((state : RootState)=>state.productTag);
+  const [productTag,setProductTag] = useState<ProudctTag | undefined>(undefined);
 
   useEffect(()=>{
 
     const filter = tagData.filter(e=>e.tagNumber === cate)[0];
     setProductTag(filter);
 
-  },[cate,tagData]);
+  },[cate]);
 
   // 태그 선택
   const [selectTag,setSelectTag] = useState('전체');
   
   // 데이터 1차 공정
-  let [filterProductData,setFilterProductData] = useState<ProductType[]>([]);
+  let [filterProductData,setFilterProductData] = useState<ProductType[]>();
   useEffect(()=>{
 
     if(cate === "456"){ // 세일 데이터
@@ -177,7 +161,7 @@ function List() {
                 productTag.name.map((el,i)=>
                   <li 
                     key={i} 
-                    className={el === selectTag as string ? "act" : undefined} 
+                    className={el == selectTag as String ? "act" : undefined} 
                     onClick={()=>tagHandler(el as string)}
                   >
                     {el}
@@ -186,7 +170,7 @@ function List() {
               }
             </ul>
 
-            <Card type={"scroll"} data={tagFilterProductData} cate={cate}/>
+            <Card offset={10} type={"scroll"} data={tagFilterProductData} cate={cate}/>
 
         </div>
         

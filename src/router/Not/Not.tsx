@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import {useEffect} from 'react'
 import not from "../../asset/img/not.svg"
 import "./Not.scss"
 import gsap from 'gsap'

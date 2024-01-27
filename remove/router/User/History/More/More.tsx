@@ -1,24 +1,22 @@
 import React,{useState,useEffect} from 'react'
 
 import "./More.scss"
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
+import { RootState } from '../../../../app/store';
+import { HistoryInterface } from '../../../../store/hitory';
 import { toNumber } from '../../../../lib/lib';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../../../../state/atoms/user';
-import { historyState } from '../../../../state/atoms/history';
-import { HistoryType } from '../../../../types/customType';
 
 function More() {
 
   const {token} = useParams();
-  const user = useRecoilValue(userState);
-  const history = useRecoilValue(historyState);
-  const [data,setData] = useState<HistoryType>();
+  const user = useSelector((state:RootState)=>state.user);
+  const history = useSelector((state:RootState)=>state.history);
+  const [data,setData] = useState<HistoryInterface>();
 
   useEffect(()=>{
 
-    const data = history.filter(e=> e.user === user?.userID && e.token === Number(token))[0];
+    const data = history.filter(e=> e.user === user.userID && e.token === Number(token))[0];
     setData(data);
 
     window.scrollTo(0,0);
@@ -57,7 +55,7 @@ function More() {
                   </dl>
 
                   <div className="ibx">
-                    <div className="img" style={{backgroundImage : `url(${process.env.PUBLIC_URL}${a.src})`}}></div>
+                    <div className="img" style={{backgroundImage : `url(${a.src})`}}></div>
                     <dl>
                       <dt>{a.name}</dt>
                       <dd>사이즈 - {a.product_size}</dd>
@@ -78,9 +76,9 @@ function More() {
           <h4 className="small-tit">구매자 정보</h4>
 
           <ul className='list'>
-            <li><p>주문자</p> <span>{user?.name}</span></li>
-            <li><p>연락처</p> <span>{user?.phone}</span></li>
-            <li><p>이메일</p> <span>{user?.email}</span></li>
+            <li><p>주문자</p> <span>{user.name}</span></li>
+            <li><p>연락처</p> <span>{user.phone}</span></li>
+            <li><p>이메일</p> <span>{user.email}</span></li>
           </ul>
 
         </div>

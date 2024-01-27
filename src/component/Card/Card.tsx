@@ -1,8 +1,6 @@
-import React,{useState,useEffect} from 'react'
+import React,{useEffect} from 'react'
 import { useNavigate } from 'react-router'
-import { useLocation } from 'react-router-dom';
 import { AiOutlineHeart,AiFillHeart } from "react-icons/ai";
-import { useDispatch, useSelector, useStore } from 'react-redux';
 
 // GSAP
 import gsap from 'gsap';
@@ -12,13 +10,13 @@ import { ScrollTrigger } from 'gsap/all';
 import "./Card.scss";
 
 // 스토어
-import { RootState } from '../../app/store';
-import { addSlangAction,removeSlangAction } from '../../store/user';
-import { ProductState } from '../../store/product';
+import { ProductState } from '../../../remove/store/product';
 import { toNumber } from '../../lib/lib';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../state/atoms/user';
 
 interface CardType {
-  offset : number
+  offset? : number
   type? : string
   data? : ProductState[]
   cate? : String | Number
@@ -26,36 +24,37 @@ interface CardType {
 
 function Card(props : CardType){
 
-  const {offset,data,type,cate} = props;
+    const {data,type} = props;
+
+/*   
   const limit = 10;
 
   // location
   const location = useLocation();
 
-  // 모듈
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+// 데이터 2차 공정
+const [sliceData,setSliceData] = useState<ProductState[]>();
 
-  // 유저
-  const user = useSelector((state:RootState)=>state.user);
-  
-  // 데이터 2차 공정
-  const [sliceData,setSliceData] = useState<ProductState[]>();
-
-  useEffect(()=>{
+useEffect(()=>{
 
     const limitCalc = limit + offset;
     const slice = data?.slice(offset,(limitCalc));
 
     setSliceData(slice);
 
-  },[offset]);
+},[offset]); */
+
+  // 모듈
+  const navigate = useNavigate();
+
+  // 유저
+  const [user,setUser] = useRecoilState(userState);
 
   // 찜목록
-  const iconHandler = (e:React.MouseEvent<HTMLDivElement>,elm:any)=>{
+  const iconHandler = (e:React.MouseEvent<HTMLDivElement>,elm : number)=>{
 
     // 로그인이 안되어있으면
-    if(Object.keys(user).length === 0){
+    if(!user){
       window.alert('로그인을 해야 찜을 하실수있습니다.') 
       navigate('/login');
       return;
@@ -63,20 +62,32 @@ function Card(props : CardType){
 
     //user 안에 slang이란 배열안에 id값이 존재하는지 확인
     if(user?.slang?.includes(elm)){
-      if(window.confirm('정말 삭제하시겠습니까?')){
-        dispatch(removeSlangAction(elm));
+
+        if(window.confirm('정말 삭제하시겠습니까?')){
+          
+            setUser( (prev) => ({
+                ...prev,
+                slang : prev?.slang?.filter(e=>e !== elm) // slang 에서 클릭한 elm을 제외하고 넣어줍니다.
+            }));
+            
+        }
+        
+      }else{
+  
+        setUser( (prev) => ({
+            ...prev,
+            slang : [...(prev?.slang || []), elm] // []을 붙인이유는 null 일수도 있기 때문에 null 일경우 빈 배열을 전달해줍니다.
+        }));
+          
       }
-    }else{
-      dispatch(addSlangAction(elm));
-    }
     
   }
 
-  // GSAP
+  // 스크롤 애니메이션
   gsap.registerPlugin(ScrollTrigger);
   useEffect(()=>{
 
-    if(type === "scroll"){
+    if(type === "scroll"){ // 타입이 스크롤 일때
 
       gsap.utils.toArray<HTMLElement>(".cardLayout .item").forEach((e)=>{
 
@@ -99,7 +110,7 @@ function Card(props : CardType){
 
     }
 
-  },[data]);
+  },[data,type]);
 
   return (
     <div className="cardLayout">
@@ -112,7 +123,10 @@ function Card(props : CardType){
                   <div className="img"  onClick={(e)=>{
                     navigate(`/detail/${elm.id}`);
                   }}>
-                    <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}} ></div>
+                    <div 
+                        className="bg" 
+                        style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}} 
+                    />
                   </div>
 
                   <div className="tbx">
@@ -123,10 +137,11 @@ function Card(props : CardType){
 
                     <p className='price'>
                       { 
-                        elm.sale ? 
-                        <Sale sale={elm.sale} price={elm.price} />
+                        elm.sale 
+                        ? 
+                            <Sale sale={elm.sale} price={elm.price} />
                         :
-                        toNumber(elm.price as number)+"원"
+                            toNumber(elm.price as number)+"원"
                       }
                     </p>
 
@@ -136,7 +151,12 @@ function Card(props : CardType){
 
                     <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
                         {
-                          user && user.slang?.find(item=>item === elm.id) ? <AiFillHeart/> : <AiOutlineHeart/>
+                          user && 
+                            user.slang?.find(item=>Number(item) === elm.id) 
+                            ? 
+                                <AiFillHeart/> 
+                            : 
+                                <AiOutlineHeart/>
                         }
                     </div>
 

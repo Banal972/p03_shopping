@@ -1,30 +1,34 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import "./asset/css/reset.css";
 import "./asset/scss/commond.scss";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import {Provider} from "react-redux";
-import {store} from "./app/store"
 
 // 쿠키
 import {CookiesProvider} from "react-cookie"
+import { RecoilRoot } from 'recoil';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
+
+  // <Provider store={store}>
+  // </Provider> 
+
   // <React.StrictMode>
     
   // </React.StrictMode>
+
   <CookiesProvider>
-    <Provider store={store}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <RecoilRoot>
         <App />
-      </BrowserRouter>
-    </Provider>
+      </RecoilRoot>
+    </BrowserRouter>
   </CookiesProvider>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

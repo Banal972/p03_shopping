@@ -1,13 +1,12 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from '../app/store'
 import { Navigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../state/atoms/user';
 
 function AuthRouter({children}:{children : JSX.Element}) {
 
-  const user = useSelector((state:RootState)=>state.user);
+  const user = useRecoilValue(userState);
 
-  if(Object.keys(user).length === 0){
+  if(!user){
     alert('로그인을 해야 이용하실수 있습니다.');
     return (
       <Navigate to="/login"/>

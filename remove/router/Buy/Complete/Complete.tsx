@@ -6,27 +6,23 @@ import {BsBoxSeam} from "react-icons/bs"
 import "./Complete.scss";
 
 // 리덕스
-// import { useSelector } from "react-redux";
-// import { RootState } from "../../../app/store";
-// import { HistoryInterface } from "../../../store/hitory";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../app/store";
+import { HistoryInterface } from "../../../store/hitory";
 import { toNumber } from "../../../lib/lib";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../../state/atoms/user";
-import { historyState } from "../../../state/atoms/history";
-import { HistoryType } from "../../../types/customType";
 
 function Complete() {
 
     const {token} = useParams();
 
-    const user = useRecoilValue(userState);
-    const history = useRecoilValue(historyState);
-    const [item,setItem] = useState<HistoryType>();
+    const user = useSelector((state:RootState)=>state.user);
+    const history = useSelector((state:RootState)=>state.history);
+    const [item,setItem] = useState<HistoryInterface>();
 
     useEffect(()=>{
 
         const filter = history.filter(e=>{
-            return e.token === Number(token) && e.user === user?.userID
+            return e.token === Number(token) && e.user === user.userID
         })[0];
 
         setItem(filter);
@@ -51,7 +47,7 @@ function Complete() {
 
                                 <div className="tup">
 
-                                    <div className="img" style={{backgroundImage : `url(${process.env.PUBLIC_URL}${a.src})`}}></div>
+                                    <div className="img" style={{backgroundImage : `url(${a.src})`}}></div>
                                     
                                     <div className="desc">
                                         {

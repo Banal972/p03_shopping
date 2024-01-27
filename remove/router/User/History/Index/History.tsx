@@ -1,27 +1,29 @@
-import {useEffect,useState} from 'react'
-import moment from 'moment';
-import {Link} from "react-router-dom"
-import { toNumber } from '../../../../lib/lib'
-import { useRecoilValue } from 'recoil';
-import { historyState } from '../../../../state/atoms/history';
-import { userState } from '../../../../state/atoms/user';
-import { HistoryType } from '../../../../types/customType';
+import React,{useEffect,useState} from 'react'
 
 // SCSS
 import "./History.scss"
+import {Link} from "react-router-dom"
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../app/store'
+import moment from 'moment';
+import { HistoryInterface } from '../../../../store/hitory';
+import { toNumber } from '../../../../lib/lib'
 
 function History() {
 
-    const history = useRecoilValue(historyState);
-    const user = useRecoilValue(userState);
+    const history = useSelector((state:RootState)=>state.history);
+    const user = useSelector((state:RootState)=>state.user);
 
-    const [historyData,setHistoryData] = useState<HistoryType[]>([]);
+    const [historyData,setHistoryData] = useState<HistoryInterface[]>([]);
+
+
     useEffect(()=>{
 
-        const filter = history.filter(e=>e.user === user?.userID);
+        const filter = history.filter(e=>e.user === user.userID);
         setHistoryData(filter);
 
     },[user]);
+
     
   return (
     <div className="history">
@@ -42,7 +44,7 @@ function History() {
                                 e.buyItem.map((a,index)=>(
 
                                     <div className="imb" key={index}>
-                                        <div className="img" style={{backgroundImage : `url(${process.env.PUBLIC_URL}${a.src})`}}></div>
+                                        <div className="img" style={{backgroundImage : `url(${a.src})`}}></div>
                                         <div className="tbx">
                                             <p className='name'>{a.name} </p>
                                             <p className='size'>SIZE : {a.product_size} | {a.product_amount}개</p>

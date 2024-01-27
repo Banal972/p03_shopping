@@ -1,85 +1,74 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {Swiper,SwiperSlide} from "swiper/react"
 import {Parallax,Pagination,Autoplay,Navigation} from "swiper"
-import { useSelector } from 'react-redux'
-import { RootState } from '../../app/store'
 import { AiOutlineLeft,AiOutlineRight,AiOutlineSwapRight } from "react-icons/ai";
-
-// 컴포넌트
-import Card from '../../comp/Card/Card'
+import { useNavigate } from 'react-router'
+import axios from 'axios'
 
 // 스타일
 import "swiper/css"
 import "./Main.scss"
-import { useNavigate } from 'react-router'
+
+// 타입
+import { ProductType } from '../../types/customType'
+
+// 컴포넌트
+import Card from '../../component/Card/Card'
+
 import { toNumber } from '../../lib/lib'
-import { ProductState } from '../../store/product'
+
 
 function Main() {
 
   // 유틸
   const navigate = useNavigate();
 
-  //비주얼
-  const [visual,setVisual] = useState<string[]>(['visual01.jpg','visual02.jpg','visual03.jpg','visual04.jpg']);
-
-  const Visual: React.FC = ()=>{
-
-    return (
-
-      <Swiper
-          speed={600}
-          loop={true}
-          parallax={true}
-          modules={[Parallax,Pagination,Autoplay]}
-          autoplay={{
-            delay : 5000,
-            disableOnInteraction : false
-          }}
-          pagination={{
-            el : ".main .visual .nav",
-            clickable : true,
-            renderBullet : function(i:number,className:string) :string {
-              return `<li class="${className}"><div class="bar"></div></li>`;
-            }
-          }}
-        >
-          {
-            visual.map((elm,i)=>(
-              <SwiperSlide key={i}>
-                <div className="bg" data-swiper-parallax="70%" style={{backgroundImage : `url(${process.env.PUBLIC_URL}/img/main/${elm})`}}></div>
-              </SwiperSlide>
-            ))
-          }
-
-          <ul className="nav"></ul>
-
-        </Swiper>
-
-    )
-
-  }
-
   // 상품
-  const productData = useSelector((state: RootState)=>state.product);
+  const [productData,setProductData] = useState<ProductType[]>([]);
+
+  useEffect(()=>{
+
+    axios.get('http://localhost:9000/product')
+    .then(({data})=>{
+      setProductData(data);
+    })
+    .catch(e=>{
+      console.log('통신에러');
+    })
+
+  },[]);
+
 
   // 인기상품
-  const [best,setBest] = useState<ProductState[]>([]);
+  const [best,setBest] = useState<ProductType[]>([]);
 
   useEffect(()=>{
     const filter = productData.filter(e => e.hit >= 100).sort((a,b)=>{ return b.hit - a.hit })
     setBest(filter);
-  },[]);
+  },[productData]);
 
+  
   // 세일데이터
-  const saleData = useSelector((state : RootState)=>state.product).filter(el=>{
-    if(el.sale  !== undefined){
-      return el.sale > 0;
-    }
-  });
+  const [saleData,setSaleData] = useState<ProductType[]>([]);
+  useEffect(()=>{
+    const filter = productData.filter((el)=>{
+      if(el.sale  !== undefined){
+        return el.sale > 0;
+      }
+      return false;
+    });
+    setSaleData(filter);
+  },[productData])
 
   // 단독상품데이터
-  const onlyData = useSelector((state : RootState)=>state.product).filter(el=>el.only);
+  const [onlyData,setOnlyData] = useState<ProductType[]>([]);
+  useEffect(()=>{
+
+    const filter = productData.filter(el=>el.only);
+    setOnlyData(filter);
+
+  },[productData])
+  
 
 
   return (
@@ -172,7 +161,7 @@ function Main() {
                     navigate(`/detail/${elm.id}`);
                   }}>
                     <div className="img">
-                      <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
+                      <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}/${elm.src})`}}></div>
                     </div>
                     <div className="tbx">
                       <h2 className="tit">
@@ -245,6 +234,46 @@ function Sale({price, sale} : {price : number, sale : number}){
       <>
           <span className="sales">{toNumber(price as number)}</span> <span className='color00'>{toNumber(saleCalc(sale,price) as number)}원</span>
       </>
+  )
+
+}
+
+function Visual(){
+
+  //비주얼
+  const visual = ['visual01.jpg','visual02.jpg','visual03.jpg','visual04.jpg'];
+
+  return (
+
+    <Swiper
+        speed={600}
+        loop={true}
+        parallax={true}
+        modules={[Parallax,Pagination,Autoplay]}
+        autoplay={{
+          delay : 5000,
+          disableOnInteraction : false
+        }}
+        pagination={{
+          el : ".main .visual .nav",
+          clickable : true,
+          renderBullet : function(i:number,className:string) :string {
+            return `<li class="${className}"><div class="bar"></div></li>`;
+          }
+        }}
+      >
+        {
+          visual.map((elm,i)=>(
+            <SwiperSlide key={i}>
+              <div className="bg" data-swiper-parallax="70%" style={{backgroundImage : `url(${process.env.PUBLIC_URL}/img/main/${elm})`}}></div>
+            </SwiperSlide>
+          ))
+        }
+
+        <ul className="nav"></ul>
+
+      </Swiper>
+
   )
 
 }

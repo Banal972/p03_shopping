@@ -1,39 +1,24 @@
-// SCSS
-import "./Cart.scss"
+import {useState,useEffect} from 'react'
+import { useNavigate } from 'react-router-dom';
+import { IoIosCheckmark } from "react-icons/io";
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { userState } from '../../state/atoms/user';
+import { cartState } from '../../state/atoms/cart';
+import { BuyType, CartType } from '../../types/customType';
 
 // lib
 import { authLogin, toNumber } from '../../lib/lib';
 
-// redux
-import { ProductState } from '../../store/product';
-import { RootState } from '../../app/store';
-import { checkDelete, deleteCart, minusCart, plusCart, sizeChangeCart, chengeCart } from '../../store/cart';
-
-// icon
-import { IoIosCheckmark } from "react-icons/io";
-
-// 모듈
-import React,{useState,useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { AiOutlineClose } from "react-icons/ai";
-import { useNavigate } from 'react-router-dom';
+// SCSS
+import "./Cart.scss"
 
 
 function Cart() {
 
 
-  // 네비게이터
-  const navigate = useNavigate();
-
-  // 디스패치
-  const dispatch = useDispatch();
-
-  // 유저 가져오기
-  const userData = useSelector((state:RootState)=>state.user);
-
   // 카트 가져오기
-  const cart = useSelector((state:RootState)=>state.cart);
-  
+  const cart = useRecoilValue(cartState);  
+
   // 총액
   const [total,setTotal] = useState(0);
   // 총액계산
@@ -42,10 +27,10 @@ function Cart() {
     let allPrice = 0;
 
     cart.forEach((elm)=>{
-      elm.sale ? 
-        allPrice += (elm.price - (elm.price * elm.sale/100)) * elm.amount
+      elm.product.sale ? 
+        allPrice += (elm.product.price - (elm.product.price * elm.product.sale/100)) * elm.amount
       :
-        allPrice += elm.price * elm.amount;
+        allPrice += elm.product.price * elm.amount;
     });
 
     setTotal(allPrice);
@@ -54,22 +39,7 @@ function Cart() {
 
   // 선택된 아이템
   const [checkItem,setCheckItem] = useState<string[]>([]);
-
-  // 모달창
-  const [moID,setMoID] = useState({
-    show : false,
-    id : 0,
-  });
-
-  // 모달창닫기
-  const modalClose = ()=>{
-
-    setMoID({
-      ...moID,
-      show :false
-    });
-    
-  }
+  
 
   // 단일 선택
   const handleSingleCheck = (checked : boolean, id : string) => {
@@ -97,32 +67,6 @@ function Cart() {
 
   }
 
-  // 구매버튼
-  const buyBtn = ()=>{
-    
-    if(authLogin(userData,navigate)){
-
-      const buy = new Array();
-
-      cart.forEach(e=>{
-
-        const data = {
-          product_id : e.id,
-          product_size : e.size,
-          product_amount: e.amount,
-        }
-
-        buy.push(data);
-
-      });
-
-      if(window.confirm('상품을 구매하시겠습니까?')){
-        navigate('/buy',{state : {type : "cart", buy}});
-      }
-
-    }
-
-  }
 
   return (
     <>
@@ -173,8 +117,8 @@ function Cart() {
                       <input type="checkbox" 
                         onChange={(e)=>{handleSingleCheck(e.target.checked,`${elm.id}${elm.size}`)}} 
                         checked={checkItem.includes(`${elm.id}${elm.size}`) ? true : false} 
-                        readOnly
                         id={`chk${elm.id}${elm.size}`}
+                        readOnly
                       />
                       <label htmlFor={`chk${elm.id}${elm.size}`}><IoIosCheckmark/></label>
                     </div>
@@ -182,10 +126,10 @@ function Cart() {
 
                   <div className="col">
                     <div className="fl">
-                        <div className="img" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.src})`}}></div>
+                        <div className="img" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${elm.product.src})`}}></div>
                         <div className="tbx">
                           <dl>
-                            <dt>{elm.name}</dt>
+                            <dt>{elm.product.name}</dt>
                             <dd>사이즈 : {elm.size}</dd>
                           </dl>
                         </div>
@@ -195,18 +139,18 @@ function Cart() {
                   <div className="col priceCol">
                     <p className="p-col">가격</p>
                     {
-                      elm.sale ?
+                      elm.product.sale ?
                       <div>
                         <p className="sale">
-                          {toNumber(elm.price as number)}원
+                          {toNumber(elm.product.price as number)}원
                         </p>
                         <p className="price">
-                          <Sale price={elm.price} sale={elm.sale} />
+                          <Sale price={elm.product.price} sale={elm.product.sale} />
                         </p>
                       </div> 
                       :
                       <p className="price">
-                        {toNumber(elm.price as number)}원
+                        {toNumber(elm.product.price as number)}원
                       </p>
                     }
                   </div>
@@ -217,35 +161,15 @@ function Cart() {
                       수량
                     </p>
                     <div className="amount">
-
-                      <button onClick={()=>{
-                        dispatch(plusCart({id :elm.id, size : elm.size}));
-                      }}>+</button>
-
-                      <input type="text" value={elm.amount} onChange={(e)=>{
-                        dispatch( chengeCart ({id :elm.id, size : elm.size, amount: e.target.value}) );
-                      }} />
-
-                      <button onClick={()=>{
-                        if(elm.amount <= 1){
-                          if(window.confirm('삭제 하시겠습니까?')){
-                            dispatch(deleteCart({id : elm.id, size : elm.size}));
-                          }else{
-                            return;
-                          }
-                        }else{
-                          dispatch(minusCart({id :elm.id, size : elm.size}));
-                        }
-                      }}>-</button>
-
+                      <AddCart elm={elm}/>
+                      <ChangeCart elm={elm}/>
+                      <DeleteCart elm={elm}/>
                     </div>
 
                   </div>
 
                   <div className="col">
-                    <button className="delete" onClick={()=>{
-                      if(window.confirm('정말 삭제하시겠습니까?')) dispatch(deleteCart(elm.id));
-                    }}>삭제하기</button>
+                    <RemoveCart elm={elm}/>
                   </div>
 
                 </div>
@@ -263,38 +187,260 @@ function Cart() {
             <h2><span>{toNumber(total as number)}</span>원</h2>
           </div>
 
-          <div className="btnList">
-            <button className="color0" onClick={()=>{
-
-              if(checkItem.length <= 0){
-                return alert('체크된 상품이 없습니다.')
-              }
-
-              if(window.confirm("삭제하시겠습니까?")){
-                dispatch(checkDelete(checkItem))
-              }
-            }}>
-              선택삭제
-            </button>
-            <button className="color1" onClick={buyBtn}>
-              결제하기
-            </button>
-          </div>
+          <RemoveBuy checkItem={checkItem}/>
 
         </div>
       </div>
-
-      {
-        moID.show ?
-          <Modal size={moID.id} modalClose={modalClose}/>
-        :
-          null
-      }
 
     </>
   )
 }
 
+// 갯수 추가 컴포넌트
+function AddCart(props : {elm : CartType}){
+
+  const {elm} = props;
+
+  const [cart,setCart] = useRecoilState(cartState);
+
+  const addHandler = ()=>{
+
+    const rs = cart.findIndex(el=>{ // findIndex 로 값이 있는지 체크
+        return el.id === elm.id && el.size === elm.size;
+    });
+
+    if(rs > -1){ // 값이 존재하면
+      
+      // Recoil은 불변성을 강제해서 새로운 배열을 생성하고 수정해줘야합니다.
+      const updateCart = cart.map((item,index)=>
+        index === rs
+        ? {
+          ...item,
+          amount : item.amount + 1
+        }
+        : item
+      );
+
+      setCart(updateCart);
+
+    }
+
+  }
+
+  return (
+    <button onClick={addHandler}>+</button>
+  )
+}
+
+
+// 값 삭제 컴포넌트
+function DeleteCart(props : {elm : CartType}){
+
+  const {elm} = props;
+
+  const [cart,setCart] = useRecoilState(cartState);
+
+  const removeHandler = ()=>{
+
+    let rs = cart.findIndex(el=>el.id === elm.id && el.size === elm.size);
+
+    if(elm.amount <= 1){
+      
+      if(window.confirm('삭제 하시겠습니까?')){
+
+        if(rs > -1){
+
+          setCart((prev)=>{
+            const updateCart = prev.filter((item,index)=>index !== rs);
+            return updateCart;
+          })
+
+        }
+
+      }
+
+    }else{
+
+      const updateCart = cart.map((item,index)=>
+        index === rs
+        ? {
+          ...item,
+          amount : item.amount - 1
+        }
+        : item
+      );
+
+      setCart(updateCart)
+
+    }
+
+  }
+
+  return (
+    <button 
+      onClick={removeHandler}
+    >-</button>
+  )
+
+}
+
+
+// 값 수정 컴포넌트
+function ChangeCart(props : {elm : CartType}){
+
+  const {elm} = props;
+
+  const [cart,setCart] = useRecoilState(cartState);
+
+  const changeHanlder = (e : React.ChangeEvent<HTMLInputElement>)=>{
+    
+    let rs = cart.findIndex(el=>{ // findIndex 로 값이 있는지 체크
+        return el.id === elm.id && el.size === elm.size;
+    });
+
+    if(rs > -1){ // 값이 존재하면
+      
+      if(window.confirm('삭제 하시겠습니까?')){
+
+        if(Number(e.target.value) === 0){ // 0을 입력했을때 삭제할건지
+          setCart((prev)=>{
+            const updateCart = prev.filter((item,index)=>index !== rs);
+            return updateCart;
+          })
+        }
+
+      }else{
+
+        setCart((prev)=>{ 
+          const prevCart = [...prev];
+          prevCart[rs] = {
+            ...prevCart[rs],
+            amount : Number(e.target.value)
+          }
+          return prevCart;
+        });
+
+      }
+
+    }
+      
+  }
+
+  return(
+    <input 
+      type="text" 
+      value={elm.amount} 
+      onChange={(e)=>changeHanlder(e)}
+    />
+  )
+
+}
+
+// 전체 삭제 컴포넌트
+function RemoveCart(props : {elm : CartType}){
+
+  const {elm} = props;
+  const [cart,setCart] = useRecoilState(cartState);
+
+  const removeHandler = ()=>{
+
+    let rs = cart.findIndex(el=>el.id === elm.id && el.size === elm.size);
+
+    if(window.confirm('삭제 하시겠습니까?')){
+
+      if(rs > -1){
+
+        setCart((prev)=>{
+          const prevCart = [...prev].filter((item,index)=>index !== rs); // splice로 배열삭제
+          return prevCart;
+        })
+
+      }
+
+    }
+
+  }
+
+  return(
+    <button 
+      className="delete"
+      onClick={removeHandler}
+    >삭제하기</button>
+  )
+
+}
+
+// 결제/삭제 컴포넌트
+function RemoveBuy(props : {checkItem : string[]}){
+
+  const {checkItem} = props;
+
+  // 네비게이터
+  const navigate = useNavigate();
+
+  // 유저 가져오기
+  const userData = useRecoilValue(userState);
+
+  const [cart,setCart] = useRecoilState(cartState);
+
+  // 구매버튼
+  const buyBtn = ()=>{
+    
+    if(userData && authLogin(userData,navigate)){
+
+      const buy :BuyType[] = [];
+
+      cart.forEach(e=>{
+
+        const data = {
+          product_id : e.id,
+          product_size : e.size,
+          product_amount: e.amount,
+        }
+
+        buy.push(data);
+
+      });
+
+      if(window.confirm('상품을 구매하시겠습니까?')){
+        navigate('/buy',{state : {type : "cart", buy}});
+      }
+
+    }
+
+  }
+
+  return (
+    <div className="btnList">
+            
+      <button className="color0" onClick={()=>{
+
+        if(checkItem.length <= 0){
+          return alert('체크된 상품이 없습니다.')
+        }
+
+        if(window.confirm("삭제하시겠습니까?")){
+
+          setCart((prev)=>{
+            const prevCart = [...prev].filter(el => checkItem.includes(`${el.product.id}${el.product.size}`))
+            return prevCart;
+          });
+
+        }
+      }}>
+        선택삭제
+      </button>
+
+      <button 
+        className="color1" 
+        onClick={buyBtn}
+      >
+        결제하기
+      </button>
+
+    </div>
+  )
+}
 
 // 세일 컴포넌트
 function Sale(props : {sale : number,price : number}){
@@ -307,65 +453,6 @@ function Sale(props : {sale : number,price : number}){
     <span className="color00">{ toNumber(saleCalc(props.sale,props.price) as number)}원</span>
   )
 
-}
-
-
-// 모달 컴포넌트
-function Modal({size,modalClose} : {size : number, modalClose: Function}) {
-
-  const dispatch = useDispatch();
-
-  const productData = useSelector((state:RootState)=>state.product);
-
-  const [shoes,setShoes] = useState<ProductState>();
-  useEffect(()=>{
-    
-    if(productData){
-      setShoes(
-          productData.find(a=>{
-              return a.id === size;
-          })
-      );
-    }
-      
-  },[size]);    
-
-return (
-  <div className="modal-cart">
-    <div className="back"></div>
-    <div className="cont">
-
-      <div className="close" onClick={()=>{
-          modalClose();
-      }}>
-          <AiOutlineClose/>
-      </div>
-
-      <h2>
-          사이즈 변경
-      </h2>
-
-      <ul className="size">
-          {
-              shoes ? 
-                  shoes.size.map((elm,i)=>(
-                      <li key={i} onClick={()=>{
-                          if(window.confirm(`${elm}cm로 수정하시겠습니까?`)){
-                              dispatch(sizeChangeCart({
-                                  id : size,
-                                  size : elm
-                              }));
-                              modalClose();
-                          }
-                      }}>{elm}</li>
-                  ))
-              : null
-          }
-      </ul>
-
-    </div>
-  </div>
-)
 }
 
 export default Cart

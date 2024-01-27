@@ -1,22 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 // 아이콘
 import { BsCart2,BsPerson } from "react-icons/bs"
 import {AiFillGithub} from "react-icons/ai"
 
-// 리덕스
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
-import { logoutAction } from '../../store/user';
-
 // 모듈
 import $ from "jquery"
-import gsap from "gsap"
 
 // 이미지
 import arr from "../../asset/img/snb_dep2Arr.png"
 import logo from "../../asset/img/logo.svg"
+
+// Recoil
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { userState } from '../../state/atoms/user';
 
 function Header({pathSplit}:{pathSplit : String}) {
 
@@ -37,21 +35,22 @@ function Header({pathSplit}:{pathSplit : String}) {
   const navigate = useNavigate();
 
   // 디스패치
-  const dispath = useDispatch();
+  // const dispath = useDispatch();
 
   // 유저값 가져오기
-  const user = useSelector((state:RootState)=>state.user);
+  const [user,setUser] = useRecoilState(userState);
+  // useSelector((state:RootState)=>state.user);
   
   // 유저 로그아웃
   const logoutHandler = (e:React.MouseEvent<HTMLAnchorElement>)=>{
     e.preventDefault();
     alert('로그아웃 되었습니다');
-    dispath(logoutAction());
+    setUser(null);
     navigate('/');
   }
 
   // 카트값 가져오기
-  const cart = useSelector((state:RootState)=>state.cart);
+/*   const cart = useSelector((state:RootState)=>state.cart);
   // 장바구니 갯수
   const [cartAmount,setCartAmount] = useState(0);
 
@@ -59,14 +58,14 @@ function Header({pathSplit}:{pathSplit : String}) {
   useEffect(()=>{
     // 카드안에 갯수만큼 수정
     setCartAmount(cart.length);
-  },[cart]);
+  },[cart]); */
 
   useEffect(()=>{
 
-    let chk :Number = 0;
+    let chk : number = 0;
 
     $(".header .snb .icon").eq(1).on("click",function(){
-      if(chk == 0){
+      if(chk === 0){
         $(this).find('.dep2').stop().slideDown(300);
         chk = 1;
       }else{
@@ -85,41 +84,18 @@ function Header({pathSplit}:{pathSplit : String}) {
 
   },[]);
 
-  const menuTl = useMemo(()=>gsap.timeline({paused : true }),[]);
   const [menuClick,setMenuClick] = useState(false);
 
   useEffect(()=>{
     setMenuClick(false);
     document.querySelector('.header')?.classList.remove("active");
   },[location])
-  
-
-/*   useEffect(()=>{
-
-    menuTl.to('.header .menu span:nth-of-type(1)',{
-      rotate : 45,
-      top : "50%",
-      yPercent : -50
-    },'m')
-    .to('.header .menu span:nth-of-type(2)',{
-      xPercent : -50,
-      opacity : 0
-    },'m')
-    .to('.header .menu span:nth-of-type(3)',{
-      rotate : -45,
-      top : "50%",
-      yPercent : -50
-    },'m');
-
-  },[]) */
 
   const menuHanlder = ()=>{
     if(menuClick){
-      // menuTl.reverse();
       setMenuClick(false);
       document.querySelector('.header')?.classList.remove("active");
     }else{
-      // menuTl.restart();
       setMenuClick(true);
       document.querySelector('.header')?.classList.add("active");
     }
@@ -149,7 +125,7 @@ function Header({pathSplit}:{pathSplit : String}) {
             {/* 장바구니 */}
             <div className="icon">
               {
-                cartAmount !== 0 && <p className='num'>{cartAmount}</p>
+                // cartAmount !== 0 && <p className='num'>{cartAmount}</p>
               }
               <Link to={"/cart"}><BsCart2/></Link>
             </div>
@@ -164,7 +140,7 @@ function Header({pathSplit}:{pathSplit : String}) {
                 <ul>
 
                   {
-                    Object.keys(user).length === 0 ?
+                    !user ?
                     <>
                       <li><Link to={"/login"}>로그인</Link></li>
                       <li><Link to={"/sign"}>회원가입</Link></li>
@@ -213,7 +189,7 @@ function Header({pathSplit}:{pathSplit : String}) {
 
         <div className="bottom">
             <p className='p'>
-                이 사이트는 Banal(김지유) <span> <AiFillGithub/><a href="https://github.com/Banal972" target='_blank'>https://github.com/Banal972</a> </span> 포트폴리오 사이트 입니다.
+                이 사이트는 Banal(김지유) <span> <AiFillGithub/><a href="https://github.com/Banal972" target='_blank' rel="noreferrer">https://github.com/Banal972</a> </span> 포트폴리오 사이트 입니다.
             </p>
 
             <p className='copy'>Copyright 2023.Banal(김지유). All rights reserved.</p>

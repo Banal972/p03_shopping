@@ -7,23 +7,24 @@ import "./Detail.scss"
 import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from '../../../../app/store';
-import { ProductState } from "../../../../store/product";
 import { deleteAction, inquiryData } from "../../../../store/inquiry";
 
 // 컴포넌트
 import { addCart } from "../../../../store/cart";
 
 // 라이브러리
-
 import { authLogin, toNumber } from "../../../../lib/lib";
 
 // 모듈
-import {Autoplay, EffectFade,Navigation} from "swiper";
-import {Swiper,SwiperSlide} from "swiper/react";
-import $ from "jquery";
 import moment from "moment";
+import axios from "axios";
+import $ from "jquery";
+import {Autoplay, Navigation} from "swiper";
+import {Swiper,SwiperSlide} from "swiper/react";
 import { AiOutlineLeft,AiOutlineRight } from "react-icons/ai";
 
+// 타입
+import { ProductType } from "../../../../types/customType";
 
 
 function Detail() {
@@ -38,14 +39,58 @@ function Detail() {
     const userData = useSelector((state : RootState)=>{return state.user});
 
     // 제품
-    const productData = useSelector((state : RootState)=>{return state.product});
+    const [productData,setProductData] = useState<ProductType[]>([]);
+    useEffect(()=>{
 
-    // 관리
-    const [shoes,setShoes] = useState<ProductState | undefined>(undefined);
+        axios.get('http://localhost:9000/product')
+        .then(({data})=>{
+            setProductData(data);
+        })
+        .catch(e=>{
+            console.log('통신에러');
+        })
+
+    },[]);
+
+    // 번호에 맞는 신발
+    const [shoes,setShoes] = useState<ProductType | undefined>(undefined);
     const [size,setSize] = useState<Number>();
     const [amount,setAmount] = useState(1);
-    const [rShoes,setRShoes] = useState<ProductState[] | null>(null);
+    useEffect(()=>{ 
 
+        if(id){
+            const finds = productData.find((a)=>a.id === Number(id));
+            setShoes(finds);
+            setSize(finds?.size[0])
+            setAmount(1);
+        }
+
+    },[id,productData]);
+
+    // 랜덤 신발
+    const [rShoes,setRShoes] = useState<ProductType[] | null>(null);
+    useEffect(()=>{ 
+
+        if(id){
+
+            let rendom :ProductType[] = [];
+
+            const filter = productData.filter(e=>e.id !== Number(id));
+
+            for(let i= 0; i < 8; i++){
+                let randomNum = Math.floor(Math.random()* filter.length);
+                if(!rendom.includes(productData[randomNum])){ // 중복제거
+                    rendom.push(productData[randomNum]);
+                }
+            }
+
+            setRShoes(rendom);
+
+        }
+
+    },[shoes,productData]);
+
+    // 상세정보, 상품후기 탭 변경
     const [taplist,setTaplist] = useState(true);
 
     // 장바구니 추가기능
@@ -98,33 +143,6 @@ function Detail() {
 
     }
     
-    // 이펙트
-    useEffect(()=>{ // 번호에 맞는 신발
-
-        const finds = productData.find((a)=>a.id === Number(id));
-        setShoes(finds);
-        setSize(finds?.size[0])
-        setAmount(1);
-
-    },[id]);
-
-    useEffect(()=>{ // 랜덤 신발
-
-        let rendom :ProductState[] = [];
-
-        const filter = productData.filter(e=>e.id !== Number(id));
-
-        for(let i= 0; i < 8; i++){
-            let randomNum = Math.floor(Math.random()* filter.length);
-            if(!rendom.includes(productData[randomNum])){ // 중복제거
-                rendom.push(productData[randomNum]);
-            }
-        }
-
-        setRShoes(rendom);
-
-    },[shoes]);
-
 
     //반응형
     function webResize(){
@@ -149,9 +167,10 @@ function Detail() {
     
     } 
 
+    // 페이지를 맨위로 올리기
     useEffect(()=>{
 
-        window.scrollTo(0,0); // 페이지를 맨위로 올리기
+        window.scrollTo(0,0);
         webResize();
 
         window.addEventListener('resize',webResize);
@@ -160,7 +179,7 @@ function Detail() {
             window.removeEventListener('resize',webResize);
         }
 
-    },[shoes]);
+    },[id]);
 
 
   return (
@@ -176,64 +195,7 @@ function Detail() {
                         <div className="slide">
                             <div className="bix">
                                 <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${shoes.src})`}}></div>
-                                {/* <Swiper
-                                    modules={[EffectFade]}
-                                    effect="fade"
-                                >
-                                    {
-                                        new Array(5).fill(0).map((e,i)=>(
-                                            <SwiperSlide key={i}>
-                                                <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${shoes.src})`}}></div>
-                                            </SwiperSlide>
-                                        ))
-                                    }
-                                </Swiper> */}
                             </div>
-                            {/* <div className="sm">
-                                <button className="prev">
-                                    <AiOutlineLeft/>
-                                </button>
-                                <Swiper
-                                    modules={[Navigation]}
-                                    slidesPerView={2}
-                                    spaceBetween={10}
-                                    loop={false}
-                                    navigation={{
-                                        prevEl : '.sm .prev',
-                                        nextEl : '.sm .next'
-                                    }}
-                                    breakpoints={{
-                                        281 : {
-                                            slidesPerView : 3,
-                                            spaceBetween : 15
-                                        },
-                                        481 : {
-                                            slidesPerView : 4,
-                                            spaceBetween : 15
-                                        },
-                                        821 : {
-                                            slidesPerView : 3,
-                                            spaceBetween : 20
-                                        },
-                                        1025 : {
-                                            slidesPerView : 4,
-                                            spaceBetween : 20
-                                        }
-                                    }}
-                                >
-                                    {
-                                        new Array(6).fill(0).map((e,i)=>(
-                                            <SwiperSlide key={i}>
-                                                <div className="bg" style={{backgroundImage:`url(${process.env.PUBLIC_URL}${shoes.src})`}}></div>
-                                            </SwiperSlide>
-                                        ))
-                                    }
-
-                                </Swiper>
-                                <button className="next">
-                                    <AiOutlineRight/>
-                                </button>
-                            </div> */}
                         </div>
 
                         <div className="detail">
@@ -246,16 +208,12 @@ function Detail() {
                             </ul>
 
                             {
-                                taplist === true ? 
-
-                                <div className="cont" dangerouslySetInnerHTML={{__html : shoes.detail as string}}></div>
-
+                                taplist === true 
+                                ? 
+                                    <div className="cont" dangerouslySetInnerHTML={{__html : shoes.detail as string}}></div>
                                 : 
-
-                                <Inquiry/>
-
+                                    <Inquiry/>
                             }
-                        
 
                         </div>
                                     
@@ -334,82 +292,83 @@ function Detail() {
 
                     <div className="rbx">
 
-                            <h2 className="tit">
-                                {shoes.name}
-                            </h2>
+                        <h2 className="tit">
+                            {shoes.name}
+                        </h2>
 
-                            <p className="price">
-                                {
-                                    shoes &&
-                                    shoes.sale ?
-                                    <>
-                                        <span>{shoes.price.toLocaleString('ko-KR')}</span> 
-                                        <span className="p-no">
-                                            { (shoes.price - (shoes.price * shoes.sale / 100)).toLocaleString("ko-KR") }원
-                                        </span>
-                                    </>
-                                    :
-                                    <>
-                                        { shoes.price.toLocaleString('ko-KR') } 원
-                                    </>
-                                }
-                                
-                            </p>
+                        <p className="price">
+                            {
+                                shoes &&
+                                shoes.sale ?
+                                <>
+                                    <span>{shoes.price.toLocaleString('ko-KR')}</span> 
+                                    <span className="p-no">
+                                        { (shoes.price - (shoes.price * shoes.sale / 100)).toLocaleString("ko-KR") }원
+                                    </span>
+                                </>
+                                :
+                                <>
+                                    { shoes.price.toLocaleString('ko-KR') } 원
+                                </>
+                            }
+                            
+                        </p>
 
-                            <div className="layr">
-                                
-                                <dl>
-                                    <dt>상품내용</dt>
-                                    <dd>
-                                        {shoes.description}
-                                    </dd>
-                                </dl>
+                        <div className="layr">
+                            
+                            <dl>
+                                <dt>상품내용</dt>
+                                <dd>
+                                    {shoes.description}
+                                </dd>
+                            </dl>
 
-                                <dl>
-                                    <dt>신발 사이즈</dt>
-                                    <dd className="size">
-                                        {
-                                            shoes.size.map((elm,i)=>(
-                                                <button 
-                                                    onClick={(e)=>{
-                                                        setSize(elm);
-                                                    }} 
-                                                    className={elm === size ? 'active' : undefined} 
-                                                    key={i}
-                                                > 
-                                                    {String(elm)} 
-                                                </button>
-                                            ))
-                                        }
-                                    </dd>
-                                </dl>
+                            <dl>
+                                <dt>신발 사이즈</dt>
+                                <dd className="size">
+                                    {
+                                        shoes.size.map((elm,i)=>(
+                                            <button 
+                                                onClick={(e)=>{
+                                                    setSize(elm);
+                                                }} 
+                                                className={elm === size ? 'active' : undefined} 
+                                                key={i}
+                                            > 
+                                                {String(elm)} 
+                                            </button>
+                                        ))
+                                    }
+                                </dd>
+                            </dl>
 
-                                <dl className="center">
-                                    <dt>수량</dt>
-                                    <dd className="amount">
-                                        <button
-                                            onClick={()=>{
-                                                setAmount(amount+1);
-                                            }}
-                                        >+</button>
-                                        <input type="text" className="num" value={amount} onChange={(e)=>{setAmount(Number(e.target.value))}} />
-                                        <button
-                                            onClick={()=>{
-                                                if(amount <= 1){
-                                                    return;
-                                                }
-                                                setAmount(amount-1);
-                                            }}
-                                        >-</button>
-                                    </dd>
-                                </dl>
+                            <dl className="center">
+                                <dt>수량</dt>
+                                <dd className="amount">
+                                    <button
+                                        onClick={()=>{
+                                            setAmount(amount+1);
+                                        }}
+                                    >+</button>
+                                    <input type="text" className="num" value={amount} onChange={(e)=>{setAmount(Number(e.target.value))}} />
+                                    <button
+                                        onClick={()=>{
+                                            if(amount <= 1){
+                                                return;
+                                            }
+                                            setAmount(amount-1);
+                                        }}
+                                    >-</button>
+                                </dd>
+                            </dl>
 
-                            </div>
+                        </div>
 
-                            <ul className="btn">
-                                <li className="color0" onClick={cartAdd}>장바구니</li>
-                                <li onClick={buyHanlder}>구매하기</li>
-                            </ul>
+                        <ul className="btn">
+                            <li className="color0" onClick={cartAdd}>장바구니</li>
+                            <li onClick={buyHanlder}>구매하기</li>
+                        </ul>
+
                     </div>
 
                 </div>

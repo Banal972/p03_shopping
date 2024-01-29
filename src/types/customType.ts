@@ -78,3 +78,23 @@ export interface BuyType {
     product_size : number
     product_amount : number
 }
+
+// 문의타입
+
+export interface InquiryType{
+    write : string
+    user : string
+    title : string
+    cont : string
+    token : number
+    date : number
+}
+
+export interface inquiryID{
+    [productID : number] : InquiryType[]
+}
+
+export interface InquirySubmit{
+    productID : number,
+    payload : InquiryType
+}

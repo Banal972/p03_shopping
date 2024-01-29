@@ -6,9 +6,6 @@ import {BsBoxSeam} from "react-icons/bs"
 import "./Complete.scss";
 
 // 리덕스
-// import { useSelector } from "react-redux";
-// import { RootState } from "../../../app/store";
-// import { HistoryInterface } from "../../../store/hitory";
 import { toNumber } from "../../../lib/lib";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../state/atoms/user";

@@ -21,6 +21,7 @@ import Cart from './router/Cart/Cart';
 import List from './router/Product/List/List';
 import Slang from './router/Product/Slang/Slang';
 import Detail from './router/Product/Detail/Detail/Detail';
+import Write from './router/Product/Detail/Write/Write';
 
 
 // 구매관련
@@ -30,6 +31,7 @@ import Complete from './router/Buy/Complete/Complete';
 // 유저 관련
 import History from './router/User/History/Index/History';
 import More from './router/User/History/More/More';
+import Login from './router/User/Login/Login';
 
 // 권한라우터
 import AuthRouter from './Hoc/AuthRouter';
@@ -37,17 +39,7 @@ import AuthRouter from './Hoc/AuthRouter';
 
 /* // 유저 관련
 import Sign from './router/User/Sign/Sign';
-import Login from './router/User/Login/Login';
-
-import IdFind from './router/User/IdFind/IdFind';
-
-
-// 상품관련
-
-import Write from './router/Product/Detail/Write/Write';
-
-
-import PassFind from './router/User/PassFind/PassFind'; */
+import Login from './router/User/Login/Login';*/
 
 
 
@@ -72,10 +64,8 @@ function App() {
           <Route index element={<Main/>} ></Route>
           
           {/* 유저관련 라우터 */}
-          {/* <Route path='login' element={<Login/>}/>
-          <Route path='idfind' element={<IdFind/>}/>
-          <Route path='passfind' element={<PassFind/>}/>
-          <Route path='sign' element={<Sign/>}/> */}
+          <Route path='login' element={<Login/>}/>
+          {/* <Route path='sign' element={<Sign/>}/> */}
           
           {/* 장바구니 */}
           <Route path='cart' element={<Cart/>}/>
@@ -97,13 +87,13 @@ function App() {
           {/* 상품정보 */}
           <Route path="detail">
             <Route path=":id" element={<Detail/>}/>
-            {/* <Route path="write" 
+            <Route path="write" 
               element={
                 <AuthRouter>
                   <Write/>
                 </AuthRouter>
               } 
-            /> */}
+            />
           </Route>
 
           {/* 구매페이지 */}

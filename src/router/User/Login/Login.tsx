@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import {Link,useNavigate} from "react-router-dom"
-// import { useDispatch, useSelector } from 'react-redux';
 import {useCookies} from "react-cookie"
 import axios from 'axios';
 
@@ -16,7 +15,6 @@ function Login() {
     const navigate = useNavigate();
 
     // 디스패치
-    // const dispath = useDispatch();
 
     // 쿠키
     const [cookies, setCookie, removeCookie] = useCookies(['userID']);

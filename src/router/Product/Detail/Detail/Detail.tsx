@@ -11,22 +11,18 @@ import "./Detail.scss"
 
 // 리덕스
 
-// import { useDispatch, useSelector } from "react-redux";
-// import { RootState } from '../../../../app/store';
-// import { deleteAction, inquiryData } from "../../../../store/inquiry";
-
-// import { addCart } from "../../../../store/cart";
-
 // 라이브러리
 import { authLogin, toNumber } from "../../../../lib/lib";
 
 // 타입
-import { ProductType } from "../../../../types/customType";
+import { InquiryType, ProductType, UserType } from "../../../../types/customType";
 
 // Recoil
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../../../state/atoms/user";
 import { cartState } from "../../../../state/atoms/cart";
+import { inquiryState } from "../../../../state/atoms/inquiry";
+import moment from "moment";
 
 
 function Detail() {
@@ -60,7 +56,7 @@ function Detail() {
     useEffect(()=>{ 
 
         if(id){
-            const finds = productData.find((a)=>a.id === Number(id));
+            const finds = productData.find((a)=>a.id.toString() === id);
             if(finds){
                 setShoes(finds);
                 setSize(finds?.size[0])
@@ -72,7 +68,7 @@ function Detail() {
 
     // 랜덤 신발
     const [rShoes,setRShoes] = useState<ProductType[] | null>(null);
-    useEffect(()=>{ 
+    useEffect(()=>{
 
         if(id){
 
@@ -91,7 +87,7 @@ function Detail() {
 
         }
 
-    },[shoes,productData,id]);
+    },[productData,id]);
 
     // 상세정보, 상품후기 탭 변경
     const [taplist,setTaplist] = useState(true);
@@ -137,7 +133,7 @@ function Detail() {
     // 구매버튼
     function buyHanlder(){
 
-        if(userData &&authLogin(userData,navigate)){
+        if(userData && authLogin(userData,navigate)){
 
             if(shoes){
 
@@ -226,8 +222,7 @@ function Detail() {
                                 ? 
                                     <div className="cont" dangerouslySetInnerHTML={{__html : shoes.detail as string}}></div>
                                 : 
-                                null
-                                    // <Inquiry/>
+                                    <Inquiry user={userData}/>
                             }
 
                         </div>
@@ -411,7 +406,9 @@ function Sale({price, sale} : {price : number, sale : number}){
 
 
 // 상품문의 컴포넌트
-/* function Inquiry(){
+function Inquiry(
+    props : {user : UserType | null}
+){
 
     //params
     const { id } = useParams();
@@ -420,13 +417,13 @@ function Sale({price, sale} : {price : number, sale : number}){
     const navigate = useNavigate();
 
     //userData
-    const userData = useSelector((state:RootState)=>state.user);
+    const userData = props.user;
 
     //inquiryData
-    const inquiryData = useSelector((state:RootState)=>state.inquiry);
+    const [inquiryData,setInquiryData] = useRecoilState(inquiryState);
 
     // 상품문의 데이터
-    const [data,setData] = useState<inquiryData[] | undefined>(undefined);
+    const [data,setData] = useState<InquiryType[] | undefined>(undefined);
 
     // 데이터 filter
     useEffect(()=>{
@@ -438,19 +435,31 @@ function Sale({price, sale} : {price : number, sale : number}){
 
 
     // 수정버튼
-    const updateHanlder = (a : inquiryData)=>{
+    const updateHanlder = (a : InquiryType)=>{
         navigate(`/detail/write?mode=u&id=${id}&token=${a.token}`);
     }
 
     // 삭제버튼
-    const delHandler = (a : inquiryData)=>{
+    const delHandler = (a : InquiryType)=>{
 
         if(window.confirm('삭제 하시겠습니까?')){
-            dispatch(deleteAction({
-                productID : id, 
-                user: a.user, 
-                token : a.token
-            }))
+            
+            if(id){
+                
+                const data = {
+                    productID : id,
+                    user: a.user, 
+                    token : a.token
+                }
+    
+                setInquiryData((prev)=>{
+                    const filter = { ...prev };
+                    filter[Number(data.productID)].filter(item => !(item.user === data.user && item.token === data.token))
+                    return filter;
+                })
+
+            }
+
         }
 
     }
@@ -473,7 +482,7 @@ function Sale({price, sale} : {price : number, sale : number}){
                                 <p className="gh-d">{moment(new Date(a.date)).format("YYYY/MM/DD")}</p>
 
                                 {
-                                    a.user === userData.userID &&
+                                    a.user === userData?.userID &&
                                     <div className="btn-l">
                                         <button onClick={()=>updateHanlder(a)}>수정</button>
                                         <button onClick={()=>delHandler(a)}>삭제</button>
@@ -491,7 +500,7 @@ function Sale({price, sale} : {price : number, sale : number}){
 
             <button className="write" onClick={()=>{
                 // 로그인 체크
-                if(authLogin(userData,navigate)){
+                if(userData && authLogin(userData,navigate)){
                     navigate(`/detail/write?mode=w&id=${id}`);
                 }
             }}>
@@ -501,7 +510,7 @@ function Sale({price, sale} : {price : number, sale : number}){
         </div>
     )
 
-} */
+}
 
 
 export default Detail

@@ -13,7 +13,7 @@ import arr from "../../asset/img/snb_dep2Arr.png"
 import logo from "../../asset/img/logo.svg"
 
 // Recoil
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from '../../state/atoms/user';
 
 function Header({pathSplit}:{pathSplit : String}) {

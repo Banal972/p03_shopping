@@ -32,15 +32,10 @@ import Complete from './router/Buy/Complete/Complete';
 import History from './router/User/History/Index/History';
 import More from './router/User/History/More/More';
 import Login from './router/User/Login/Login';
+import Sign from './router/User/Sign/Sign';
 
 // 권한라우터
 import AuthRouter from './Hoc/AuthRouter';
-
-
-/* // 유저 관련
-import Sign from './router/User/Sign/Sign';
-import Login from './router/User/Login/Login';*/
-
 
 
 function App() {
@@ -65,7 +60,7 @@ function App() {
           
           {/* 유저관련 라우터 */}
           <Route path='login' element={<Login/>}/>
-          {/* <Route path='sign' element={<Sign/>}/> */}
+          <Route path='sign' element={<Sign/>}/>
           
           {/* 장바구니 */}
           <Route path='cart' element={<Cart/>}/>
@@ -131,7 +126,6 @@ function App() {
               }
             />
           </Route>
-
 
         </Route>
 

@@ -1,14 +1,11 @@
 import React, { useState,useEffect } from 'react'
 import { useDaumPostcodePopup } from "react-daum-postcode"
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 // SCSS
 import "./Sign.scss";
-
-// Redux
-import { RootState } from '../../../app/store';
-import { addAction } from '../../../store/user';
+import { useRecoilState } from 'recoil';
+import { memeberState } from '../../../state/atoms/member';
 
 function Sign() {
     
@@ -19,11 +16,8 @@ function Sign() {
     // 내비게이터
     const navigator = useNavigate();
 
-    // 디스패치
-    const dispath = useDispatch();
-
     // 멤버
-    const memberData = useSelector((state:RootState)=>state.memeber);
+    const [member,setmember] = useRecoilState(memeberState);
 
     // 데이터
     const [term,setTerm] = useState(false);
@@ -79,7 +73,7 @@ function Sign() {
     // 회원가입
     const submitHanlder = ()=>{
 
-        const regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+        const regex = new RegExp('[a-z0-9]+@[a-z]+\\.[a-z]{2,3}');
         const regid = new RegExp('^(?=.*[a-z])[a-z0-9]{4,16}$');
         const regpass = new RegExp('^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$');
 
@@ -97,7 +91,7 @@ function Sign() {
             return alert('대문자 혹은 공백 혹은 특수문자가 포함되었거나, 숫자로 시작 또는 숫자로만 이루어진 아이디를 사용하실수 없습니다.');
         }
 
-        const idCheck = memberData.filter(el=>el.userID === id);
+        const idCheck = member.filter(el=>el.userID === id);
         if(idCheck.length > 0){
             alert('존재하는 아이디 입니다.');
             return setId("");
@@ -161,15 +155,13 @@ function Sign() {
         }
 
         alert('회원가입이 완료되었습니다.');
-        dispath(addAction(data));
+        setmember((prev)=>[...prev,data]);
         navigator('/');
 
     }
 
     useEffect(()=>{
-
         window.scrollTo(0,0);
-
     },[]);
     
 

@@ -10,39 +10,21 @@ import { ScrollTrigger } from 'gsap/all';
 import "./Card.scss";
 
 // 스토어
-import { ProductState } from '../../../remove/store/product';
 import { toNumber } from '../../lib/lib';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../state/atoms/user';
+import { ProductType } from '../../types/customType';
 
 interface CardType {
   offset? : number
   type? : string
-  data? : ProductState[]
+  data? : ProductType[]
   cate? : String | Number
 }
 
 function Card(props : CardType){
 
     const {data,type} = props;
-
-/*   
-  const limit = 10;
-
-  // location
-  const location = useLocation();
-
-// 데이터 2차 공정
-const [sliceData,setSliceData] = useState<ProductState[]>();
-
-useEffect(()=>{
-
-    const limitCalc = limit + offset;
-    const slice = data?.slice(offset,(limitCalc));
-
-    setSliceData(slice);
-
-},[offset]); */
 
   // 모듈
   const navigate = useNavigate();

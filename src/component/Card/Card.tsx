@@ -152,11 +152,11 @@ useEffect(()=>{
                     <div className="icon" onClick={(e)=>iconHandler(e,elm.id)}>
                         {
                           user && 
-                            user.slang?.find(item=>Number(item) === elm.id) 
+                            user.slang?.find(item=>Number(item) === Number(elm.id)) 
                             ? 
-                                <AiFillHeart/> 
+                              <AiFillHeart/> 
                             : 
-                                <AiOutlineHeart/>
+                              <AiOutlineHeart/>
                         }
                     </div>
 

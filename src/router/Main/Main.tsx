@@ -28,7 +28,9 @@ function Main() {
 
   useEffect(()=>{
 
-    axios.get('http://localhost:9000/product')
+    const api = process.env.REACT_APP_PRODUCT_AJAX || "";
+
+    axios.get(api)
     .then(({data})=>{
       setProductData(data);
     })

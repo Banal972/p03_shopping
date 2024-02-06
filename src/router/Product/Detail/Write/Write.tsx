@@ -129,11 +129,14 @@ function Write() {
                 setInquiryData((prev) => {
                     
                     const update = {...prev};
-
                     const rs = update[data.productID].findIndex(e=>e.token === data.payload.token);
 
                     if( rs > -1){
-                        update[data.productID][rs] = data.payload;
+                        // 배열원소를 직접 수정하면안되고 새로운 배열을 생성해서 할당해야함
+                        update[data.productID] = update[data.productID].map((item,index)=>{
+                            if(index === rs) return data.payload
+                            return item;
+                        })
                     }
 
                     return update;

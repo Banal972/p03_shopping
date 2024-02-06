@@ -3,31 +3,20 @@ import "./asset/css/reset.css";
 import "./asset/scss/commond.scss";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 // 쿠키
-import {CookiesProvider} from "react-cookie"
 import { RecoilRoot } from 'recoil';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-
-  // <Provider store={store}>
-  // </Provider> 
-
-  // <React.StrictMode>
-    
-  // </React.StrictMode>
-
-  <CookiesProvider>
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    </BrowserRouter>
-  </CookiesProvider>
+  <HashRouter basename={process.env.PUBLIC_URL}>
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
+  </HashRouter>
 
 );
 

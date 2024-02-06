@@ -17,7 +17,10 @@ function Slang() {
     const user = useRecoilValue(userState);
     const [slangProductData,setSlangProductData] = useState<ProductType[]>([]);
     useEffect(()=>{
-        axios.get('http://localhost:9000/product')
+      
+        const api = process.env.REACT_APP_PRODUCT_AJAX || "";
+
+        axios.get(api)
         .then(({data} : {data : ProductType[]})=>{
             const filter = data.filter(el=>user?.slang?.some(e => e === el.id)); // some 은 특정 조건을 충족하는지 검사해줍니다.
             setSlangProductData(filter);

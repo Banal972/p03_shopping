@@ -21,7 +21,7 @@ function History() {
         const filter = history.filter(e=>e.user === user?.userID);
         setHistoryData(filter);
 
-    },[user]);
+    },[user,history]);
     
   return (
     <div className="history">

@@ -20,8 +20,8 @@ function Login() {
 
     const member = useRecoilValue(memeberState);
 
-    const [idInput,setIdInput] = useState('');
-    const [passInput,setPassInput] = useState('');
+    const [idInput,setIdInput] = useState('test');
+    const [passInput,setPassInput] = useState('a123456');
 
     // 유저
     const setUser = useSetRecoilState(userState);

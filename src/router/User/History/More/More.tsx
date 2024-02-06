@@ -1,8 +1,7 @@
-import React,{useState,useEffect} from 'react'
+import {useState,useEffect} from 'react'
 
 import "./More.scss"
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux';
 import { toNumber } from '../../../../lib/lib';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../../../state/atoms/user';
@@ -23,7 +22,7 @@ function More() {
 
     window.scrollTo(0,0);
 
-  },[token]);
+  },[token,history,user]);
 
   return (
     <div className='history-more'>

@@ -39,7 +39,9 @@ function Detail() {
     const [productData,setProductData] = useState<ProductType[]>([]);
     useEffect(()=>{
 
-        axios.get('http://localhost:9000/product')
+        const api = process.env.REACT_APP_PRODUCT_AJAX || "";
+
+        axios.get(api)
         .then(({data})=>{
             setProductData(data);
         })
@@ -450,12 +452,19 @@ function Inquiry(
                     productID : id,
                     user: a.user, 
                     token : a.token
-                }
+                };
     
                 setInquiryData((prev)=>{
-                    const filter = { ...prev };
-                    filter[Number(data.productID)].filter(item => !(item.user === data.user && item.token === data.token))
-                    return filter;
+                    let updateData = { ...prev }; // 복사본 생성
+
+                    let inqury = updateData[Number(data.productID)]; // 해당 배열을 가져오기
+
+                    // 필터링해서 제거하고
+                    updateData[Number(data.productID)] = inqury.filter(item => !(item.user === data.user && item.token === data.token));
+
+                    // 업데이트
+                    return updateData;
+
                 })
 
             }

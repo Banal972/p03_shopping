@@ -28,7 +28,7 @@ function Complete() {
 
         setItem(filter);
 
-    },[token]);
+    },[token,history,user]);
 
     return (
         <div className="_complete">
